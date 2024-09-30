@@ -307,11 +307,12 @@ COPY --from=libvips /usr/local/libvips/lib /usr/local/lib
 
 ARG TARGETPLATFORM
 
+ENV SECRET_KEY_BASE_DUMMY=1
+
 RUN \
     ldconfig; \
     # Use Ruby on Rails to create Mastodon assets
-    SECRET_KEY_BASE_DUMMY=1 \
-    bundle exec rails assets:precompile; \
+    /opt/mastodon/bin/bundle exec rake assets:precompile; \
     # Cleanup temporary files
     rm -fr /opt/mastodon/tmp;
 
