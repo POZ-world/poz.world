@@ -4,7 +4,7 @@ services:
     image: ghcr.io/poz-world/poz.world:latest
     container_name: assets_precompiler
     volumes:
-      - ./public:/opt/mastodon/public
+      - ./public:/opt/mastodon/public_dump
       - ./bin:/opt/mastodon/bin
     entrypoint: ["/bin/bash", "/opt/mastodon/bin/precompile-assets"]
     environment:

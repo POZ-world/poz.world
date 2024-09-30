@@ -4,7 +4,7 @@
 name: Build & Deploy - pozworld-sidekiq
 
 concurrency: 
-  group: ${{ github.workflow}}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 on:

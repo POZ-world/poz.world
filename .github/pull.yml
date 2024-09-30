@@ -13,16 +13,16 @@ rules: # Array of rules
     conflictReviewers: # Optional, on merge conflict assign a reviewer
       - justinwritescode
       - hivchaser
-  # - base: main
-  #   upstream: main # Required. Can be a branch in the same forked repo.
-  #   assignees: # Optional
-  #     - justinwritescode
-  #     - hivchaser
-  #   reviewers: # Optional
-  #     - justinwritescode
-  #     - hivchaser
-  #   conflictReviewers: # Optional, on merge conflict assign a reviewer
-  #     - justinwritescode
-  #     - hivchaser
+  - base: main
+    upstream: mastodon/mastodon:main # Required. Can be a branch in the same forked repo.
+    assignees: # Optional
+      - justinwritescode
+      - hivchaser
+    reviewers: # Optional
+      - justinwritescode
+      - hivchaser
+    conflictReviewers: # Optional, on merge conflict assign a reviewer
+      - justinwritescode
+      - hivchaser
 label: ":arrow_heading_down: pull" # Optional
 conflictLabel: "merge-conflict" # Optional, on merge conflict assign a custom label, Default: merge-conflict

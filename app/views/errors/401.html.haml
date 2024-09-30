@@ -14,5 +14,5 @@
   = error_asset_url('images/errors/401-static.png') if t('errors.401.static_image').nil?
 
 - content_for :dynamic_image do
-  = error_asset_url(t('errors.401.dynamic_image'))unless t('errors.401.dynamic_image').nil?
+  = error_asset_url(t('errors.401.dynamic_image')) unless t('errors.401.dynamic_image').nil?
   = error_asset_url('images/errors/401-dynamic.png') if t('errors.401.dynamic_image').nil?

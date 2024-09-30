@@ -4,7 +4,7 @@
 name: Build & Deploy - pozworld-streaming
 
 concurrency: 
-  group: ${{ github.workflow}}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 on:

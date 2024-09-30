@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm /opt/mastodon/public/426.html &2> /dev/nul
+cp -Lr /opt/mastodon/public /opt/mastodon/public-out
