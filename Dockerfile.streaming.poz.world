@@ -41,7 +41,7 @@ RUN apt-get install -y \
 
 WORKDIR /opt/mastodon
 
-EXPOSE 8080 8081 2222 
+EXPOSE 8081 2222 
 
 RUN \ 
     rm -rf /usr/bin/bundle && \
@@ -53,6 +53,6 @@ COPY config /config
 
 ENTRYPOINT [ "bash", "/opt/mastodon/bin/start-streaming" ]
 
-LABEL org.opencontainers.image.description="This is the image for the POZZ.me Mastodon streaming instances."
+LABEL org.opencontainers.image.description="This is the image for the POZ.world Mastodon streaming instances."
 LABEL org.opencontainers.image.source="https://github.com/justinwritescode/mastodon"
 LABEL org.opencontainers.image.licenses="MIT"

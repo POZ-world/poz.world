@@ -4,7 +4,7 @@ ARG TAG=latest \
     MASTODON_VERSION_METADATA=${MASTODON_VERSION_METADATA:-''} \
     MASTODON_VERSION_PRERELEASE=${MASTODON_VERSION_PRERELEASE:-'nightly'}
 
-FROM ghcr.io/justinwritescode/poz.world:${TAG} AS base
+FROM ghcr.io/poz-world/poz.world:${TAG} AS base
 
 ENV TZ=EST5EDT \
     WEBSITE_TIME_ZONE=EST5EDT \
@@ -18,12 +18,12 @@ ENV TZ=EST5EDT \
 
 SHELL [ "bash", "-c" ]
 
-EXPOSE 8080 8081 2222
+EXPOSE 8082 2222
 
 WORKDIR /opt/mastodon/bin
 
 ENTRYPOINT [ "bash", "/opt/mastodon/bin/start-sidekiq" ]
 
-LABEL org.opencontainers.image.description="Sidekiq for POZZ.me"
+LABEL org.opencontainers.image.description="Sidekiq for POZ.world"
 LABEL org.opencontainers.image.source="https://github.com/justinwritescode/mastodon"
 LABEL org.opencontainers.image.licenses="MIT"
