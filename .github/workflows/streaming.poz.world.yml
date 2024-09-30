@@ -4,13 +4,13 @@
 name: Build & Deploy - pozworld-streaming
 
 concurrency: 
-  group: pozworld-streaming
+  group: ${{ github.workflow}}
   cancel-in-progress: true
 
 on:
   push:
     branches:
-      - poz.world
+      - main
   workflow_dispatch:
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       with:
         git-token: ${{ secrets.HIVCHASER_PACKAGES_PAT }}
         github-password: ${{ secrets.HIVCHASER_PACKAGES_PAT }}
-        username: hivchaser
+        username: ${{ github.repository_owner }}
         acr-password: ${{ secrets.AZURECR_KEY }}
         tag: |
           ghcr.io/poz-world/streaming.poz.world
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'pozworld-streaming'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_be5f76a6413349b08fc0dae02bab8183 }}
+        publish-profile: ${{ secrets.POZ_WORLD_STREAMING_PUBLISH_PROFILE }}
         images: 'ghcr.io/poz-world/streaming.poz.world:${{ github.sha }}'

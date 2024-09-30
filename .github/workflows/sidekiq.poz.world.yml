@@ -4,13 +4,13 @@
 name: Build & Deploy - pozworld-sidekiq
 
 concurrency: 
-  group: pozworld-sideqkiq
+  group: ${{ github.workflow}}
   cancel-in-progress: true
 
 on:
   push:
     branches:
-      - poz.world
+      - main
   workflow_dispatch:
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       with:
         git-token: ${{ secrets.HIVCHASER_PACKAGES_PAT }}
         github-password: ${{ secrets.HIVCHASER_PACKAGES_PAT }}
-        username: hivchaser
+        username: ${{ github.repository_owner }}
         acr-password: ${{ secrets.AZURECR_KEY }}
         tag: |
           ghcr.io/poz-world/sidekiq.poz.world
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'pozworld-sidekiq'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_580504f0093243dcbd62ce6a2e05d3c3 }}
+        publish-profile: ${{ secrets.POZ_WORLD_SIDEKIQ_PUBLISH_PROFILE }}
         images: 'ghcr.io/poz-world/sidekiq.poz.world:${{ github.sha }}'

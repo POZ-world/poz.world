@@ -3,10 +3,14 @@
 
 name: Build & Deploy - pozworld
 
+concurrency: 
+  group: ${{ github.workflow}}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
-      - poz.world
+      - main
   workflow_dispatch:
 
 jobs:
@@ -20,10 +24,10 @@ jobs:
       with:
         git-token: ${{ secrets.HIVCHASER_PACKAGES_PAT }}
         github-password: ${{ secrets.HIVCHASER_PACKAGES_PAT }}
-        username: hivchaser
+        username: ${{ github.repository_owner }}
         acr-password: ${{ secrets.AZURECR_KEY }}
         tag: |
-          ghcr.io/poz-world/poz.world
+          ghcr.io/${{ github.repository }}
           thebackroomlife.azurecr.io/poz.world
         tag-prefix: pwv
         description: Your self-hosted social media platform for the HIV community
@@ -43,5 +47,5 @@ jobs:
       with:
         app-name: 'pozworld'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1f44889051db4923964789b0ba3eda66 }}
-        images: 'ghcr.io/poz-world/poz.world:${{ github.sha }}'
+        publish-profile: ${{ secrets.POZ_WORLD_PUBLISH_PROFILE }}
+        images: 'ghcr.io/${{ github.repository }}:${{ github.sha }}'
