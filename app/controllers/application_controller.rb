@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   include ErrorTranslatorHelper
   include ErrorsAssetHelper
   include Pundit::Authorization
+  include ApplicationHelper
 
   helper_method :current_account
   helper_method :current_session
@@ -169,11 +170,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_theme
-    return Setting.theme unless Themes.instance.names.include? current_user&.setting_theme
+    return 'system' if ci?
+    return Setting.theme unless ci? || (Themes.instance.names.include? current_user&.setting_theme)
 
     current_user.setting_theme
-  rescue
-    Setting.theme
   end
 
   def body_class_string

@@ -13,6 +13,17 @@ on:
       - main
   workflow_dispatch:
 
+env: 
+  REDIS_URL: ${{ secrets.REDIS_URL }}
+  DB_NAME: ${{ vars.DB_NAME }}
+  DB_SSLMODE: ${{ vars.DB_SSLMODE }}
+  DB_USER: ${{ vars.DB_USER }}
+  DB_HOST: ${{ vars.DB_HOST }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  DB_PASS: ${{ secrets.DB_PASSWORD }}
+  DATABASE_URL: "${{ vars.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ vars.DB_HOST }}:5432"
+  CI: "true"
+
 jobs:
   build:
     runs-on: 'ubuntu-latest'

@@ -306,4 +306,8 @@ module ApplicationHelper
   def storage_host_var
     ENV.fetch('S3_ALIAS_HOST', nil) || ENV.fetch('S3_CLOUDFRONT_HOST', nil) || ENV.fetch('AZURE_ALIAS_HOST', nil)
   end
+
+  def ci?
+    ENV.fetch('CI', 'false') == 'true'
+  end
 end
