@@ -1,10 +1,14 @@
-name: 'Setup Docker'
-description: 'Setup Docker for cross-platform compilation'
+name: "Setup Docker"
+description: "Setup Docker for cross-platform compilation"
 inputs:
   username:
     required: false
-    default: justinwritescode
+    default: ${{ github.repository_owner }}
     description: the username to use when logging in to the container registry
+  azurecr-username:
+    required: false
+    default: thebackroomlife
+    description: the username to use when logging in to the Azure container registry
   password:
     required: true
     description: the token to use when logging in to the container registry
@@ -12,9 +16,16 @@ inputs:
     required: false
     default: ghcr.io
     description: the container registry to log into
+  azurecr-registry:
+    required: false
+    default: thebackroomlife
+    description: the Azure container registry to log into
+  azurecr-password:
+    required: true
+    description: the token to use when logging in to the Azure container registry
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -33,3 +44,10 @@ runs:
         registry: ${{ inputs.registry }}
         username: ${{ inputs.username }}
         password: ${{ inputs.password }}
+
+    - name: Login to Azure Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ inputs.azurecr-registry }}.azurecr.io
+        username: ${{ inputs.azurecr-username }}
+        password: ${{ inputs.azurecr-password }}

@@ -1,5 +1,5 @@
 {
-  "name": "@poz-world/mastodon",
+  "name": "@poz-world/poz.world",
   "version": "4.3.0-nightly+2024-09-26",
   "license": "AGPL-3.0-or-later",
   "packageManager": "yarn@4.5.0",
@@ -31,7 +31,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/justinwritescode/mastodon.git"
+    "url": "https://github.com/poz-world/poz.world.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",

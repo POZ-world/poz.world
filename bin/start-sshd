@@ -18,4 +18,4 @@ if /usr/bin/pgrep -f "sshd:" >/dev/null; then
     /bin/sleep 1
 fi
 
-/usr/sbin/sshd -D &
+/usr/sbin/sshd -D

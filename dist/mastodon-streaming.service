@@ -2,6 +2,7 @@
 Description=mastodon-streaming
 After=network.target
 Wants=mastodon-streaming@4000.service
+Requires=mastodon-streaming-init.service
 
 [Service]
 Type=oneshot

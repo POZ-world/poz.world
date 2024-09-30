@@ -22,4 +22,4 @@ if /usr/bin/pgrep -f "[n]ginx:" >/dev/null; then
 fi
 
 /bin/echo "**** Starting NGINX ****";
-/usr/sbin/nginx -g "daemon off;" &
+/usr/sbin/nginx -g "daemon off;" 

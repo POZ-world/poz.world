@@ -3,19 +3,19 @@
 
 set -e
 export RAILS_ENV=production
-export PATH="/opt/mastodon/bin:${PATH}"
+export PATH="/opt/mastodon/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin:${PATH}"
 export PROGRAM="$1"
 
 if [[ $PROGRAM == "mastodon" ]]; then
-    bash start-mastodon 
+    /bin/bash start-mastodon 
 elif [[ $PROGRAM == "sidekiq" ]]; then
-    bash start-sidekiq 
+    /bin/bash start-sidekiq 
 elif [[ $PROGRAM == "streaming" ]]; then
-    bash start-streaming 
+    /bin/bash start-streaming 
 elif [[ $PROGRAM == "all" ]]; then
-    bash start-mastodon 
-    bash start-sidekiq 
-    bash start-streaming 
+    /bin/bash start-mastodon 
+    /bin/bash start-sidekiq 
+    /bin/bash start-streaming 
 else
-    echo "Program '${PROGRAM}' was not found and could not be started.";
+    /bin/echo "Program '${PROGRAM}' was not found and could not be started.";
 fi

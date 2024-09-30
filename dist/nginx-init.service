@@ -1,0 +1,14 @@
+[Unit]
+Description=nginx-init
+After=network.target
+
+[Service]
+Type=oneshot
+User=mastodon
+WorkingDirectory=/opt/mastodon/bin
+ExecStart=/bin/bash show-nginx-branding
+ExecReload=/bin/kill -SIGUSR1 $MAINPID
+TimeoutSec=15
+
+[Install]
+WantedBy=multi-user.target

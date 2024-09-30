@@ -47,12 +47,7 @@ runs:
     - uses: ./.github/actions/setup-docker
       with:
         password: ${{ inputs.github-password }}
-
-    - uses: docker/login-action@v3
-      with:
-        username: thebackroomlife
-        password: ${{ inputs.acr-password }}
-        registry: thebackroomlife.azurecr.io
+        azurecr-password: ${{ inputs.acr-password }}
 
     - name: Calculate "MASTODON_VERSION_METADATA"
       id: mastodon_version_metadata

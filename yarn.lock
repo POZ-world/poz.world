@@ -2948,9 +2948,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@poz-world/mastodon@workspace:.":
+"@poz-world/poz.world@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@poz-world/mastodon@workspace:."
+  resolution: "@poz-world/poz.world@workspace:."
   dependencies:
     "@babel/core": "npm:^7.22.1"
     "@babel/plugin-transform-nullish-coalescing-operator": "npm:^7.22.3"

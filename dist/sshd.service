@@ -1,18 +1,15 @@
 [Unit]
-Description=mastodon-web
+Description=sshd
 After=network.target
-Requires=nginx.service
-Requires=mastodon-init.service
+Requires=sshd-init.service
 
 [Service]
 Type=simple
-User=mastodon
-WorkingDirectory=/opt/mastodon
-Environment="RAILS_ENV=production"
-Environment="PORT=3000"
+User=root
+; WorkingDirectory=/opt/mastodon/bin
 Environment="LD_PRELOAD=libjemalloc.so"
-Environment="PATH=/opt/mastodon/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin"
-ExecStart=/opt/mastodon/bin/bundle exec puma -C config/puma.rb
+; ExecStart=/home/mastodon/.rbenv/shims/bundle exec puma -C config/puma.rb
+ExecStart=/usr/sbin/sshd -D
 ExecReload=/bin/kill -SIGUSR1 $MAINPID
 TimeoutSec=15
 Restart=always
@@ -50,7 +47,7 @@ SystemCallFilter=~@cpu-emulation @debug @keyring @ipc @mount @obsolete @privileg
 SystemCallFilter=@chown
 SystemCallFilter=pipe
 SystemCallFilter=pipe2
-ReadWritePaths=/home/mastodon/live
+ReadWritePaths=/var/log
 
 [Install]
 WantedBy=multi-user.target
