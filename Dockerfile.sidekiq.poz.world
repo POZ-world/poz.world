@@ -16,13 +16,13 @@ ENV TZ=EST5EDT \
     MASTODON_VERSION_METADATA=${MASTODON_VERSION_METADATA} \
     MASTODON_VERSION_PRERELEASE=${MASTODON_VERSION_PRERELEASE}
 
-SHELL [ "bash", "-c" ]
+SHELL [ "/bin/bash", "-c" ]
 
 EXPOSE 8082 2222
 
 WORKDIR /opt/mastodon/bin
 
-ENTRYPOINT [ "bash", "/opt/mastodon/bin/start-sidekiq" ]
+ENTRYPOINT [ "/bin/bash", "/opt/mastodon/bin/start-sidekiq" ]
 
 LABEL org.opencontainers.image.description="Sidekiq for POZ.world"
 LABEL org.opencontainers.image.source="https://github.com/justinwritescode/mastodon"

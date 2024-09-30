@@ -11,7 +11,7 @@ USER root
 # Install bash if not already available
 RUN apt-get update && apt-get install -y bash
 
-SHELL [ "bash", "-c" ]
+SHELL [ "/bin/bash", "-c" ]
 
 ENV TZ=EST5EDT \
     WEBSITE_TIME_ZONE=EST5EDT \

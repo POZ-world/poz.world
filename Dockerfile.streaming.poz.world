@@ -51,7 +51,7 @@ COPY ./root /
 COPY . /opt/mastodon/
 COPY config /config
 
-ENTRYPOINT [ "bash", "/opt/mastodon/bin/start-streaming" ]
+ENTRYPOINT [ "/bin/bash", "/opt/mastodon/bin/start-streaming" ]
 
 LABEL org.opencontainers.image.description="This is the image for the POZ.world Mastodon streaming instances."
 LABEL org.opencontainers.image.source="https://github.com/justinwritescode/mastodon"
