@@ -98,8 +98,11 @@ module ApplicationHelper
     Rails.env.production? ? site_title : "#{site_title} (Dev)"
   end
 
-  def class_for_scope(scope)
-    'scope-danger' if DANGEROUS_SCOPES.include?(scope.to_s)
+  def label_for_scope(scope)
+    safe_join [
+      tag.samp(scope, class: { 'scope-danger' => SessionActivation::DEFAULT_SCOPES.include?(scope.to_s) }),
+      tag.span(t("doorkeeper.scopes.#{scope}"), class: :hint),
+    ]
   end
 
   def can?(action, record)
@@ -299,6 +302,8 @@ module ApplicationHelper
 
   def bootstrap_javascript_tag
     javascript_tag '', src: 'https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.js'
+  def copyable_input(options = {})
+    tag.input(type: :text, maxlength: 999, spellcheck: false, readonly: true, **options)
   end
 
   private
