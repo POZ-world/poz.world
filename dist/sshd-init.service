@@ -6,7 +6,8 @@ After=network.target
 Type=oneshot
 User=mastodon
 WorkingDirectory=/opt/mastodon/bin
-ExecStart=/bin/bash show-sshd-branding
+Environment="PATH=/opt/mastodon/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin"
+ExecStart=./show-sshd-branding
 ExecReload=/bin/kill -SIGUSR1 $MAINPID
 TimeoutSec=15
 

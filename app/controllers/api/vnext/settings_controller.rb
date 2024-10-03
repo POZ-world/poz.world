@@ -2,6 +2,7 @@
 
 class Api::Vnext::SettingsController < ApplicationController
   class SettingWrapper
+    include MarkdownHelper
     include ActiveModel::Serialization
     include ActiveModel::Model
 
@@ -32,14 +33,10 @@ class Api::Vnext::SettingsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { render html: markdown.render(format(setting.value, domain: Rails.configuration.x.local_domain)).html_safe } # rubocop:disable Rails/OutputSafety
+        format.html { render html: MarkdownHelper.as_html(format(setting.value, domain: Rails.configuration.x.local_domain).to_s) }
         format.json { render json: SettingWrapper.new(value: setting.value) }
         format.text { render plain: setting.value }
       end
     end
-  end
-
-  def markdown
-    @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML, escape_html: true, no_images: true)
   end
 end

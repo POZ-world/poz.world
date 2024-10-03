@@ -14,5 +14,5 @@
                                                                                                                             
 "
 
-/bin/bash show-byline
-/bin/bash show-separator
+/opt/mastodon/bin/show-byline
+/opt/mastodon/bin/show-separator

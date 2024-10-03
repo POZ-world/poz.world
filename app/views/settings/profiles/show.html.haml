@@ -1,99 +1,3 @@
-- content_for :header_tags do
-  = javascript_pack_tag 'profile-fields', crossorigin: 'anonymous'
-  = field_templates_script_tag
-
-:javascript
-  document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll('.accordion-header').forEach(function(header) {
-      header.addEventListener('click', function(event) {
-        var content = document.querySelector(this.dataset.target);
-        var icon = this.querySelector('.expand-icon');
-        if (content.classList.contains('collapsed')) {
-          content.classList.remove('collapsed');
-          content.style.maxHeight = content.scrollHeight + 'px';
-          icon.textContent = '▼';
-        } else {
-          content.classList.add('collapsed');
-          content.style.maxHeight = '0px';
-          icon.textContent = '►';
-        }
-      });
-    });
-  });
-
-:css
-  .accordion {
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-  }
-
-  .accordion.collapsed {
-    max-height: 0;
-  }
-
-  .accordion-header {
-    cursor: pointer;
-    padding: 10px;
-    color: #007bff;
-    font-weight: bold;
-    border-radius: 3px;
-    margin-bottom: 10px;
-    border: 1px solid #007bff;
-  }
-
-  .accordion-header .expand-icon {
-    margin-right: 10px;
-    font-size: 0.8em;
-  }
-
-  .accordion-header:hover {
-    background: #0056b3;
-  }
-
-  .field-label-with-tooltip {
-    display: flex;
-    align-items: flex-start;
-  }
-
-  .field-label-with-tooltip .field-label {
-    margin-right: 10px;
-    white-space: nowrap;
-  }
-
-  .tooltip {
-    margin-left: 5px;
-    cursor: help;
-    visibility: visible;
-  }
-
-  .dropdown-container,
-  .text-container {
-    margin-left: 10px;
-    flex: 1;
-  }
-
-  .deletion-container input[type="checkbox"] {
-    visibility: visible;
-  }
-
-  .fields-full-width {
-    margin-top: 20px;
-  }
-
-  .row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-
-  .alert.alert-warning {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #f8d7da;
-    color: #721c24;
-    border-radius: 3px;
-  }
-
 - content_for :page_title do
   = t('settings.edit_profile')
 
@@ -120,78 +24,63 @@
   .fields-full-width
     %h4= t('edit_profile.additional_information')
 
-    // Render fields grouped by category with accordion collapsible sections
-    - grouped_fields = @account.fields.group_by { |field| FieldTemplate.find_by(name: field.name)&.category }
+%div.profile-fields-form
+  = form_with model: @account, url: settings_profile_path(@account), method: :put do |form|
+    - @field_templates.each do |category, templates|
+      %div.accordion(data-category=category)
+        %h3
+          %a.accordion-toggle{ href: '#' }= category.titleize
+        %div.accordion-content{ style: 'display: none;' }
+          - templates.each do |template|
+            - if template.rules_match?(@account.fields)
+              = form.fields_for :fields, @account.fields.find { |field| field.name == template.name } || form.object.fields.build do |field_form|
+                %div.field-group
+                  %label
+                    = field_form.label :name, template.description
+                    - if template.dropdown
+                      %select{ name: "#{field_form.object_name}[value]", class: 'field-dropdown' }
+                        - template.dropdown_options.each do |option|
+                          %option{ value: option.value, selected: (field_form.object.value == option.value) }= option.display_value
+                        %option.add-custom{ value: 'custom' } Add custom...
+                      = field_form.text_field :value, class: 'field-text', style: 'display: none;'
+                      %button.cancel-custom.button{ type: 'button', style: 'display: none;' } Cancel
+                    - else
+                      = field_form.text_field :value, class: 'field-text'
+                  %input{ type: 'checkbox', name: "#{field_form.object_name}[marked_for_deletion]", title: 'mark for deletion' }
+                    Mark for deletion
 
-    - grouped_fields.each_with_index do |(category, fields), index|
-      - if category.present?
-        .accordion-header{ data: { target: "##{category.parameterize}" } }
-          %span.expand-icon ►
-          = category.titleize
-        - accordion_id = category.parameterize
-        .accordion.collapsed{id: "#{accordion_id}", style: "max-height: 0; overflow: hidden; transition: max-height 0.2s ease-out;"}
-          = f.simple_fields_for :fields, fields do |fields_f|
-            .row
-              - template = FieldTemplate.find_by(name: fields_f.object.name)
-              - tooltip = template&.second_person_singular_description.presence || fields_f.object.name
-
-              .field-label-with-tooltip
-                .field-label= fields_f.input :name, input_html: { title: tooltip, name: "account[fields_attributes][#{fields_f.index}][name]", value: fields_f.object.name, class: 'form-control' }
-                %span.hint{ title: tooltip, class: 'tooltip' }= tooltip
-              - if template&.dropdown
-                .dropdown-container
-                  = fields_f.input :value, as: :select, collection: template.dropdown_options.map { |option| [option.second_person_singular_display_value, option.value, { title: option.second_person_singular_description }] }, include_blank: false, input_html: { name: "account[fields_attributes][#{fields_f.index}][value]", value: fields_f.object.value, class: 'dropdown-with-tooltip' }
-              - else
-                .text-container
-                  = fields_f.input :value, placeholder: template&.default_value || t('simple_form.labels.account.fields.value'), input_html: { maxlength: 255, name: "account[fields_attributes][#{fields_f.index}][value]", value: fields_f.object.second_person_singular_display_value, title: fields_f.object.display_value || template&.default_value || "Enter Value" }
-              .deletion-container
-                = fields_f.input :marked_for_deletion, as: :boolean, label: 'Mark for Deletion', input_html: { name: "account[fields_attributes][#{fields_f.index}][marked_for_deletion]", value: '1', id: "account_fields_attributes_#{fields_f.index}_marked_for_deletion", title: "Mark for deletion" }
-      - else
-        %h5= t('edit_profile.undefined_category')
-        .alert.alert-warning
-          = t('edit_profile.undefined_category_explanation')
-
-    .new-fields-container
-
-  .buttons
-    %button.add-field-btn{ type: 'button' }= t('settings.add_field')
-
-  .fields-row
-    .fields-row__column.fields-row__column-6
-      .fields-group
-        = f.input :avatar,
-                  hint: t('simple_form.hints.defaults.avatar', dimensions: Account::Avatar::AVATAR_GEOMETRY, size: number_to_human_size(Account::Avatar::LIMIT)),
-                  input_html: { accept: Account::Avatar::IMAGE_MIME_TYPES.join(',') },
-                  wrapper: :with_block_label
-
-    .fields-row__column.fields-row__column-6
-      .fields-group
-        = image_tag @account.avatar.url, class: 'fields-group__thumbnail', id: 'account_avatar-preview'
-        - if @account.avatar.present?
-          = link_to settings_profile_picture_path('avatar'), data: { method: :delete }, class: 'link-button link-button--destructive' do
-            = material_symbol 'delete'
-            = t('generic.delete')
-
-  .fields-row
-    .fields-row__column.fields-row__column-6
-      .fields-group
-        = f.input :header,
-                  hint: t('simple_form.hints.defaults.header', dimensions: Account::Header::HEADER_GEOMETRY, size: number_to_human_size(Account::Header::LIMIT)),
-                  input_html: { accept: Account::Header::IMAGE_MIME_TYPES.join(',') },
-                  wrapper: :with_block_label
-
-    .fields-row__column.fields-row__column-6
-      .fields-group
-        = image_tag @account.header.url, class: 'fields-group__thumbnail', id: 'account_header-preview'
-        - if @account.header.present?
-          = link_to settings_profile_picture_path('header'), data: { method: :delete }, class: 'link-button link-button--destructive' do
-            = material_symbol 'delete'
-            = t('generic.delete')
-
-  %h4= t('edit_profile.other')
-
-  .fields-group
-    = f.input :bot, as: :boolean, wrapper: :with_label, hint: t('simple_form.hints.defaults.bot')
-
-  .actions
-    = f.button :button, t('generic.save_changes'), type: :submit
+:javascript
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.field-dropdown').forEach(select => {
+      select.addEventListener('change', function() {
+        if (this.value === 'custom') {
+          this.style.display = 'none';
+          const textField = this.closest('.field-group').querySelector('.field-text');
+          const cancelButton = this.closest('.field-group').querySelector('.cancel-custom.button');
+          textField.style.display = '';
+          cancelButton.style.display = '';
+        }
+      });
+    });
+    
+    document.querySelectorAll('.cancel-custom.button').forEach(button => {
+      button.addEventListener('click', function() {
+        this.style.display = 'none';
+        const textField = this.closest('.field-group').querySelector('.field-text');
+        const dropdown = this.closest('.field-group').querySelector('.field-dropdown');
+        textField.style.display = 'none';
+        textField.value = '';
+        dropdown.style.display = '';
+        dropdown.selectedIndex = 0;
+      });
+    });
+    
+    document.querySelectorAll('.accordion-toggle').forEach(toggle => {
+      toggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        const content = this.closest('.accordion').querySelector('.accordion-content');
+        const isVisible = content.style.display === 'block';
+        content.style.display = isVisible ? 'none' : 'block';
+      });
+    });
+  });

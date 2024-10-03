@@ -10,7 +10,7 @@
 ---
 - display_value: '[not entered]'
   value: null
-  description: "{{subject}} {{have}}n't selected whether {{subject}} {{be_past}} the victim of infant male genital mutliation (yet)"
+  description: "{{subject}} {{have}}n't selected whether {{subject}} {{be:past}} the victim of infant male genital mutliation (yet)"
   default: true
   order: 0
 - display_value: 'yes'

@@ -25,7 +25,6 @@ jobs:
         git-token: ${{ secrets.PACKAGES_PAT }}
         github-password: ${{ secrets.PACKAGES_PAT }}
         username: hivchaser
-        username: hivchaser
 
     - uses: docker/login-action@v3
       with: 

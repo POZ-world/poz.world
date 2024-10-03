@@ -43,10 +43,10 @@
             %td= field_value.description
             %td= field_value.default
             %td= field_value.order
-            %td= link_to 'Show', admin_field_template_field_value_path(@field_template, field_value), class: 'btn btn-primary btn-sm'
-            %td= link_to 'Edit', edit_admin_field_template_field_value_path(@field_template, field_value), class: 'btn btn-warning btn-sm'
-            %td= link_to 'Destroy', admin_field_template_field_value_path(@field_template, field_value), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
+            %td= link_to 'Show', admin_field_template_field_value_path(@field_template.id, field_value.id), class: 'btn btn-primary btn-sm'
+            %td= link_to 'Edit', edit_admin_field_template_field_value_path(@field_template.id, field_value.id), class: 'btn btn-warning btn-sm'
+            %td= link_to 'Destroy', admin_field_template_field_value_path(@field_template.id, field_value.id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm'
 
-= link_to 'New Field Value', new_admin_field_template_field_value_path(@field_template), class: 'btn btn-success'
+= link_to 'New Field Value', new_admin_field_template_field_value_path(@field_template.id), class: 'btn btn-success'
 |
 = link_to 'Back to Field Templates', admin_field_templates_path, class: 'btn btn-secondary'

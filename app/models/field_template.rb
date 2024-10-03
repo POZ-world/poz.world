@@ -15,7 +15,7 @@ class FieldTemplate < ApplicationRecord
   attribute :deleted_at, :datetime
   attribute :rules, :jsonb
 
-  enum :field_type, { string: 'string', float: 'float', integer: 'integer', boolean: 'boolean', object: 'object' } # Enum backed by string
+  enum :field_type, { string: 'string', float: 'float', integer: 'integer', boolean: 'boolean', object: 'object', url: 'url', date: 'date', datetime: 'datetime', location: 'location' } # Enum backed by string
 
   # Validations
   validates :name, presence: true, allow_blank: false
@@ -76,17 +76,20 @@ class FieldTemplate < ApplicationRecord
     end
   end
 
-  # def as_json(_ = {})
-  #   {
-  #     name: escape_special_characters(name),
-  #     description: escape_special_characters(description),
-  #     default_value: escape_special_characters(default_value),
-  #     options: dropdown_options.map(&:as_json),
-  #     third_person_masculine_description: escape_special_characters(third_person_masculine_description),
-  #     second_person_singular_description: escape_special_characters(second_person_singular_description),
-  #     multiple: multiple,
-  #   }
-  # end
+  def as_json(*_args)
+    {
+      id: object.id,
+      name: object.name,
+      field_type: object.field_type,
+      category: object.category,
+      dropdown: object.dropdown,
+      multiple: object.multiple,
+      description: object.description,
+      first_person_singular_description: object.first_person_singular_description,
+      second_person_singular_description: object.second_person_singular_description,
+      third_person_masculine_description: object.third_person_masculine_description,
+    }
+  end
 
   # Method to check if the user's account fields match the template's rules
   def rules_match?(account_fields)

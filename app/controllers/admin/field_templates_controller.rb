@@ -13,7 +13,7 @@ module Admin
 
     def show
       if @field_template.nil?
-        flash[:alert] = 'Field Template not found.'
+        flash[:alert] = t('field_templates.not_found')
         redirect_to admin_field_templates_path
       else
         respond_to do |format|
@@ -29,7 +29,7 @@ module Admin
 
     def edit
       if @field_template.nil?
-        flash[:alert] = 'Field Template not found.'
+        flash[:alert] = t('field_templates.not_found')
         redirect_to admin_field_templates_path
       end
       render layout: 'admin'
@@ -39,7 +39,7 @@ module Admin
       @field_template = FieldTemplate.new(field_template_params)
 
       if @field_template.save
-        redirect_to [:admin, @field_template], notice: 'Field Template was successfully created.'
+        redirect_to [:admin, @field_template], notice: t('field_templates.created')
       else
         respond_to do |format|
           format.html { render :new, layout: 'admin' }
@@ -49,11 +49,11 @@ module Admin
 
     def update
       if @field_template.nil?
-        flash[:alert] = 'Field Template not found.'
+        flash[:alert] = t('field_templates.not_found')
         redirect_to admin_field_templates_path
       elsif @field_template.update(field_template_params)
         respond_to do |format|
-          format.html { redirect_to [:admin, @field_template], notice: 'Field Template was successfully updated.' }
+          format.html { redirect_to [:admin, @field_template], notice: t('field_templates.updated') }
         end
       else
         respond_to do |format|
@@ -64,11 +64,11 @@ module Admin
 
     def destroy
       if @field_template.nil?
-        flash[:alert] = 'Field Template not found.'
+        flash[:alert] = t('field_templates.not_found')
       else
         @field_template.destroy
         respond_to do |format|
-          format.html { redirect_to admin_field_templates_url, notice: 'Field Template was successfully destroyed.' }
+          format.html { redirect_to admin_field_templates_url, notice: t('field_templates.destroyed') }
         end
       end
     end

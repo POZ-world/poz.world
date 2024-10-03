@@ -37,7 +37,7 @@
 
 - name: 'cut'
   dropdown: true
-  description: '{{be_past}} {{subject}} the victim of infant male genital mutilation (i.e., {{be}} {{subject}} circumcised)'
+  description: '{{be:past}} {{subject}} the victim of infant male genital mutilation (i.e., {{be}} {{subject}} circumcised)'
   multiple: false
   type: boolean
   source: 'db/seeds/fields/field_values/cut.yml'

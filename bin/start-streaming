@@ -1,12 +1,12 @@
-#!/usr/bin/with-contenv bash
+#!/bin/bash
 # shellcheck shell=bash
 
 export RAILS_ENV=production
 export PATH="/opt/mastodon/bin:/usr/bin:/bin:${PATH}"
 
 cd /opt/mastodon && \
-/bin/bash bin/show-branding && \
-/bin/bash bin/start-sshd && \
-/bin/bash bin/start-nginx && \
+/opt/mastodon/bin/show-branding && \
+/opt/mastodon/bin/start-sshd && \
+/opt/mastodon/bin/start-nginx && \
 /bin/echo "**** Starting streaming ****" && \
 node /opt/mastodon/streaming/index.js;

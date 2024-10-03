@@ -2,10 +2,11 @@
 
 class Api::Vnext::FieldsController < ApplicationController
   include HumanizerHelper
-  def templates
-    field_templates = FieldTemplate.all.map
 
-    render json: field_templates, content_type: 'application/field-templates+json', serializer: FieldTemplateSerializer
+  def templates
+    field_templates = FieldTemplate.all
+
+    render json: field_templates, content_type: 'application/field-templates+json' # , each_serializer: FieldTemplateSerializer
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'FieldTemplates not found' }, status: 404
   end

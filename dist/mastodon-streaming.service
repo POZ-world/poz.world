@@ -6,6 +6,7 @@ Requires=mastodon-streaming-init.service
 
 [Service]
 Type=oneshot
+Environment="PATH=/opt/mastodon/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin"
 ExecStart=/bin/echo "mastodon-streaming exists only to collectively start and stop mastodon-streaming@ instances, shimming over the migration to templated mastodon-streaming systemd unit"
 RemainAfterExit=yes
 

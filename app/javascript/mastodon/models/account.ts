@@ -7,10 +7,10 @@ import type {
   ApiAccountFieldJSON,
   ApiAccountRoleJSON,
   ApiAccountJSON,
-} from 'mastodon/api_types/accounts';
-import type { ApiCustomEmojiJSON } from 'mastodon/api_types/custom_emoji';
-import emojify from 'mastodon/features/emoji/emoji';
-import { unescapeHTML } from 'mastodon/utils/html';
+} from '../../mastodon/api_types/accounts';
+import type { ApiCustomEmojiJSON } from '../../mastodon/api_types/custom_emoji';
+import emojify from '../../mastodon/features/emoji/emoji';
+import { unescapeHTML } from '../../mastodon/utils/html';
 
 import { CustomEmojiFactory } from './custom_emoji';
 import type { CustomEmoji } from './custom_emoji';

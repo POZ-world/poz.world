@@ -1,6 +1,6 @@
 import Trie from 'substring-trie';
 
-import { assetHost } from 'mastodon/utils/config';
+import { assetHost } from '../../../mastodon/utils/config';
 
 import { autoPlayGif } from '../../initial_state';
 
@@ -36,7 +36,7 @@ const emojifyTextNode = (node, customEmojis) => {
   const fragment = new DocumentFragment();
   let i = 0;
 
-  for (;;) {
+  for (; ;) {
     let unicode_emoji;
 
     // Skip to the next potential emoji to replace (either custom emoji or custom emoji :shortcode:
@@ -101,7 +101,7 @@ const emojifyTextNode = (node, customEmojis) => {
 
       const isSystemTheme = !!document.body?.classList.contains('theme-system');
 
-      if(isSystemTheme) {
+      if (isSystemTheme) {
         let source = document.createElement('source');
         source.setAttribute('media', '(prefers-color-scheme: dark)');
         source.setAttribute('srcset', `${assetHost}/emoji/${emojiFilename(filename, "dark")}.svg`);
@@ -116,7 +116,7 @@ const emojifyTextNode = (node, customEmojis) => {
 
       let theme = "light";
 
-      if(!isSystemTheme && !document.body?.classList.contains('theme-mastodon-light'))
+      if (!isSystemTheme && !document.body?.classList.contains('theme-mastodon-light'))
         theme = "dark";
 
       img.setAttribute('src', `${assetHost}/emoji/${emojiFilename(filename, theme)}.svg`);
@@ -136,14 +136,14 @@ const emojifyTextNode = (node, customEmojis) => {
 
 const emojifyNode = (node, customEmojis) => {
   for (const child of node.childNodes) {
-    switch(child.nodeType) {
-    case Node.TEXT_NODE:
-      emojifyTextNode(child, customEmojis);
-      break;
-    case Node.ELEMENT_NODE:
-      if (!child.classList.contains('invisible'))
-        emojifyNode(child, customEmojis);
-      break;
+    switch (child.nodeType) {
+      case Node.TEXT_NODE:
+        emojifyTextNode(child, customEmojis);
+        break;
+      case Node.ELEMENT_NODE:
+        if (!child.classList.contains('invisible'))
+          emojifyNode(child, customEmojis);
+        break;
     }
   }
 };
@@ -167,8 +167,8 @@ export const buildCustomEmojis = (customEmojis) => {
 
   customEmojis.forEach(emoji => {
     const shortcode = emoji.get('shortcode');
-    const url       = autoPlayGif ? emoji.get('url') : emoji.get('static_url');
-    const name      = shortcode.replace(':', '');
+    const url = autoPlayGif ? emoji.get('url') : emoji.get('static_url');
+    const name = shortcode.replace(':', '');
 
     emojis.push({
       id: name,

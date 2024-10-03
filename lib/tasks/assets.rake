@@ -29,7 +29,7 @@ namespace :assets do
   namespace :javascript do
     task precompile: :environment do
       desc 'Copy the "dynamic" JavaScript files to the output directory'
-      Rails.public_path.join('packs/google_tag_manager.js').write(Api::Vnext::Js::GoogleTagManagerController.new.script_content)
+      Rails.public_path.join('packs/js/google_tag_manager.js').write(Api::Vnext::Js::GoogleTagManagerController.new.script_content)
       Rails.logger.info { 'google_tag_manager.js precompiled.' }
     end
   end
@@ -47,16 +47,16 @@ namespace :assets do
     task copy_to_public: :environment do
       if File.exist?(avatar_source)
         FileUtils.cp(avatar_source, avatar_destination)
-        Rails.logger.info { 'Missing avatar copied from the source directory.' }
+        Rails.logger.info { "'Missing' avatar copied from the source directory." }
       else
-        Rails.logger.warn { 'Missing avatar was not found in the source directory; skipped.' }
+        Rails.logger.warn { "'Missing' avatar was not found in the source directory; skipped." }
       end
 
       if File.exist?(header_source)
         FileUtils.cp(header_source, header_destination)
-        Rails.logger.info { 'Missing header copied from the source directory.' }
+        Rails.logger.info { "'Missing' header copied from the source directory." }
       else
-        Rails.logger.warn { 'Missing header was not found in the source directory; skipped.' }
+        Rails.logger.warn { "'Missing' header was not found in the source directory; skipped." }
       end
     end
     # Rails.public_path.join('packs/identify_user.js').write(Js::AnalyticsIdentifyUserController.new.script_content)

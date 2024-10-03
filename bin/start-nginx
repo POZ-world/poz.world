@@ -1,13 +1,9 @@
-#!/usr/bin/with-contenv bash
+#!/bin/bash
 # shellcheck shell=bash
 
 set -e
 export RAILS_ENV=production
 export PATH="/opt/mastodon/bin:/usr/bin:/bin:${PATH}"
-
-/bin/bash show-nginx-branding;
-/bin/echo "set \$cdn_host \"$CDN_HOST\";" > /config/nginx/conf.d/cdn_host.conf;
-/bin/echo "set \$streaming_host \"$STREAMING_HOST\";" > /config/nginx/conf.d/streaming_host.conf;
 
 if /usr/bin/pgrep -f "[n]ginx:" >/dev/null; then
     /bin/echo "Zombie nginx processes detected, sending SIGTERM"

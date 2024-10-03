@@ -35,3 +35,23 @@ updates:
     commit-message:
       prefix: '[github-actions]: '
       include: "scope"
+  - package-ecosystem: "docker" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+    assignees:
+      - hivchaser
+      - justinwritescode
+    commit-message:
+      prefix: '[docker]: '
+      include: "scope"
+  - package-ecosystem: "gitsubmodule" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+    assignees:
+      - hivchaser
+      - justinwritescode
+    commit-message:
+      prefix: '[docker]: '
+      include: "scope"

@@ -19,29 +19,31 @@ const emojiMap = require('./emoji_map.json');
 const { unicodeToFilename } = require('./unicode_to_filename');
 const { unicodeToUnifiedName } = require('./unicode_to_unified_name');
 
-if(data.compressed) {
+if (data.compressed) {
   data = emojiMartUncompress(data);
 }
 
 const emojiMartData = data;
 
-const excluded       = ['®', '©', '™'];
-const skinTones      = ['🏻', '🏼', '🏽', '🏾', '🏿'];
-const shortcodeMap   = {};
+const excluded = ['®', '©', '™'];
+const skinTones = ['🏻', '🏼', '🏽', '🏾', '🏿'];
+const shortcodeMap = {};
 
 const shortCodesToEmojiData = {};
 const emojisWithoutShortCodes = [];
 
-Object.keys(emojiIndex.emojis).forEach(key => {
-  let emoji = emojiIndex.emojis[key];
+if (emojiIndex) {
+  Object.keys(emojiIndex.emojis).forEach(key => {
+    let emoji = emojiIndex.emojis[key];
 
-  // Emojis with skin tone modifiers are stored like this
-  if (Object.hasOwn(emoji, '1')) {
-    emoji = emoji['1'];
-  }
+    // Emojis with skin tone modifiers are stored like this
+    if (Object.hasOwn(emoji, '1')) {
+      emoji = emoji['1'];
+    }
 
-  shortcodeMap[emoji.native] = emoji.id;
-});
+    shortcodeMap[emoji.native] = emoji.id;
+  });
+}
 
 const stripModifiers = unicode => {
   skinTones.forEach(tone => {
@@ -58,7 +60,7 @@ Object.keys(emojiMap).forEach(key => {
   }
 
   const normalizedKey = stripModifiers(key);
-  let shortcode       = shortcodeMap[normalizedKey];
+  let shortcode = shortcodeMap[normalizedKey];
 
   if (!shortcode) {
     shortcode = shortcodeMap[normalizedKey + '\uFE0F'];

@@ -1,0 +1,8 @@
+- content_for :page_title do
+  = 'New Field Value'
+
+.card.my-3
+  .card-body
+    %h1 New Field Value
+
+    = render 'form', field_value: @field_value, url: admin_field_template_field_values_path(@field_template), method: :post

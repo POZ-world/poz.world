@@ -13,7 +13,7 @@ en:
     title: "Field Templates & Values"
   field_templates:
     title: Field Templates
-    deleted: "The template has been deleted."
+    destroyed: "The template has been deleted."
     updated: "The template has been updated."
     created: "The template has been created."
     not_found: "The template was not found."

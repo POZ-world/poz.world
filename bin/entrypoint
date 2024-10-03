@@ -6,16 +6,27 @@ export RAILS_ENV=production
 export PATH="/opt/mastodon/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin:${PATH}"
 export PROGRAM="$1"
 
+/opt/mastodon/bin/start-sshd
+/opt/mastodon/bin/start-nginx
+
+/opt/mastodon/bin/show-branding
+
 if [[ $PROGRAM == "mastodon" ]]; then
-    /bin/bash start-mastodon 
+    /opt/mastodon/bin/show-mastodon-branding
+    /opt/mastodon/bin/start-mastodon 
 elif [[ $PROGRAM == "sidekiq" ]]; then
-    /bin/bash start-sidekiq 
+    /opt/mastodon/bin/show-sidekiq-branding
+    /opt/mastodon/bin/start-sidekiq 
 elif [[ $PROGRAM == "streaming" ]]; then
-    /bin/bash start-streaming 
+    /opt/mastodon/bin/show-streaming-branding
+    /opt/mastodon/bin/start-streaming 
 elif [[ $PROGRAM == "all" ]]; then
-    /bin/bash start-mastodon 
-    /bin/bash start-sidekiq 
-    /bin/bash start-streaming 
+    /opt/mastodon/bin/show-mastodon-branding
+    /opt/mastodon/bin/start-mastodon 
+    /opt/mastodon/bin/show-sidekiq-branding
+    /opt/mastodon/bin/start-sidekiq 
+    /opt/mastodon/bin/show-mastodon-branding
+    /opt/mastodon/bin/start-streaming 
 else
     /bin/echo "Program '${PROGRAM}' was not found and could not be started.";
 fi

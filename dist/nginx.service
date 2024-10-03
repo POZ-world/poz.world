@@ -9,6 +9,7 @@ User=root
 ; WorkingDirectory=/opt/mastodon/bin
 ; Environment="LD_PRELOAD=libjemalloc.so"
 ; ExecStart=/home/mastodon/.rbenv/shims/bundle exec puma -C config/puma.rb
+Environment="PATH=/opt/mastodon/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin"
 ExecStart=/usr/sbin/nginx -g "daemon off;"
 ExecReload=/bin/kill -SIGUSR1 $MAINPID
 TimeoutSec=15

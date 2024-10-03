@@ -1,0 +1,69 @@
+%div.profile-fields-form
+  = form_with model: @account, url: account_fields_path(@account), method: :put do |form|
+    - @field_templates.group_by(&:category).each do |category, templates|
+      %div.accordion.card{ data: { category: category } }
+        %div.card-header
+          %a(data-toggle='collapse' href="##{category.parameterize}")= category.titleize
+        %div##{category.parameterize}.collapse
+          %div.card-body
+            - templates.each do |template|
+              - if template.rules_match?(@account.fields)
+                = form.fields_for :fields, @account.fields.find { |field| field.name == template.name } || form.object.fields.build do |field_form|
+                  %div.field-group
+                    %label
+                      = field_form.label :name, template.description
+                      - if template.dropdown
+                        %select{ name: "#{field_form.object_name}[value]", class: 'field-dropdown' }
+                          - template.dropdown_options.each do |option|
+                            %option{ value: option.value, selected: (field_form.object.value == option.value) }= option.display_value
+                          %option.add-custom{ value: 'custom' } Add custom...
+                        = field_form.text_field :value, class: 'field-text d-none'
+                        %button.cancel-custom.btn.btn-secondary{ type: 'button', class: 'd-none' } Cancel
+                      - else
+                        = field_form.text_field :value, class: 'field-text'
+                    %input{ type: 'checkbox', name: "#{field_form.object_name}[marked_for_deletion]", title: 'Mark for deletion' }
+    
+    .combo-button-group
+      %button.btn.btn-primary{ type: 'button', data: { toggle: 'dropdown' } } Add Field
+      %div.dropdown-menu
+        %button.add-custom-field.dropdown-item{ type: 'button' } Add New Field
+        = select_tag 'predefined-fields', options_for_select(@field_templates.map(&:name)), include_blank: 'Select from Templates...', multiple: false, class: 'dropdown-item predefined-field-select'
+
+:javascript
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.field-dropdown').forEach(select => {
+      select.addEventListener('change', function() {
+        if (this.value === 'custom') {
+          this.classList.add('d-none');
+          const fieldGroup = this.closest('.field-group');
+          fieldGroup.querySelector('.field-text').classList.remove('d-none');
+          fieldGroup.querySelector('.cancel-custom').classList.remove('d-none');
+        }
+      });
+    });
+
+    document.querySelectorAll('.cancel-custom').forEach(button => {
+      button.addEventListener('click', function() {
+        const fieldGroup = this.closest('.field-group');
+        fieldGroup.querySelector('.field-text').classList.add('d-none');
+        this.classList.add('d-none');
+        const dropdown = fieldGroup.querySelector('.field-dropdown');
+        dropdown.classList.remove('d-none');
+        dropdown.selectedIndex = 0;
+      });
+    });
+
+    document.querySelector('.add-custom-field').addEventListener('click', function() {
+      // Logic for adding a new custom field
+      const newField = document.createElement('div');
+      newField.classList.add('field-group');
+      newField.innerHTML = `...`; // Template HTML for a new custom field; consider mimicking existing field layout
+      document.querySelector('.profile-fields-form').appendChild(newField);
+    });
+
+    document.querySelector('.predefined-field-select').addEventListener('change', function() {
+      const selectedTemplate = this.value;
+      // Logic to clone the selected template's field into the form
+      // Consider retrieving template details via AJAX or cloning from a hidden template if preloaded
+    });
+  });

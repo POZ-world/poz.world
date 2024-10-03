@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+# config/initializers/markdown_helper.rb
+require_relative '../../../helpers/markdown_helper'
+
 class REST::Vnext::InstanceSerializer < ActiveModel::Serializer
+  include MarkdownHelper
   include Rails.application.routes.url_helpers
 
   attributes :domain, :version, :tagline, :title, :description, :short_description, :icons, :stats, :urls
@@ -27,11 +31,11 @@ class REST::Vnext::InstanceSerializer < ActiveModel::Serializer
   end
 
   def description
-    html(Setting.site_extended_description)
+    as_html(Setting.site_extended_description)
   end
 
   def short_description
-    html(Setting.site_short_description)
+    as_html(Setting.site_short_description)
   end
 
   has_one :contact, serializer: REST::InstanceSerializer::ContactSerializer
@@ -73,13 +77,5 @@ class REST::Vnext::InstanceSerializer < ActiveModel::Serializer
 
   def url(path)
     URI.join("https://#{web_domain}", path).to_s
-  end
-
-  def markdown
-    @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML, escape_html: true, no_images: true)
-  end
-
-  def html(value)
-    markdown.render(value).html_safe # rubocop:disable Rails/OutputSafety
   end
 end

@@ -7,7 +7,7 @@
 # the extended buildx capabilities used in this file.
 # Make sure multiarch TARGETPLATFORM is available for interpolation
 # See: https://docs.docker.com/build/building/multi-platform/
-ARG TARGETPLATFORM=${TARGETPLATFORM}
+ARG TARGETPLATFORM='linux/amd64'
 ARG BUILDPLATFORM=${BUILDPLATFORM}
 
 # Ruby image to use for base image, change with [--build-arg RUBY_VERSION="3.3.x"]
@@ -74,7 +74,7 @@ ENV \
 # Set default shell used for running commands
 SHELL ["/bin/bash", "-o", "pipefail", "-o", "errexit", "-c"]
 
-ARG TARGETPLATFORM
+ARG TARGETPLATFORM='linux/amd64'
 
 RUN echo "Target platform is $TARGETPLATFORM"
 
@@ -128,7 +128,7 @@ COPY .yarn /opt/mastodon/.yarn
 COPY --from=node /usr/local/bin /usr/local/bin
 COPY --from=node /usr/local/lib /usr/local/lib
 
-ARG TARGETPLATFORM
+ARG TARGETPLATFORM='linux/amd64'
 
 # hadolint ignore=DL3008
 RUN \
@@ -214,9 +214,12 @@ FROM build AS ffmpeg
 
 # ffmpeg version to compile, change with [--build-arg FFMPEG_VERSION="7.0.x"]
 # renovate: datasource=repology depName=ffmpeg packageName=openpkg_current/ffmpeg
-ARG FFMPEG_VERSION=7.0.2
+ARG FFMPEG_VERSION=7.1
 # ffmpeg download URL, change with [--build-arg FFMPEG_URL="https://ffmpeg.org/releases"]
 ARG FFMPEG_URL=https://ffmpeg.org/releases
+
+ENV FFMPEG_URL=${FFMPEG_URL} \
+  FFMPEG_VERSION=${FFMPEG_VERSION}
 
 WORKDIR /usr/local/ffmpeg/src
 # Download and extract ffmpeg source code
@@ -254,10 +257,14 @@ RUN \
   make -j$(nproc); \
   make install;
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  ffmpeg \
+  ;
+
 # Create temporary bundler specific build layer from build layer
 FROM build AS bundler
 
-ARG TARGETPLATFORM
+ARG TARGETPLATFORM='linux/amd64'
 
 # Copy Gemfile config into working directory
 COPY Gemfile* /opt/mastodon/
@@ -279,7 +286,7 @@ RUN \
 # Create temporary node specific build layer from build layer
 FROM build AS yarn
 
-ARG TARGETPLATFORM
+ARG TARGETPLATFORM='linux/amd64'
 
 # Copy Node package configuration files into working directory
 COPY package.json yarn.lock .yarnrc.yml /opt/mastodon/
@@ -307,7 +314,7 @@ COPY --from=bundler /usr/local/bundle/ /usr/local/bundle/
 COPY --from=libvips /usr/local/libvips/bin /usr/local/bin
 COPY --from=libvips /usr/local/libvips/lib /usr/local/lib
 
-ARG TARGETPLATFORM
+ARG TARGETPLATFORM='linux/amd64'
 
 RUN \
   ldconfig; \
@@ -320,7 +327,7 @@ RUN \
 # Prep final Mastodon Ruby layer
 FROM ruby AS mastodon
 
-ARG TARGETPLATFORM
+ARG TARGETPLATFORM='linux/amd64'
 
 # hadolint ignore=DL3008
 RUN \
@@ -402,5 +409,26 @@ RUN \
   # Set Mastodon user as owner of tmp folder
   chown -R mastodon:mastodon /opt/mastodon/tmp;
 
+RUN \
+  apt-get update \
+  ; \
+  apt-get install -y \
+  nginx \
+  dialog \
+  openssh-server \
+  ; \
+  # Cleanup temporary files
+  rm -fr /opt/mastodon/tmp; \
+  # Remove APT cache
+  apt-get clean; \
+  rm -rf /var/lib/apt/lists/*; \
+  echo "root:Docker!" | chpasswd && \
+  mkdir -p /.ssh /root  \
+  mkdir -p /run/sshd 
+
 # Set the running user for resulting container
-USER mastodon
+# USER mastodon
+# Expose default Puma ports
+EXPOSE 3000 8080
+# Set container tini as default entry point
+ENTRYPOINT ["/opt/mastodon/bin/entrypoint", "mastodon"]

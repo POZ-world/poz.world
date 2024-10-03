@@ -1,0 +1,8 @@
+- content_for :page_title do
+  = 'Edit Field Value'
+
+.card.my-3
+  .card-body
+    %h1 Edit Field Value
+
+    = render 'form', field_value: @field_value, url: edit_admin_field_template_field_value(@field_template, @field_value), method: :patch

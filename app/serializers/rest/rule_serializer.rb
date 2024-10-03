@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class REST::RuleSerializer < ActiveModel::Serializer
+  include MarkdownHelper
   attributes :id, :text, :hint
 
   def id
@@ -8,20 +9,10 @@ class REST::RuleSerializer < ActiveModel::Serializer
   end
 
   def text
-    html(object.text)
+    as_html(object.text)
   end
 
   def hint
-    html(object.hint)
-  end
-
-  private
-
-  def markdown
-    @markdown ||= Redcarpet::Markdown.new(Redcarpet::Render::HTML, escape_html: true, no_images: true)
-  end
-
-  def html(value)
-    markdown.render(value).html_safe # rubocop:disable Rails/OutputSafety
+    as_html(object.hint)
   end
 end

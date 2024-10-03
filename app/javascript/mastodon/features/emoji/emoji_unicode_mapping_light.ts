@@ -50,13 +50,13 @@ Object.keys(shortCodesToEmojiData).forEach(
     const emojiData = shortCodesToEmojiData[shortCode];
     if (!emojiData) return;
     const [filenameData, _searchData] = emojiData;
-    filenameData.forEach((emojiMapData) => {
+    filenameData.forEach((emojiMapData: any) => {
       processEmojiMapData(emojiMapData, shortCode);
     });
   },
 );
 
-emojisWithoutShortCodes.forEach((emojiMapData) => {
+emojisWithoutShortCodes.forEach((emojiMapData: any) => {
   processEmojiMapData(emojiMapData);
 });
 

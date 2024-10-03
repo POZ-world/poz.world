@@ -1,0 +1,64 @@
+name: Build and Deploy POZ.World (ARM64)
+
+concurrency: 
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Convert repository name to lowercase
+      id: repo-name
+      run: echo "::set-output name=lowercase_repo::$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
+
+    - name: Build and Push Docker Image
+      uses: ./.github/actions/build-and-push-docker-image
+      env: 
+        APPLICATIONINSIGHTS_ENDPOINT: https://eastus-8.in.applicationinsights.azure.com
+        AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.POZ_WORLD_AZURE_STORAGE_CONNECTION_STRING }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_PASS: ${{ secrets.DB_PASSWORD }}
+        DATABASE_URL: postgres://${{ vars.DB_USER }}:${{ secrets.DB_PASSWORD }}@${{ vars.DB_HOST }}:5432/${{ vars.DB_NAME }}
+        REDIS_URL: ${{ secrets.REDIS_URL }}
+      with:
+        git-token: ${{ secrets.HIVCHASER_PACKAGES_PAT }}
+        github-password: ${{ secrets.HIVCHASER_PACKAGES_PAT }}
+        username: ${{ github.repository_owner }}
+        acr-password: ${{ secrets.AZURECR_KEY }}
+        tag: |
+          ghcr.io/${{ steps.repo-name.outputs.lowercase_repo }}
+          thebackroomlife.azurecr.io/poz.world
+        tag-prefix: pwv
+        description: Your self-hosted social media platform for the HIV community
+        dockerfile: Dockerfile
+        platforms: linux/arm64
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Deploy to Azure Web App
+      id: deploy
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'pozworld'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.POZ_WORLD_PUBLISH_PROFILE }}
+        images: 'ghcr.io/poz-world/poz.world:${{ github.sha }}'
+
+    environment:
+      name: 'POZ.world Production'
+      url: ${{ steps.deploy.outputs.webapp-url }}

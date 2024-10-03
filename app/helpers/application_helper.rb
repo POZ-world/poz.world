@@ -302,6 +302,8 @@ module ApplicationHelper
 
   def bootstrap_javascript_tag
     javascript_tag '', src: 'https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.js'
+  end
+
   def copyable_input(options = {})
     tag.input(type: :text, maxlength: 999, spellcheck: false, readonly: true, **options)
   end

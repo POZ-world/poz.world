@@ -68,17 +68,18 @@ if ENV.keys.any? { |name| name.match?(/OTEL_.*_ENDPOINT/) }
     c.service_version = Mastodon::Version.to_s
 
     # Configure OTLP exporter with Azure Application Insights endpoint
-    azure_endpoint = ENV['APPLICATIONINSIGHTS_ENDPOINT'] || raise('APPLICATIONINSIGHTS_ENDPOINT environment variable not set')
-    azure_instrumentation_key = ENV['APPLICATIONINSIGHTS_INSTRUMENTATION_KEY'] || raise('APPLICATIONINSIGHTS_INSTRUMENTATION_KEY environment variable not set')
+    azure_endpoint = ENV.fetch('APPLICATIONINSIGHTS_ENDPOINT', nil)
+    azure_instrumentation_key = ENV.fetch('APPLICATIONINSIGHTS_INSTRUMENTATION_KEY', nil)
 
-    otlp_exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
-      endpoint: azure_endpoint,
-      headers: { 'x-ms-authkey' => azure_instrumentation_key } # Including the instrumentation key in the headers
-    )
+    if azure_endpoint.present? && azure_instrumentation_key.present?
+      otlp_exporter = OpenTelemetry::Exporter::OTLP::Exporter.new(
+        endpoint: azure_endpoint,
+        headers: { 'x-ms-authkey' => azure_instrumentation_key } # Including the instrumentation key in the headers
+      )
 
-    simple_exporter = OpenTelemetry::SDK::Trace::Export::SimpleSpanProcessor.new(otlp_exporter)
-
-    c.add_span_processor simple_exporter
+      simple_exporter = OpenTelemetry::SDK::Trace::Export::SimpleSpanProcessor.new(otlp_exporter)
+      c.add_span_processor simple_exporter
+    end
   end
 end
 

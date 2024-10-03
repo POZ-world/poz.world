@@ -29,6 +29,10 @@ inputs:
     required: false
     default: Your self-hosted social media platform
     description: The descritpion label to attach to the image
+  platforms:
+    required: false
+    default: linux/amd64
+    description: The platform to build and deploy
 outputs:
   image:
     description: The image to push to the Azure Web App
@@ -98,6 +102,9 @@ runs:
 
     - name: Build & push the Docker image
       uses: docker/build-push-action@v6.7.0
+      env: 
+        APPLICATIONINSIGHTS_ENDPOINT: https://eastus-8.in.applicationinsights.azure.com
+        MASTODON_VERSION_METADATA: ${{ steps.mastodon_version_metadata.outputs.MASTODON_VERSION_METADATA }}
       with:
         context: .
         pull: true
@@ -105,17 +112,18 @@ runs:
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         file: ${{ inputs.dockerfile }}
-        platforms: linux/amd64
+        platforms: ${{ inputs.platforms }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
         annotations: ${{ steps.meta.outputs.annotations }}
         build-args: |
+          "APPLICATIONINSIGHTS_ENDPOINT=${{ env.APPLICATIONINSIGHTS_ENDPOINT }}"
           "MASTODON_VERSION_METADATA=${{ steps.mastodon_version_metadata.outputs.MASTODON_VERSION_METADATA }}"
           "AZURE_STORAGE_CONTAINER_NAME=${{ env.AZURE_STORAGE_CONTAINER_NAME }}"
           "CI=true"
-        secrets: |
-          "AZURE_STORAGE_CONNECTION_STRING=${{ env.AZURE_STORAGE_CONNECTION_STRING }}"
+          "FFMPEG_URL=./ffmpeg"
+          "AZURE_STORAGE_CONNECTION_STRING=${{ env.POZ_WORLD_AZURE_STORAGE_CONNECTION_STRING }}"
           "DB_PASSWORD=${{ env.DB_PASSWORD }}"
-          "DB_PASS=${{ env.DB_PASS }}"
+          "DB_PASS=${{ env.DB_PASSWORD }}"
           "DATABASE_URL=${{ env.DATABASE_URL }}"
           "REDIS_URL=${{ env.REDIS_URL }}"
