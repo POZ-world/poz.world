@@ -96,7 +96,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Deploy to Azure Web App
       id: deploy-to-poz-world
-      uses: azure/webapps-deploy@v3.0.1
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'pozworld'
         slot-name: 'production'
@@ -115,7 +115,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Deploy to Azure Web App
       id: deploy-to-poz-world-streaming
-      uses: azure/webapps-deploy@v3.0.1
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'pozworld-streaming'
         slot-name: 'production'
@@ -134,7 +134,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Deploy to Azure Web App
       id: deploy-to-poz-world-sidekiq
-      uses: azure/webapps-deploy@v3.0.1
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'pozworld-sidekiq'
         slot-name: 'production'
