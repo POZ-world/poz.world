@@ -950,10 +950,12 @@ GEM
     semantic_range (3.0.0)
     shoulda-matchers (6.4.0)
       activesupport (>= 5.2.0)
-    sidekiq (6.5.5)
-      connection_pool (>= 2.2.2)
-      rack (~> 2.0)
-      redis (>= 4.5.0)
+    sidekiq (7.3.2)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      logger
+      rack (>= 2.2.4)
+      redis-client (>= 0.22.2)
     sidekiq-bulk (0.2.0)
       sidekiq
     sidekiq-scheduler (5.0.6)
@@ -1216,7 +1218,7 @@ DEPENDENCIES
   scenic (~> 1.7)
   selenium-webdriver
   shoulda-matchers
-  sidekiq (~> 6.5.5)
+  sidekiq (~> 7.3.2)
   sidekiq-bulk (~> 0.2.0)
   sidekiq-scheduler (~> 5.0)
   sidekiq-unique-jobs (~> 7.1.24)
