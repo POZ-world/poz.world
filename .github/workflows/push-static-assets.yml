@@ -60,7 +60,7 @@ jobs:
         # Remove the container
         docker rm $CONTAINER_NAME
 
-    - uses: LanceMcCarthy/Action-AzureBlobUpload@v3.1.5
+    - uses: LanceMcCarthy/Action-AzureBlobUpload@v3.2.0
       with:
         connection_string: ${{ env.CONNECTION_STRING }}
         container_name: ${{ env.CONTAINER_NAME }}
