@@ -88,3 +88,4 @@ letsencrypt/
 /config/nginx/dhparams.pem
 /public/@poz.world
 /dist/@poz.world
+/dist/@poz-world

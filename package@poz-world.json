@@ -1,22 +1,11 @@
 {
   "name": "@poz-world/poz.world",
-  "displayName": "POZ.world",
-  "version": "4.3.0-2024-10-11",
+  "version": "4.3.0-nightly+2024-09-26",
   "license": "AGPL-3.0-or-later",
   "packageManager": "yarn@4.5.0",
-  "author": {
-    "name": "Justin P. Chase",
-    "email": "chaser@poz.world",
-    "url": "https://poz.world/@chaser"
-  },
-  "homepage": "https://poz.world",
-  "types": "./dist/@poz-world/poz.world/index.d.ts",
-  "typings": "./dist/@poz-world/poz.world/index.d.ts",
-  "readme": "./README.md",
   "engines": {
     "node": ">=18"
   },
-  "icon": "./app/javascript/icons/android-chrome-512x512.png",
   "workspaces": [
     ".",
     "streaming"
@@ -39,13 +28,12 @@
     "start": "node ./streaming/index.js",
     "test": "yarn lint && yarn run typecheck && yarn jest",
     "typecheck": "tsc --noEmit",
-    "publish:poz-world": "mkdir -p ./dist/@poz-world && (npm run prepare:poz-world || true) && cp ./package.json ./dist/@poz-world && cd ./dist/@poz-world && npm publish",
-    "prepare:poz-world": "(tsc -p tsconfig.dist.json || true) && cp ./app/javascript/mastodon/features/emoji/emoji_compressed.* ./dist/@poz-world/mastodon/features/emoji/"
+    "publish:poz-world": "(npm run prepare || true) && cd ./dist/@poz-world && npm publish",
+    "prepare": "tsc -p tsconfig.dist.json && cp ./app/javascript/mastodon/features/emoji/* ./dist//mastodon/features/emoji/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/poz-world/poz.world.git",
-    "directory": "dist/@poz-world/poz.world"
+    "url": "https://github.com/poz-world/poz.world.git"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
@@ -67,7 +55,6 @@
     "@gamestdio/websocket": "^0.3.2",
     "@github/webauthn-json": "^2.1.1",
     "@mui/icons-material": "^6.1.2",
-    "@mui/material": "^6.1.3",
     "@rails/ujs": "7.1.400",
     "@rails/webpacker": "^5.4.4",
     "@react-google-maps/api": "^2.19.3",
@@ -141,7 +128,6 @@
     "react-swipeable-views": "^0.14.0",
     "react-textarea-autosize": "^8.4.1",
     "react-toggle": "^4.1.3",
-    "redux": "^5.0.1",
     "redux-immutable": "^4.0.0",
     "regenerator-runtime": "^0.14.0",
     "requestidlecallback": "^0.3.0",

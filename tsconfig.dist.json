@@ -9,7 +9,7 @@
     "composite": true,
     "declaration": true,
     // "outFile": "./poz.world.ts",
-    "declarationDir": "./dist/@poz.world",
+    "declarationDir": "./dist/@poz-world",
     "declarationMap": true,
     "diagnostics": true,
     "emitDeclarationOnly": false,
@@ -29,7 +29,7 @@
     "noImplicitAny": false,
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": false,
-    "outDir": "./dist/@poz.world",
+    "outDir": "./dist/@poz-world",
     "paths": {
       "@/*": [
         "./*"
