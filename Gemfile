@@ -166,14 +166,7 @@ group :test do
   gem 'webmock', '~> 3.18'
 end
 
-gem 'rubocop', require: false
-gem 'rubocop-capybara', require: false
-gem 'rubocop-performance', require: false
-gem 'rubocop-rails', require: false
-gem 'rubocop-rspec', require: false
-gem 'rubocop-rspec_rails', require: false
-
-group :development do
+group :development, :production do
   # Code linting CLI and plugins
   gem 'rubocop', require: false
   gem 'rubocop-capybara', require: false

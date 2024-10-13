@@ -1,8 +1,13 @@
-# config/routes/fields.rb
 # frozen_string_literal: true
 
 get '/settings/profile/css', to: 'settings/profile#css'
 get '/settings/profile/js', to: 'settings/profile#js'
+
+namespace :api do
+  namespace :vnext do
+   resources :field_templates, only: [:index, :show]
+  end
+end
 
 namespace :admin do
   resources :field_templates do
