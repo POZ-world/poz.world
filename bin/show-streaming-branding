@@ -1,0 +1,23 @@
+# 
+# show-sidekiq-branding copy
+#     Created: 2024-10-13T09:57:01-04:00
+#    Modified: 2024-10-13T09:57:01-04:00
+#      Author: Justin Paul Chase <justin@justinwritescode.com>
+#   Copyright: © 2024 Justin Paul Chase, All Rights Reserved
+#     License: MIT (https://opensource.org/licenses/MIT)
+# 
+
+#!/bin/bash
+
+/bin/echo "
+   
+
+             ███████ ████████ ██████  ███████  █████  ███    ███ ██ ███    ██  ██████  
+             ██         ██    ██   ██ ██      ██   ██ ████  ████ ██ ████   ██ ██       
+             ███████    ██    ██████  █████   ███████ ██ ████ ██ ██ ██ ██  ██ ██   ███ 
+                  ██    ██    ██   ██ ██      ██   ██ ██  ██  ██ ██ ██  ██ ██ ██    ██ 
+             ███████    ██    ██   ██ ███████ ██   ██ ██      ██ ██ ██   ████  ██████  
+                                                                                    
+                                                                                    
+                  
+";

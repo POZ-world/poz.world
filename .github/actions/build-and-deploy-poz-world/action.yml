@@ -43,6 +43,9 @@ inputs:
   docker-build-cloud-password:
     required: false
     description: The password to use when logging in to the Docker Cloud
+  docker-build-cloud-endpoint:
+    required: false
+    description: The endpoint to use when using Docker build cloud
 outputs:
   image:
     description: The image to push to the Azure Web App
@@ -78,6 +81,9 @@ runs:
       description: Your self-hosted social media platform for the HIV community
       dockerfile: Dockerfile
       platforms: ${{ inputs.platforms }}
+      docker-build-cloud-username: ${{ inputs.docker-build-cloud-username }}
+      docker-build-cloud-password: ${{ inputs.docker-build-cloud-password }}
+      docker-build-cloud-endpoint: ${{ inputs.docker-build-cloud-endpoint }}
       
   - name: Deploy to Azure Web App
     id: deploy

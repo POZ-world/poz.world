@@ -1,11 +1,9 @@
 #!/bin/bash
 # shellcheck shell=bash
 
-export RAILS_ENV=production
-export PATH="/opt/mastodon/bin:/usr/bin:/bin:${PATH}"
-
 # /opt/mastodon/bin/show-mastodon-branding 
 # /opt/mastodon/bin/start-sshd 
 # /opt/mastodon/bin/start-nginx 
 # /bin/echo "**** Starting Mastodon ****";
-/opt/mastodon/bin/bundle exec rails server -p 3000 
+# /opt/mastodon/bin/bundle exec rails server -p 3000 
+/opt/mastodon/bin/bundle exec puma -C config/puma.rb -b unix:///opt/mastodon/mastodon.sock &

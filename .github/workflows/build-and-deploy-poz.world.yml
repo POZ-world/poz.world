@@ -47,6 +47,7 @@ jobs:
         platforms: linux/amd64,linux/arm64
         docker-build-cloud-username: ${{ secrets.DOCKER_BUILD_CLOUD_USERNAME }}
         docker-build-cloud-password: ${{ secrets.DOCKER_BUILD_CLOUD_PASSWORD }}
+        docker-build-cloud-endpoint: ${{ secrets.DOCKER_BUILD_CLOUD_ENDPOINT }}
   deploy:
     needs: build
     runs-on: ubuntu-latest

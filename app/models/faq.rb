@@ -3,6 +3,9 @@
 class Faq < ApplicationRecord
   include Discard::Model
   self.discard_column = :deleted_at
+
+  def self.CONTENT_TYPE = 'application/faq+json'.freeze
+
   # Callbacks
   before_create :set_number
   before_update :adjust_numbers

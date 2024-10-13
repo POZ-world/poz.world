@@ -86,8 +86,10 @@ RUN \
   # Creates mastodon user/group and sets home directory
   groupadd -g "${GID}" mastodon; \
   useradd -l -u "${UID}" -g "${GID}" -m -d /opt/mastodon mastodon; \
-  # Creates /mastodon symlink to /opt/mastodon
-  ln -s /opt/mastodon /mastodon;
+  # Creates /mastodon symlink to /opt/mastodon \
+  mkdir -p /mastodon/bin; \
+  mkdir -p /opt/mastodon/bin; \
+  ln -s /opt/mastodon /mastodon; 
 
 # Set /opt/mastodon as working directory
 WORKDIR /opt/mastodon
@@ -223,7 +225,8 @@ ENV FFMPEG_URL=${FFMPEG_URL} \
 
 WORKDIR /usr/local/ffmpeg/src
 # Download and extract ffmpeg source code
-ADD ${FFMPEG_URL}/ffmpeg-${FFMPEG_VERSION}.tar.xz /usr/local/ffmpeg/src/
+# ADD ${FFMPEG_URL}/ffmpeg-${FFMPEG_VERSION}.tar.xz /usr/local/ffmpeg/src/
+COPY ${FFMPEG_URL}/ffmpeg-${FFMPEG_VERSION}.tar.xz /usr/local/ffmpeg/src/
 RUN tar xf ffmpeg-${FFMPEG_VERSION}.tar.xz;
 
 WORKDIR /usr/local/ffmpeg/src/ffmpeg-${FFMPEG_VERSION}
@@ -271,7 +274,7 @@ COPY Gemfile* /opt/mastodon/
 
 RUN \
   # Mount Ruby Gem caches
-  --mount=type=cache,id=gem-cache-${TARGETPLATFORM},target=/usr/local/bundle/cache/,sharing=locked \
+  --mount=type=cache,id=gem-cache-${TARGETPLATFORM},target=/opt/mastodon/vendor/bundle/cache/,sharing=locked \
   # Configure bundle to prevent changes to Gemfile and Gemfile.lock
   bundle config set --global frozen "true"; \
   # Configure bundle to not cache downloaded Gems
@@ -413,8 +416,8 @@ RUN \
   apt-get update \
   ; \
   apt-get install -y \
-  nginx \
   dialog \
+  nginx \
   openssh-server \
   ; \
   # Cleanup temporary files
@@ -426,9 +429,36 @@ RUN \
   mkdir -p /.ssh /root  \
   mkdir -p /run/sshd 
 
+ADD . /opt/mastodon/
+COPY ./bin/entrypoint /opt/mastodon/bin/entrypoint
+COPY ./bin/start-nginx /opt/mastodon/bin/start-nginx
+COPY ./bin/start-sshd /opt/mastodon/bin/start-sshd
+COPY ./bin/start-mastodon /opt/mastodon/bin/start-mastodon
+COPY ./bin/start-streaming /opt/mastodon/bin/start-streaming
+COPY ./bin/start-sidekiq /opt/mastodon/bin/start-sidekiq
+COPY ./bin/show-branding /opt/mastodon/bin/show-branding
+COPY ./bin/show-nginx-branding /opt/mastodon/bin/show-nginx-branding
+COPY ./bin/show-sshd-branding /opt/mastodon/bin/show-sshd-branding
+COPY ./bin/show-mastodon-branding /opt/mastodon/bin/show-mastodon-branding
+COPY ./bin/show-streaming-branding /opt/mastodon/bin/show-streaming-branding
+COPY ./bin/show-sidekiq-branding /opt/mastodon/bin/show-sidekiq-branding
+
+RUN \
+  chmod +x /opt/mastodon/bin/* && \
+  echo "include /config/nginx/nginx.conf;" > /etc/nginx/nginx.conf
+
 # Set the running user for resulting container
 # USER mastodon
 # Expose default Puma ports
 EXPOSE 3000 8080
+
+ENV PATH="/opt/mastodon/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin:${PATH}" \
+  RAILS_ENV="production" \
+  PROGRAM="mastodon"
+
+WORKDIR /opt/mastodon
+
 # Set container tini as default entry point
-ENTRYPOINT ["/opt/mastodon/bin/entrypoint", "mastodon"]
+# ENTRYPOINT ["/opt/mastodon/bin/entrypoint", "mastodon"]
+ENTRYPOINT [ "/usr/bin/tini", "--" ]
+CMD ["/opt/mastodon/bin/entrypoint", "mastodon"]

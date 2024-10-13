@@ -1,6 +1,6 @@
 #!/bin/bash
 
-/bin/bash show-separator
+/opt/mastodon/bin/show-separator
 
 /bin/echo "
 

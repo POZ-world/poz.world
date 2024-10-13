@@ -1,10 +1,7 @@
 #!/bin/bash
 # shellcheck shell=bash
 
-export RAILS_ENV=production
-export PATH="/opt/mastodon/bin:/usr/bin:/bin:${PATH}"
-
-/opt/mastodon/bin/show-sshd-branding
+bin/show-sshd-branding
 
 if /usr/bin/pgrep -f "sshd:" >/dev/null; then
     /bin/echo "Zombie sshd processes detected, sending SIGTERM"
@@ -18,4 +15,4 @@ if /usr/bin/pgrep -f "sshd:" >/dev/null; then
     /bin/sleep 1
 fi
 
-/usr/sbin/sshd -D
+/usr/sbin/sshd 

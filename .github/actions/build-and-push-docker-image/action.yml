@@ -39,6 +39,9 @@ inputs:
   docker-build-cloud-password:
     required: false
     description: The password to use when logging in to the Docker Cloud
+  docker-build-cloud-endpoint:
+    required: false
+    description: The endpoint to use when using Docker build cloud
 outputs:
   image:
     description: The image to push to the Azure Web App
@@ -58,6 +61,9 @@ runs:
       with:
         password: ${{ inputs.github-password }}
         azurecr-password: ${{ inputs.acr-password }}
+        docker-build-cloud-endpoint: ${{ inputs.docker-build-cloud-endpoint }}
+        docker-build-cloud-username: ${{ inputs.docker-build-cloud-username }}
+        docker-build-cloud-password: ${{ inputs.docker-build-cloud-password }}
 
     - name: Calculate "MASTODON_VERSION_METADATA"
       id: mastodon_version_metadata
@@ -67,20 +73,13 @@ runs:
         $GITHUB_SHA_TRUNCATED=$GITHUB_SHA.Substring(0, 8)
         Write-Output "::set-output name=MASTODON_VERSION_METADATA::$GITHUB_SHA_TRUNCATED"
 
-    - uses: thefringeninja/action-minver@2.0.0-preview1
+    - uses: poz-world/minver@main
       id: minver
       with:
-        # Optional. Specifies which part of the version to auto-increment.
         auto-increment: patch
-        # Optional. Sets custom build metadata for your semantic version.
-        # build-metadata: ${{ github.sha }}
-        # Optional. Specifies the default pre-release phase.
         default-pre-release-phase: preview
-        # Optional. Specifies the minimum version to use when no tags exist.
         minimum-major-minor: 0.0
-        # Optional. Specifies the prefix of the tags
         tag-prefix: ${{ inputs.tag-prefix }}
-        # Optional. Specifies the log level.
         verbosity: info
 
     - name: Docker meta

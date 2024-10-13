@@ -4,6 +4,7 @@ module InitialStateHelper
   include Pundit::Authorization
   include InlineSvg::ActionView::Helpers
   include ERB::Util
+
   def initial_state(params = {})
     state_params = {
       settings: {},

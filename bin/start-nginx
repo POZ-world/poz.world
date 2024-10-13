@@ -2,8 +2,8 @@
 # shellcheck shell=bash
 
 set -e
-export RAILS_ENV=production
-export PATH="/opt/mastodon/bin:/usr/bin:/bin:${PATH}"
+
+bin/show-nginx-branding
 
 if /usr/bin/pgrep -f "[n]ginx:" >/dev/null; then
     /bin/echo "Zombie nginx processes detected, sending SIGTERM"
@@ -18,4 +18,4 @@ if /usr/bin/pgrep -f "[n]ginx:" >/dev/null; then
 fi
 
 /bin/echo "**** Starting NGINX ****";
-/usr/sbin/nginx -g "daemon off;" 
+/usr/sbin/nginx 

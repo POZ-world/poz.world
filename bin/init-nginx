@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Strip "http://" or "https://" from CDN_HOST
+CLEAN_CDN_HOST=${CDN_HOST#http://}
+CLEAN_CDN_HOST=${CLEAN_CDN_HOST#https://}
+
+show-nginx-branding;
+
+/bin/echo "set \$cdn_host \"$CLEAN_CDN_HOST\";" > /config/nginx/conf.d/cdn_host.conf;
+/bin/echo "set \$streaming_host \"$STREAMING_HOST\";" > /config/nginx/conf.d/streaming_host.conf;

@@ -29,6 +29,9 @@ inputs:
   docker-build-cloud-password:
     required: false
     description: The password to use when logging in to the Docker Cloud
+  docker-build-cloud-endpoint:
+    required: false
+    description: The endpoint to use when using Docker build cloud
 
 runs:
   using: "composite"
@@ -37,12 +40,6 @@ runs:
       uses: docker/setup-qemu-action@v2
       with:
         platforms: all
-
-    - name: Set up Docker Buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v2
-      with:
-        platforms: linux/amd64,linux/arm64
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v3
@@ -64,3 +61,21 @@ runs:
         username: ${{ inputs.docker-build-cloud-username }}
         password: ${{ inputs.docker-build-cloud-password }}
       if: ${{ inputs.docker-build-cloud-username && inputs.docker-build-cloud-password }}
+
+    - name: Set up Docker Buildx
+      id: buildx-cloud
+      uses: docker/setup-buildx-action@v2
+      with:
+        platforms: linux/amd64,linux/arm64
+        driver: cloud
+        version: "lab:latest"
+        endpoint: ${{ inputs.docker-build-cloud-endpoint }}
+        install: true
+      if: ${{ inputs.docker-build-cloud-endpoint }}
+
+    - name: Set up Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+        platforms: linux/amd64,linux/arm64
+      if: ${{ !inputs.docker-build-cloud-endpoint }}
