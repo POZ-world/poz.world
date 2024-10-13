@@ -6,7 +6,7 @@ ruby '>= 3.3.4'
 gem 'propshaft'
 gem 'puma', '~> 6.3'
 gem 'rack', '~> 2.2.7'
-gem 'rails', '~> 7.1.4'
+gem 'rails', '~> 7.2.1'
 gem 'thor', '~> 1.2'
 
 gem 'dotenv'
@@ -27,7 +27,7 @@ gem 'ruby-vips', '~> 2.2', require: false
 gem 'active_model_serializers', '~> 0.10'
 gem 'addressable', '~> 2.8'
 gem 'bootsnap', '~> 1.18.0', require: false
-gem 'browser', '< 6' # https://github.com/fnando/browser/issues/543
+gem 'browser', '< 7' # https://github.com/fnando/browser/issues/543
 gem 'charlock_holmes', '~> 0.7.7'
 gem 'chewy', '~> 7.3'
 gem 'devise', '~> 4.9'
@@ -65,7 +65,7 @@ gem 'irb', '~> 1.14'
 gem 'kaminari', '~> 1.2'
 gem 'link_header', '~> 0.0'
 gem 'mario-redis-lock', '~> 1.2', require: 'redis_lock'
-gem 'mime-types', '~> 3.5.0', require: 'mime/types/columnar'
+gem 'mime-types', '~> 3.6.0', require: 'mime/types/columnar'
 gem 'mutex_m'
 gem 'nokogiri', '~> 1.15'
 gem 'oj', '~> 3.14'
@@ -109,7 +109,7 @@ group :opentelemetry do
   gem 'opentelemetry-exporter-otlp', '~> 0.29.0', require: false
   gem 'opentelemetry-instrumentation-active_job', '~> 0.7.1', require: false
   gem 'opentelemetry-instrumentation-active_model_serializers', '~> 0.20.1', require: false
-  gem 'opentelemetry-instrumentation-all', '~> 0.64.0', require: true
+  gem 'opentelemetry-instrumentation-all', '~> 0.66.0', require: true
   gem 'opentelemetry-instrumentation-concurrent_ruby', '~> 0.21.2', require: false
   gem 'opentelemetry-instrumentation-excon', '~> 0.22.0', require: false
   gem 'opentelemetry-instrumentation-faraday', '~> 0.24.1', require: false

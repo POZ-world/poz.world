@@ -36,7 +36,7 @@ jobs:
     runs-on: 'ubuntu-latest'
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       with:
         ref: ${{ github.ref }}
         
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - uses: ./.github/actions/build-and-push-docker-image
       id: build-streaming
       name: 'Build Streaming.poz.world'
@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/build-and-push-docker-image
         id: build-sidekiq
         name: 'Build Sidekiq.poz.world'
@@ -93,10 +93,10 @@ jobs:
       url: ${{ steps.deploy-to-thebackroom-life.webapp-url }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Deploy to Azure Web App
       id: deploy-to-poz-world
-      uses: azure/webapps-deploy@v3.0.1
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'pozworld'
         slot-name: 'production'
@@ -112,10 +112,10 @@ jobs:
       url: ${{ steps.deploy-to-poz-world-streaming.webapp-url }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Deploy to Azure Web App
       id: deploy-to-poz-world-streaming
-      uses: azure/webapps-deploy@v3.0.1
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'pozworld-streaming'
         slot-name: 'production'
@@ -131,10 +131,10 @@ jobs:
       url: ${{ steps.deploy-to-poz-world-sidekiq.webapp-url }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Deploy to Azure Web App
       id: deploy-to-poz-world-sidekiq
-      uses: azure/webapps-deploy@v3.0.1
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'pozworld-sidekiq'
         slot-name: 'production'

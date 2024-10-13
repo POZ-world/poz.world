@@ -31,10 +31,10 @@ jobs:
       id: repo-name
       run: echo "lowercase_repo=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-    - uses: actions/checkout@v4.2.0
+    - uses: actions/checkout@v4
 
     - name: Login to GitHub Container Registry
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: ghcr.io
         username: ${{ vars.USERNAME }}
@@ -60,7 +60,7 @@ jobs:
         # Remove the container
         docker rm $CONTAINER_NAME
 
-    - uses: LanceMcCarthy/Action-AzureBlobUpload@v3.1.5
+    - uses: LanceMcCarthy/Action-AzureBlobUpload@v3.2.0
       with:
         connection_string: ${{ env.CONNECTION_STRING }}
         container_name: ${{ env.CONTAINER_NAME }}
