@@ -79,7 +79,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Deploy to Azure Web App
       id: deploy-to-thebackroom-life
-      uses: azure/webapps-deploy@v3.0.2
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'thebackroomlife'
         slot-name: 'production'
@@ -98,7 +98,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Deploy to Azure Web App
       id: deploy-to-thebackroom-streaming
-      uses: azure/webapps-deploy@v3.0.2
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'thebackroomlife-streaming'
         slot-name: 'production'
@@ -117,7 +117,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Deploy to Azure Web App
       id: deploy-to-thebackroom-sidekiq
-      uses: azure/webapps-deploy@v3.0.2
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'thebackroomlife-sidekiq'
         slot-name: 'production'
