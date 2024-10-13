@@ -44,6 +44,9 @@ jobs:
         tag-prefix: pwv
         description: Your self-hosted social media platform for the HIV community
         dockerfile: Dockerfile
+        platforms: linux/amd64,linux/arm64
+        docker-build-cloud-username: ${{ secrets.DOCKER_BUILD_CLOUD_USERNAME }}
+        docker-build-cloud-password: ${{ secrets.DOCKER_BUILD_CLOUD_PASSWORD }}
   deploy:
     needs: build
     runs-on: ubuntu-latest

@@ -23,6 +23,12 @@ inputs:
   azurecr-password:
     required: true
     description: the token to use when logging in to the Azure container registry
+  docker-build-cloud-username:
+    required: false
+    description: The username to use when logging in to the Docker Cloud
+  docker-build-cloud-password:
+    required: false
+    description: The password to use when logging in to the Docker Cloud
 
 runs:
   using: "composite"
@@ -51,3 +57,10 @@ runs:
         registry: ${{ inputs.azurecr-registry }}.azurecr.io
         username: ${{ inputs.azurecr-username }}
         password: ${{ inputs.azurecr-password }}
+
+    - name: Login to Docker Cloud
+      uses: docker/login-action@v3
+      with:
+        username: ${{ inputs.docker-build-cloud-username }}
+        password: ${{ inputs.docker-build-cloud-password }}
+      if: ${{ inputs.docker-build-cloud-username && inputs.docker-build-cloud-password }}

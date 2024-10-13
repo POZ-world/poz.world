@@ -33,6 +33,12 @@ inputs:
     required: false
     default: linux/amd64
     description: The platform to build and deploy
+  docker-build-cloud-username:
+    required: false
+    description: The username to use when logging in to the Docker Cloud
+  docker-build-cloud-password:
+    required: false
+    description: The password to use when logging in to the Docker Cloud
 outputs:
   image:
     description: The image to push to the Azure Web App

@@ -29,7 +29,7 @@ class Api::Vnext::SettingsController < ApplicationController
       format.html { render html: MarkdownHelper.as_html(format(setting.value, domain: Rails.configuration.x.local_domain).to_s), content_type: 'application/x-setting+html' }
       format.json { render json: SettingWrapper.new(value: setting.value), content_type: 'application/setting+json' }
       format.text { render plain: setting.value, content_type: 'text/x-setting+plain' }
-    end unless setting.nil?
+    end
 
     if setting.nil?
       respond_to do |format|
@@ -37,8 +37,6 @@ class Api::Vnext::SettingsController < ApplicationController
         format.json { render json: { error: 'Setting not found' }, status: 404 }
         format.text { render plain: 'Setting not found', status: 404 }
       end
-    else
-      
     end
   end
 end

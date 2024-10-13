@@ -37,6 +37,12 @@ inputs:
   publish-profile:
     required: true
     description: The publish profile to use when deploying to Azure Web Apps
+  docker-build-cloud-username:
+    required: false
+    description: The username to use when logging in to the Docker Cloud
+  docker-build-cloud-password:
+    required: false
+    description: The password to use when logging in to the Docker Cloud
 outputs:
   image:
     description: The image to push to the Azure Web App
