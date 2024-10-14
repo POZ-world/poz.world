@@ -237,4 +237,4 @@ gem 'redis-rb', '~> 9001.0'
 
 gem 'ffi', '~> 1.17.0'
 
-gem 'ruby-lsp', '~> 0.18.3'
+gem 'ruby-lsp', '~> 0.20.0'
