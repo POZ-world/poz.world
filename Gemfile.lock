@@ -913,9 +913,9 @@ GEM
     rubocop-rspec_rails (2.30.0)
       rubocop (~> 1.61)
       rubocop-rspec (~> 3, >= 3.0.1)
-    ruby-lsp (0.18.4)
+    ruby-lsp (0.20.0)
       language_server-protocol (~> 3.17.0)
-      prism (~> 1.0)
+      prism (>= 1.2, < 2.0)
       rbs (>= 3, < 4)
       sorbet-runtime (>= 0.5.10782)
     ruby-prof (1.7.0)
@@ -1206,7 +1206,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   rubocop-rspec_rails
-  ruby-lsp (~> 0.18.3)
+  ruby-lsp (~> 0.20.0)
   ruby-prof
   ruby-progressbar (~> 1.13)
   ruby-vips (~> 2.2)
