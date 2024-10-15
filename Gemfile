@@ -5,7 +5,7 @@ ruby '>= 3.3.4'
 
 gem 'propshaft'
 gem 'puma', '~> 6.3'
-gem 'rack', '~> 2.2.7'
+gem 'rack', '~> 2.2.10'
 gem 'rails', '~> 7.2.1'
 gem 'thor', '~> 1.2'
 
@@ -237,4 +237,4 @@ gem 'redis-rb', '~> 9001.0'
 
 gem 'ffi', '~> 1.17.0'
 
-gem 'ruby-lsp', '~> 0.18.3'
+gem 'ruby-lsp', '~> 0.20.0'
