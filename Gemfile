@@ -5,7 +5,7 @@ ruby '>= 3.3.4'
 
 gem 'propshaft'
 gem 'puma', '~> 6.3'
-gem 'rack', '~> 3.1.7'
+gem 'rack', '~> 3.1.8'
 gem 'rails', '~> 7.2.1'
 gem 'thor', '~> 1.2'
 
