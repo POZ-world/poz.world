@@ -9,9 +9,11 @@ class Form::AdminSettings
     site_contact_username
     site_contact_email
     site_title
+    site_tagline
     site_short_description
     site_extended_description
     site_terms
+    site_privacy_policy
     registrations_mode
     closed_registrations_message
     timeline_preview

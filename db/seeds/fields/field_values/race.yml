@@ -1,0 +1,51 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected a race (yet)"
+  default: true
+  order: 0
+- display_value: 'white'
+  value: 'white'
+  description: "{{possessive}} origins are in the original peoples of Europe"
+  order: 1
+  default: false
+- display_value: 'black'
+  value: 'black'
+  description: "{{possessive}} ancestry is from any of the black racial groups of Africa"
+  order: 2
+  default: false
+- display_value: 'asian'
+  value: 'asian'
+  description: "{{possessive}} ancestry is generally Asian (e.g, Chinese, Korean, Japanese, Mongolian)"
+  order: 3
+  default: false
+- display_value: 'hispanic'
+  value: 'hispanic'
+  description: "{{possessive}} ancestry is generally from Latin America or Spain"
+  order: 4
+  default: false
+- display_value: 'american indian / alaskan native'
+  value: 'american indian / alaskan native'
+  description: "{{possessive}} ancestry is ultimately Asian but {{possessive}} ancestors came to the United States before Columbus"
+  order: 5
+  default: false
+- display_value: 'indian'
+  value: 'indian'
+  description: "{{possessive}} ancestry is generally from the Indian subcontinent"
+  order: 6
+  default: false
+- display_value: 'middle eastern'
+  value: 'middle eastern'
+  description: "{{possessive}} origins are in the Middle East"
+  order: 7
+  default: false
+- display_value: 'native hawaiian/pacific islander'
+  value: 'native hawaiian/pacific islander'
+  description: "{{subject}} {{has}} origins in any of the original peoples of Hawaii, Guam, Samoa, or other Pacific Islands (and don’t skimp on the rum!)"
+  order: 8
+  default: false
+- display_value: 'other'
+  value: 'other'
+  description: "Some other racial makeup"
+  order: 9
+  default: false

@@ -1,0 +1,33 @@
+- content_for :page_title do
+  = t('faqs.index.title')
+
+- content_for :heading do
+  %h2= t('faqs.index.title')
+  = render partial: 'admin/settings/shared/links'
+
+- content_for :heading_actions do
+  = link_to t('faqs.new.title'), admin_new_faq_path, class: 'button'
+
+- if @faqs.empty?
+  .muted-hint.center-text= t 'faqs.index.empty'
+- else
+  .faqs-list
+    - @faqs.each do |faq|
+      .faq-item
+        .faq-question
+          %strong= faq.question
+        .faq-answer
+          = faq.answer
+
+
+%h1 FAQs
+= link_to t('faqs.new'), admin_new_faq_path
+
+%ul
+  - @faqs.each do |faq|
+    %li
+      = link_to faq.question, admin_faq_path(faq)
+      | 
+      = link_to 'Edit', edit_admin_faq_path(faq)
+      | 
+      = link_to 'Destroy', admin_faq_path(faq), method: :delete, data: { confirm: t('faqs.delete_confirmation') }

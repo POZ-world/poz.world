@@ -5,15 +5,18 @@ module Mastodon
     module_function
 
     def major
-      4
+      # 4
+      ENV.fetch('MASTODON_VERSION_MAJOR', '4').to_i
     end
 
     def minor
-      4
+      # 3
+      ENV.fetch('MASTODON_VERSION_MINOR', '3').to_i
     end
 
     def patch
-      0
+      # 0
+      ENV.fetch('MASTODON_VERSION_PATCH', '0').to_i
     end
 
     def default_prerelease

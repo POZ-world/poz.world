@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module ThemeHelper
+  include ApplicationHelper
+
   def theme_style_tags(theme)
     if theme == 'system'
       ''.html_safe.tap do |tags|
@@ -21,6 +23,12 @@ module ThemeHelper
     else
       tag.meta name: 'theme-color', content: theme_color_for(theme)
     end
+  end
+
+  def theme_dark_light(theme = current_theme)
+    ['mastodon-light'].include?(theme) ? 'light' : 'dark'
+  rescue
+    'dark'
   end
 
   private

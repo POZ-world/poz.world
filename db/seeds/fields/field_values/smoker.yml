@@ -1,0 +1,36 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected whether {{subject}} {{verb:smoke}}s (yet)"
+  default: true
+  order: 0
+- display_value: 'yes, heavily'
+  value: 'heavily'
+  description: '{{subject}} {{verb:smoke}} a lot'
+  order: 1
+  default: false
+- display_value: 'yes'
+  value: 'yes'
+  description: '{{subject}} {{verb:smoke}}'
+  order: 2
+  default: false
+- display_value: 'socially'
+  value: 'socially'
+  description: "{{subject}} {{verb:smoke}} when {{subject}} {{be}} out with friends"
+  order: 3
+  default: false
+- display_value: 'quitting'
+  value: 'quitting'
+  description: '{{subject}} {{be}} trying to quit smoking'
+  order: 4
+  default: false
+- display_value: 'no'
+  value: 'no'
+  description: "{{subject}} {{does}}n't smoke"
+  order: 5
+  default: false
+- display_value: 'fuck no'
+  value: 'fuck-no'
+  description: '{{subject}} {{have}} never touched a cigarette in {{possessive}} life'
+  order: 6
+  default: false

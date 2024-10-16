@@ -1,0 +1,19 @@
+- if @faq.errors.any?
+  #error_explanation
+    %h2= pluralize(@faq.errors.count, "error") + " prohibited this FAQ from being saved:"
+    %ul
+      - @faq.errors.full_messages.each do |message|
+        %li= message
+
+= form_with(model: @faq, local: true) do |form|
+  .field
+    = form.label :question
+    = form.text_field :question
+
+  .field
+    = form.label :answer
+    = form.text_area :answer
+
+  .actions
+    = form.submit
+  = link_to 'Back', admin_faq_path

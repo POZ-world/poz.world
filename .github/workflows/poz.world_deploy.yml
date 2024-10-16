@@ -1,0 +1,142 @@
+# 
+# thebackroombranding_thebackroomlife copy.yml
+#     Created: 2024-09-14T13:26:53-04:00
+#    Modified: 2024-09-14T13:26:53-04:00
+#      Author: Justin Paul Chase <justin@justinwritescode.com>
+#   Copyright: © 2024 Justin Paul Chase, All Rights Reserved
+#     License: MIT (https://opensource.org/licenses/MIT)
+# 
+
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy container app to poz.world
+
+on:
+  push:
+    branches:
+      - poz.world
+    tags:
+      - pwv*
+  workflow_dispatch:
+
+concurrency: 
+  group: Continuous Deployment - POZ.world
+  cancel-in-progress: true
+
+permissions: write-all
+
+env:
+  MASTODON_VERSION_METADATA: ${{ github.sha }}
+  AZURE_STORAGE_CONNECTION_STRING: "${{ secrets.POZ_WORLD_AZURE_STORAGE_CONNECTION_STRING }}"
+  AZURE_STORAGE_CONTAINER_NAME: "cdn"
+
+jobs:
+  build-poz-world:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref }}
+        
+    - uses: ./.github/actions/build-and-push-docker-image
+      id: build-poz-world
+      name: 'Build poz.world'
+      with:
+        github-password: ${{ github.token }} 
+        acr-password: ${{ secrets.AZURECR_KEY }}
+        dockerfile: ./Dockerfile.poz.world
+        tag: poz.world
+        tag-prefix: pwv
+        description: Mastodon image for POZ.world
+
+  build-poz-world-streaming:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/actions/build-and-push-docker-image
+      id: build-streaming
+      name: 'Build Streaming.poz.world'
+      with:
+        github-password: ${{ github.token }} 
+        acr-password: ${{ secrets.AZURECR_KEY }}
+        dockerfile: ./Dockerfile.streaming.poz.world
+        tag: streaming.poz.world
+        tag-prefix: pwv
+        description: Streaming API for POZ.world
+
+  build-poz-world-sidekiq:
+    needs: build-poz-world
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/build-and-push-docker-image
+        id: build-sidekiq
+        name: 'Build Sidekiq.poz.world'
+        with:
+          github-password: ${{ github.token }} 
+          acr-password: ${{ secrets.AZURECR_KEY }}
+          dockerfile: ./Dockerfile.sidekiq.poz.world
+          tag: sidekiq.poz.world
+          tag-prefix: pwv
+          description: Sidekiq for POZ.world
+    
+  deploy-to-poz-world:
+    runs-on: ubuntu-latest
+    needs: 
+      - build-poz-world
+    environment:
+      name: 'poz.world'
+      url: ${{ steps.deploy-to-thebackroom-life.webapp-url }}
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Deploy to Azure Web App
+      id: deploy-to-poz-world
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'pozworld'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_POZZ_WORLD }}
+        images: ${{ steps.build-mastodon.outputs.image }}
+
+  deploy-to-poz-world-streaming:
+    runs-on: ubuntu-latest
+    needs: 
+      - build-poz-world-streaming
+    environment:
+      name: 'streaming.poz.world'
+      url: ${{ steps.deploy-to-poz-world-streaming.webapp-url }}
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Deploy to Azure Web App
+      id: deploy-to-poz-world-streaming
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'pozworld-streaming'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_POZZ_WORLD_STREAMING }}
+        images: ${{ steps.build-poz-world-streaming.outputs.image }}
+
+  deploy-to-poz-world-sidekiq:
+    runs-on: ubuntu-latest
+    needs: 
+      - build-poz-world-sidekiq
+    environment:
+      name: 'sidekiq.poz.world'
+      url: ${{ steps.deploy-to-poz-world-sidekiq.webapp-url }}
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Deploy to Azure Web App
+      id: deploy-to-poz-world-sidekiq
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'pozworld-sidekiq'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_POZZ_WORLD_SIDEKIQ }}
+        images: ${{ steps.build-poz-world-sidekiq.outputs.image }}

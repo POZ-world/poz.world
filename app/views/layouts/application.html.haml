@@ -1,15 +1,18 @@
 !!! 5
-%html{ lang: I18n.locale }
+%html{ lang: I18n.locale, 'data-bs-theme': theme_dark_light,'data-pozworld-current-theme': current_theme }
   %head
     %meta{ charset: 'utf-8' }/
     %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1' }/
 
+    = bootstrap_stylesheet_tag
+    = environment_script_tag
+    = identify_user_javascript_tag
+    = google_tag_manager_script_tag
+    = bootstrap_icons_stylesheet_link_tag
+
     - if cdn_host?
       %link{ rel: 'dns-prefetch', href: cdn_host }/
       %meta{ name: 'cdn-host', content: cdn_host }/
-
-    = identify_user_javascript
-    = google_tag_manager_script_tag
 
     - if storage_host?
       %link{ rel: 'dns-prefetch', href: storage_host }/
@@ -48,3 +51,5 @@
     .logo-resources{ 'tabindex' => '-1', 'inert' => true, 'aria-hidden' => 'true' }
       = inline_svg_tag 'logo-symbol-icon.svg'
       = inline_svg_tag 'logo-symbol-wordmark.svg'
+
+  = bootstrap_javascript_tag

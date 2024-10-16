@@ -1,0 +1,51 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build & Deploy - pozworld-streaming
+
+concurrency: 
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: 'ubuntu-latest'
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: ./.github/actions/build-and-push-docker-image
+      with:
+        git-token: ${{ secrets.HIVCHASER_PACKAGES_PAT }}
+        github-password: ${{ secrets.HIVCHASER_PACKAGES_PAT }}
+        username: ${{ github.repository_owner }}
+        acr-password: ${{ secrets.AZURECR_KEY }}
+        tag: |
+          ghcr.io/poz-world/streaming.poz.world
+          thebackroomlife.azurecr.io/streaming.poz.world
+        tag-prefix: pwv
+        description: Streaming server for your self-hosted social media platform for the HIV community
+        dockerfile: Dockerfile.streaming.poz.world
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'POZ.world Streaming Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: 'pozworld-streaming'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.POZ_WORLD_STREAMING_PUBLISH_PROFILE }}
+        images: 'ghcr.io/poz-world/streaming.poz.world:${{ github.sha }}'

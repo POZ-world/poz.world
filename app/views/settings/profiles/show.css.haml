@@ -1,0 +1,42 @@
+.label-input-field {
+  width: 33.33%;
+}
+
+.field-value {
+  width: 75%;
+}
+
+.field-label-with-tooltip, .field-value, .field-actions {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.field-actions {
+  width: 10%;
+}
+
+.delete-field {
+  cursor: pointer;
+}
+
+.delete-field-checkbox:checked + .delete-icon {
+  display: none;
+}
+
+.delete-field-checkbox:not(:checked) + .restore-icon {
+  display: none;
+}
+
+.delete-field-checkbox:not(:checked) + .delete-icon {
+  display: inline;
+}
+
+.delete-field-checkbox:checked + .restore-icon {
+  display: inline;
+}
+
+.add-field {
+  display: block;
+  margin-top: 10px;
+  cursor: pointer;
+}

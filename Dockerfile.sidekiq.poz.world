@@ -1,0 +1,29 @@
+ARG TAG=latest \
+    AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}  \
+    AZURE_STORAGE_CONTAINER_NAME=${AZURE_STORAGE_CONTAINER_NAME} \
+    MASTODON_VERSION_METADATA=${MASTODON_VERSION_METADATA:-''} \
+    MASTODON_VERSION_PRERELEASE=${MASTODON_VERSION_PRERELEASE:-'nightly'}
+
+FROM ghcr.io/poz-world/poz.world:${TAG} AS base
+
+ENV TZ=EST5EDT \
+    WEBSITE_TIME_ZONE=EST5EDT \
+    PATH="${PATH}:/opt/ruby/bin:/opt/mastodon/bin" \
+    RAILS_ENV=production \
+    NODE_ENV=production \
+    AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}  \
+    AZURE_STORAGE_CONTAINER_NAME=${AZURE_STORAGE_CONTAINER_NAME} \
+    MASTODON_VERSION_METADATA=${MASTODON_VERSION_METADATA} \
+    MASTODON_VERSION_PRERELEASE=${MASTODON_VERSION_PRERELEASE}
+
+SHELL ["/bin/bash", "-o", "pipefail", "-o", "errexit", "-c"]
+
+EXPOSE 8082 2222
+
+WORKDIR /opt/mastodon/bin
+
+ENTRYPOINT [ "/bin/bash", "/opt/mastodon/bin/start-sidekiq" ]
+
+LABEL org.opencontainers.image.description="Sidekiq for POZ.world"
+LABEL org.opencontainers.image.source="https://github.com/justinwritescode/mastodon"
+LABEL org.opencontainers.image.licenses="MIT"

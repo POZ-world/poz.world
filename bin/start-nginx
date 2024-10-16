@@ -1,0 +1,21 @@
+#!/bin/bash
+# shellcheck shell=bash
+
+set -e
+
+bin/show-nginx-branding
+
+if /usr/bin/pgrep -f "[n]ginx:" >/dev/null; then
+    /bin/echo "Zombie nginx processes detected, sending SIGTERM"
+    /usr/bin/pkill -ef [n]ginx:
+    /bin/sleep 1
+fi
+
+if /usr/bin/pgrep -f "[n]ginx:" >/dev/null; then
+    /bin/echo "Zombie nginx processes still active, sending SIGKILL"
+    /usr/bin/pkill -9 -ef [n]ginx:
+    /bin/sleep 1
+fi
+
+/bin/echo "**** Starting NGINX ****";
+/usr/sbin/nginx 

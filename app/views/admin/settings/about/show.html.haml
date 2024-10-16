@@ -20,6 +20,10 @@
       = t 'admin.settings.about.rules_hint'
       = link_to t('admin.settings.about.manage_rules'), admin_rules_path
 
+    %p.hint
+      = t 'admin.settings.about.faqs_hint'
+      = link_to t('admin.settings.about.manage_faqs'), admin_faqs_path
+
   .fields-row
     .fields-row__column.fields-row__column-6.fields-group
       = f.input :show_domain_blocks,
@@ -41,6 +45,12 @@
   .fields-group
     = f.input :status_page_url,
               input_html: { placeholder: "https://status.#{Rails.configuration.x.local_domain}" },
+              wrapper: :with_block_label
+
+  .fields-group
+    = f.input :site_privacy_policy,
+              as: :text,
+              input_html: { rows: 8 },
               wrapper: :with_block_label
 
   .fields-group

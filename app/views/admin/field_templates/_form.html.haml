@@ -1,0 +1,29 @@
+= form_with(model: [:admin, @field_template], local: true) do |form|
+  - if @field_template.errors.any?
+    #error_explanation
+      .alert.alert-danger
+        %h4= pluralize(@field_template.errors.count, "error")
+        %ul
+          - @field_template.errors.full_messages.each do |message|
+            %li= message
+
+  .mb-3
+    = form.label :name, class: 'form-label'
+    = form.text_field :name, class: 'form-control'
+
+  .mb-3
+    = form.label :description, class: 'form-label'
+    = form.text_area :description, class: 'form-control'
+
+  .mb-3
+    = form.label :field_type, class: 'form-label'
+    = form.select :field_type, FieldTemplate.field_types.keys.map { |w| [w.humanize, w] }, {}, class: 'form-control'
+
+  .mb-3
+    = form.label :multiple, class: 'form-label'
+    = form.check_box :multiple, class: 'form-check-input'
+
+  .actions
+    = form.submit class: 'btn btn-primary'
+    |
+    = link_to 'Back', admin_field_templates_path, method: :get, class: 'btn btn-secondary'

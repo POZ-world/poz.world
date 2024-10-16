@@ -1,0 +1,60 @@
+---
+- value: null
+  display_value: "Unknown/Untested"
+  description: "{{subject}} {{have}} an unknown or untested viral load"
+  order: 0
+  default: false
+
+- value: 20
+  display_value: "Undetectable (e.g., <20 copies/mL)"
+  description: "{{subject}} {{have}} a viral load less than 20 copies/mL"
+  order: 1
+  default: false
+
+- value: 200
+  display_value: "20 - 200 copies/mL"
+  description: "{{subject}} {{have}} a viral load between 20 and 200 copies/mL"
+  order: 2
+  default: false
+
+- value: 1000
+  display_value: "201 - 1,000 copies/mL"
+  description: "{{subject}} {{have}} a viral load between 201 and 1,000 copies/mL"
+  order: 3
+  default: false
+
+- value: 10000
+  display_value: "1,001 - 10,000 copies/mL"
+  description: "{{subject}} {{have}} a viral load between 1,001 and 10,000 copies/mL"
+  order: 4
+  default: false
+
+- value: 50000
+  display_value: "10,001 - 50,000 copies/mL"
+  description: "{{subject}} {{have}} a viral load between 10,001 and 50,000 copies/mL"
+  order: 5
+  default: false
+
+- value: 100000
+  display_value: "50,001 - 100,000 copies/mL"
+  description: "{{subject}} {{have}} a viral load between 50,001 and 100,000 copies/mL"
+  order: 6
+  default: false
+
+- value: 500000
+  display_value: "100,001 - 500,000 copies/mL"
+  description: "{{subject}} {{have}} a viral load between 100,001 and 500,000 copies/mL"
+  order: 7
+  default: false
+
+- value: 1000000
+  display_value: "500,001 - 1,000,000 copies/mL"
+  description: "{{subject}} {{have}} a viral load between 500,001 and 1,000,000 copies/mL"
+  order: 8
+  default: false
+
+- value: 1000001
+  display_value: ">1,000,001 copies/mL"
+  description: "{{subject}} {{have}} a viral load greater than 1,000,001 copies/mL"
+  order: 9
+  default: false

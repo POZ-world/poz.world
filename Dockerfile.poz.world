@@ -1,0 +1,249 @@
+ARG TAG=nightly \
+    AZURE_STORAGE_CONNECTION_STRING=''  \
+    AZURE_STORAGE_CONTAINER_NAME='' \
+    MASTODON_VERSION_METADATA='' \
+    MASTODON_VERSION_PRERELEASE='nightly' \
+    CI='false' \
+    RAILS_SERVE_STATIC_FILES='true'
+
+ARG RUBY_VERSION="3.3.5"
+# # Node version to use in base image, change with [--build-arg NODE_MAJOR_VERSION="20"]
+# renovate: datasource=node-version depName=node
+ARG NODE_MAJOR_VERSION="22"
+# Debian image to use for base image, change with [--build-arg DEBIAN_VERSION="bookworm"]
+ARG DEBIAN_VERSION="bookworm"
+# Node image to use for base image based on combined variables (ex: 20-bookworm-slim)
+FROM docker.io/node:${NODE_MAJOR_VERSION}-${DEBIAN_VERSION}-slim AS node
+
+FROM docker.io/ruby:${RUBY_VERSION}-slim-${DEBIAN_VERSION} AS ruby
+
+FROM ghcr.io/mastodon/mastodon:${TAG} AS base
+
+USER root
+
+# Install bash if not already available
+RUN apt-get update && apt-get install -y bash
+
+SHELL ["/bin/bash", "-o", "pipefail", "-o", "errexit", "-c"]
+
+ENV PATH=/opt/mastodon/bin:/opt/mastodon/vendor/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    BUNDLE_APP_CONFIG=/opt/mastodon/vendor/bundle \
+    BUNDLE_PATH=/opt/mastodon/vendor/bundle \
+    BUNDLE_BIN=/opt/mastodon/vendor/bundle/bin \
+    BUNDLE_SILENCE_ROOT_WARNING=1 \
+    BUNDLE_JOBS=4 \
+    BUNDLE_RETRY=3 \
+    BUNDLE_DISABLE_VERSION_CHECK=1 \
+    BUNDLE_GEMFILE=/opt/mastodon/Gemfile \
+    GEM_HOME=/opt/mastodon/vendor/bundle \
+    GEM_PATH=/opt/mastodon/vendor/bundle \
+    BUNDLER_VERSION=2.5.21 \
+    RUBYOPT=-W:no-deprecated \
+    RUBY_VERSION=${RUBY_VERSION:-'3.3.5'} \
+    NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION:-'22'} \
+    DEBIAN_VERSION=${DEBIAN_VERSION:-'bookworm'} \
+    BIND=0.0.0.0
+
+ENV TZ=EST5EDT \
+    WEBSITE_TIME_ZONE=EST5EDT \
+    # PATH="${PATH}:/opt/ruby/bin:/opt/mastodon/bin" \
+    RAILS_ENV=production \
+    NODE_ENV=production \
+    AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING:-''}  \
+    AZURE_STORAGE_CONTAINER_NAME=${AZURE_STORAGE_CONTAINER_NAME:-''} \
+    MASTODON_VERSION_METADATA=${MASTODON_VERSION_METADATA:-''} \
+    MASTODON_VERSION_PRERELEASE=${MASTODON_VERSION_PRERELEASE:-''} \
+    CI=${CI:-'true'}
+
+RUN mkdir -p /app;
+RUN mkdir -p /run/sshd;
+RUN mkdir -p /usr/local/nvm
+RUN ln -s /opt/mastodon /opt/mastodon;
+RUN apt-get update;
+RUN apt-get install -y --no-install-recommends dialog;
+RUN apt-get install -y --no-install-recommends \
+    openssh-server \
+    nginx \
+    build-essential \ 
+    libssl-dev \
+    git \
+    gnupg \
+    libicu-dev \
+    libidn11-dev \
+    libpq-dev \
+    systemd && \
+    echo "root:Docker!" | chpasswd 
+
+# ENV NVM_DIR=/usr/local/nvm
+# ENV NODE_VERSION=22
+# ENV NVM_VERSION=0.40.1
+
+# # install nvm
+# # https://github.com/creationix/nvm#install-script
+# RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v${NVM_VERSION}/install.sh | bash
+
+# # install node and npm
+# RUN source $NVM_DIR/nvm.sh \
+#     && nvm install $NODE_VERSION \
+#     && nvm alias default $NODE_VERSION \
+#     && nvm use default
+
+# # add node and npm to path so the commands are available
+# ENV NODE_PATH=$NVM_DIR/v$NODE_VERSION/lib/node_modules
+# ENV PATH=$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+WORKDIR /opt/mastodon
+
+EXPOSE 8080 2222
+
+RUN \ 
+    rm -rf /usr/bin/bundle && \
+    ln -s /opt/mastodon/bin/bundle /usr/bin/bundle;
+
+COPY ./root /
+COPY . /opt/mastodon/
+COPY config /config
+
+RUN \ 
+    mkdir -p vendor/bundle && \
+    gem install bundler -v $BUNDLER_VERSION && \
+    bundle clean --force && \
+    # Configure bundle to prevent changes to Gemfile and Gemfile.lock
+    bundle config set --global frozen "true"; \
+    # Configure bundle to not cache downloaded Gems
+    bundle config set --global cache_all "false"; \
+    # Configure bundle to only process production Gems
+    bundle config set --local without "development test"; \
+    # Configure bundle to not warn about root user
+    bundle config set silence_root_warning "true"; \
+    bundle config set --global path $(readlink -f "vendor/bundle"); \
+    # Download and install required Gems
+    bundle install -j"$(nproc)"
+# Use Ruby on Rails to create Mastodon assets
+
+# Create temporary assets build layer from build layer
+FROM base AS precompiler
+
+ARG TAG=nightly \
+    AZURE_STORAGE_CONNECTION_STRING=''  \
+    AZURE_STORAGE_CONTAINER_NAME='' \
+    MASTODON_VERSION_METADATA='' \
+    MASTODON_VERSION_PRERELEASE='nightly' \
+    CI='false' \
+    RAILS_SERVE_STATIC_FILES='true'
+
+ENV PATH=/opt/mastodon/bin:/opt/mastodon/vendor/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    BUNDLE_APP_CONFIG=/opt/mastodon/vendor/bundle \
+    BUNDLE_PATH=/opt/mastodon/vendor/bundle \
+    BUNDLE_BIN=/opt/mastodon/vendor/bundle/bin \
+    BUNDLE_SILENCE_ROOT_WARNING=1 \
+    BUNDLE_JOBS=4 \
+    BUNDLE_RETRY=3 \
+    BUNDLE_DISABLE_VERSION_CHECK=1 \
+    BUNDLE_GEMFILE=/opt/mastodon/Gemfile \
+    GEM_HOME=/opt/mastodon/vendor/bundle \
+    GEM_PATH=/opt/mastodon/vendor/bundle \
+    BUNDLER_VERSION=2.5.21 \
+    RUBYOPT=-W:no-deprecated \
+    RUBY_VERSION=${RUBY_VERSION:-'3.3.5'} \
+    NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION:-'22'} \
+    DEBIAN_VERSION=${DEBIAN_VERSION:-'bookworm'} \
+    BIND=0.0.0.0
+
+ENV TZ=EST5EDT \
+    WEBSITE_TIME_ZONE=EST5EDT \
+    # PATH="${PATH}:/opt/ruby/bin:/opt/mastodon/bin" \
+    RAILS_ENV=production \
+    NODE_ENV=production \
+    AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING:-''}  \
+    AZURE_STORAGE_CONTAINER_NAME=${AZURE_STORAGE_CONTAINER_NAME:-''} \
+    MASTODON_VERSION_METADATA=${MASTODON_VERSION_METADATA:-''} \
+    MASTODON_VERSION_PRERELEASE=${MASTODON_VERSION_PRERELEASE:-''} \
+    CI=${CI:-'true'}
+
+ARG YARN_VERSION="4.5.0"
+
+# Copy Mastodon sources into precompiler layer
+COPY . /opt/mastodon/
+
+COPY --from=node /usr/local/bin /usr/local/bin
+COPY --from=node /usr/local/lib /usr/local/lib
+COPY ./.yarn/releases/yarn-${YARN_VERSION:-'4.5.0'}.cjs /usr/local/bin/yarn
+
+# hadolint ignore=DL3008
+RUN \
+    --mount=type=cache,id=corepack-cache-${TARGETPLATFORM:-'linux/amd64'},target=/usr/local/share/.cache/corepack,sharing=locked \
+    --mount=type=cache,id=yarn-cache-${TARGETPLATFORM:-'linux/amd64'},target=/usr/local/share/.cache/yarn,sharing=locked \
+    # Install Node packages
+    yarn workspaces focus --production @poz-world/poz.world;
+
+ARG TARGETPLATFORM
+
+ENV SECRET_KEY_BASE_DUMMY=1
+
+RUN \
+    # ldconfig; \
+    # Use Ruby on Rails to create Mastodon assets
+    /opt/mastodon/bin/bundle exec rake assets:precompile; \
+    # Cleanup temporary files
+    rm -fr /opt/mastodon/tmp;
+
+FROM base AS mastodon
+
+ARG TAG=nightly \
+    AZURE_STORAGE_CONNECTION_STRING=''  \
+    AZURE_STORAGE_CONTAINER_NAME='' \
+    MASTODON_VERSION_METADATA='' \
+    MASTODON_VERSION_PRERELEASE='nightly' \
+    CI='false' \
+    RAILS_SERVE_STATIC_FILES='true'
+
+ENV PATH=/opt/mastodon/bin:/opt/mastodon/vendor/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    BUNDLE_APP_CONFIG=/opt/mastodon/vendor/bundle \
+    BUNDLE_PATH=/opt/mastodon/vendor/bundle \
+    BUNDLE_BIN=/opt/mastodon/vendor/bundle/bin \
+    BUNDLE_SILENCE_ROOT_WARNING=1 \
+    BUNDLE_JOBS=4 \
+    BUNDLE_RETRY=3 \
+    BUNDLE_DISABLE_VERSION_CHECK=1 \
+    BUNDLE_GEMFILE=/opt/mastodon/Gemfile \
+    GEM_HOME=/opt/mastodon/vendor/bundle \
+    GEM_PATH=/opt/mastodon/vendor/bundle \
+    BUNDLER_VERSION=2.5.21 \
+    RUBYOPT=-W:no-deprecated \
+    RUBY_VERSION=${RUBY_VERSION:-'3.3.5'} \
+    NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION:-'22'} \
+    DEBIAN_VERSION=${DEBIAN_VERSION:-'bookwork'} \
+    BIND=0.0.0.0
+
+ENV TZ=EST5EDT \
+    WEBSITE_TIME_ZONE=EST5EDT \
+    # PATH="${PATH}:/opt/ruby/bin:/opt/mastodon/bin" \
+    RAILS_ENV=production \
+    NODE_ENV=production \
+    AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING:-''}  \
+    AZURE_STORAGE_CONTAINER_NAME=${AZURE_STORAGE_CONTAINER_NAME:-''} \
+    MASTODON_VERSION_METADATA=${MASTODON_VERSION_METADATA:-''} \
+    MASTODON_VERSION_PRERELEASE=${MASTODON_VERSION_PRERELEASE:-''} \
+    CI=${CI:-'true'}
+
+COPY --from=precompiler /opt/mastodon/public /opt/mastodon/public
+
+RUN \
+    mkdir -p /var/log/supervisor && \
+    mkdir -p /var/log/nginx && \
+    mkdir -p /var/log/sshd && \
+    mkdir -p /var/log/sidekiq && \
+    mkdir -p /var/log/streaming && \
+    mkdir -p /root 
+
+COPY ./root /
+COPY ./dist /etc/systemd/system/
+
+RUN chmod +x /opt/mastodon/bin/*
+
+ENTRYPOINT ["/opt/mastodon/bin/entrypoint", "mastodon"]
+
+LABEL org.opencontainers.image.description="Modifications to the base image for the site POZ.world"
+LABEL org.opencontainers.image.source="https://github.com/poz-world/poz.world"
+LABEL org.opencontainers.image.licenses="MIT"

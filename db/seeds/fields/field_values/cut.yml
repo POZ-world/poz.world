@@ -1,0 +1,25 @@
+# 
+# former-chaser copy.yml
+#     Created: 2024-09-24T19:06:33-04:00
+#    Modified: 2024-09-24T19:06:33-04:00
+#      Author: Justin Paul Chase <justin@justinwritescode.com>
+#   Copyright: © 2024 Justin Paul Chase, All Rights Reserved
+#     License: MIT (https://opensource.org/licenses/MIT)
+# 
+
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected whether {{subject}} {{be:past}} the victim of infant male genital mutliation (yet)"
+  default: true
+  order: 0
+- display_value: 'yes'
+  value: true
+  description: "yes {{subject}} was a victim of infant male genital mutliation"
+  order: 1
+  default: false
+- display_value: "no"
+  value: false
+  description: "no {{subject}} was not a victim of infant male genital mutliation"
+  order: 2
+  default: false

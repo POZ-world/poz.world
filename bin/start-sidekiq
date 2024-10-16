@@ -1,0 +1,31 @@
+#!/bin/bash
+# shellcheck shell=bash
+
+
+if [[ -n ${SIDEKIQ_THREADS} ]]; then
+    SIDEKIQ_THREADS=$(/usr/bin/printf '%d' "${SIDEKIQ_THREADS}")
+else
+    SIDEKIQ_THREADS=$(/usr/bin/printf '%d' 5)
+fi
+
+show-sidekiq-branding;
+
+start-sshd 
+start-nginx 
+
+if [[ ${SIDEKIQ_ONLY,,} == "true" ]] && [[ -n ${SIDEKIQ_QUEUE} ]]; then
+    /bin/echo "*** Starting sidekiq handling ${SIDEKIQ_QUEUE} queue with ${SIDEKIQ_THREADS} threads ***"
+    /opt/mastodon/bin/bundle exec "sidekiq -q ${SIDEKIQ_QUEUE} -c ${SIDEKIQ_THREADS}" 
+elif [[ ${SIDEKIQ_ONLY,,} == "true" ]] && [[ -z ${SIDEKIQ_QUEUE} ]]; then
+    /bin/echo "*** No sidekiq queue specified, aborting ***"
+    /usr/bin/sleep infinity &
+elif [[ ${SIDEKIQ_DEFAULT,,} == "true" ]]; then
+    /bin/echo "*** Starting sidekiq handling default queue with ${SIDEKIQ_THREADS} threads ***"
+    /opt/mastodon/bin/bundle exec "sidekiq -q default -c ${SIDEKIQ_THREADS}" 
+else
+    /bin/echo "*** Starting sidekiq handling all queues with ${SIDEKIQ_THREADS} threads ***"
+    /opt/mastodon/bin/bundle exec "sidekiq -c ${SIDEKIQ_THREADS}" 
+fi
+
+    # if [[ ${SIDEKIQ_ONLY,,} != "true" ]]; then
+    # fi

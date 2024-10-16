@@ -1,0 +1,15 @@
+# 
+# body-hair copy.yml
+#     Created: 2024-09-18T23:35:52-04:00
+#    Modified: 2024-09-18T23:35:52-04:00
+#      Author: Justin Paul Chase <justin@justinwritescode.com>
+#   Copyright: © 2024 Justin Paul Chase, All Rights Reserved
+#     License: MIT (https://opensource.org/licenses/MIT)
+# 
+
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't entered any kinks or fetishes (yet)"
+  default: true
+  order: 0

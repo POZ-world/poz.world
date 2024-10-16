@@ -7,7 +7,7 @@ class PrivacyPolicy < ActiveModelSerializers::Model
   attributes :updated_at, :text
 
   def self.current
-    custom = Setting.find_by(var: 'site_terms')
+    custom = Setting.find_by(var: 'site_privacy_policy')
 
     if custom&.value.present?
       new(text: custom.value, updated_at: custom.updated_at)

@@ -123,4 +123,8 @@ class Setting < ApplicationRecord
   def to_param
     var
   end
+
+  def self.site_tagline
+    self[:site_tagline].presence || Setting.site_title
+  end
 end

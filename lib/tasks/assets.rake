@@ -6,8 +6,11 @@ def render_static_page(action, dest:, **opts)
 end
 
 namespace :assets do
+  include ActionView::Helpers::AssetTagHelper
+  include Webpacker::Helper
   desc 'Generate static pages'
   task generate_static_pages: :environment do
+    render_static_page 'errors/200', layout: 'error', dest: Rails.public_path.join('assets', '200.html')
     render_static_page 'errors/400', layout: 'error', dest: Rails.public_path.join('assets', '400.html')
     render_static_page 'errors/401', layout: 'error', dest: Rails.public_path.join('assets', '401.html')
     render_static_page 'errors/403', layout: 'error', dest: Rails.public_path.join('assets', '403.html')
@@ -21,7 +24,42 @@ namespace :assets do
     render_static_page 'errors/500', layout: 'error', dest: Rails.public_path.join('assets', '500.html')
     render_static_page 'errors/502', layout: 'error', dest: Rails.public_path.join('assets', '502.html')
     render_static_page 'errors/503', layout: 'error', dest: Rails.public_path.join('assets', '503.html')
-    Rails.public_path.join('packs/google_tag_manager.js').write(Js::GoogleTagManagerController.new.script_content)
+  end
+
+  namespace :javascript do
+    task precompile: :environment do
+      desc 'Copy the "dynamic" JavaScript files to the output directory'
+      Rails.public_path.join('packs/js/google_tag_manager.js').write(Api::Vnext::Js::GoogleTagManagerController.new.script_content)
+      Rails.logger.info { 'google_tag_manager.js precompiled.' }
+    end
+  end
+
+  # namespace :json do
+  #   task precompile: :environment do
+  #     desc 'Copy the "dynamic" JSON files to the output directory'
+  #     Rails.public_path.join('packs/manifest.json').write(InstancePresenter.new.to_json(serializer: ManifestSerializer))
+  #     Rails.logger.info { 'manifest.json precompiled.' }
+  #   end
+  # end
+
+  namespace :missing_images do
+    desc 'Dealing with images for "missing" elements'
+    task copy_to_public: :environment do
+      if File.exist?(avatar_source)
+        FileUtils.cp(avatar_source, avatar_destination)
+        Rails.logger.info { "'Missing' avatar copied from the source directory." }
+      else
+        Rails.logger.warn { "'Missing' avatar was not found in the source directory; skipped." }
+      end
+
+      if File.exist?(header_source)
+        FileUtils.cp(header_source, header_destination)
+        Rails.logger.info { "'Missing' header copied from the source directory." }
+      else
+        Rails.logger.warn { "'Missing' header was not found in the source directory; skipped." }
+      end
+    end
+    # Rails.public_path.join('packs/identify_user.js').write(Js::AnalyticsIdentifyUserController.new.script_content)
   end
 end
 
@@ -30,4 +68,43 @@ if Rake::Task.task_defined?('assets:precompile')
     Webpacker.manifest.refresh
     Rake::Task['assets:generate_static_pages'].invoke
   end
+end
+
+if Rake::Task.task_defined?('assets:precompile')
+  Rake::Task['assets:precompile'].enhance do
+    Webpacker.manifest.refresh
+    Rake::Task['assets:missing_images:copy_to_public'].invoke
+  end
+end
+
+if Rake::Task.task_defined?('assets:precompile')
+  Rake::Task['assets:precompile'].enhance do
+    Webpacker.manifest.refresh
+    Rake::Task['assets:javascript:precompile'].invoke
+  end
+end
+
+# if Rake::Task.task_defined?('assets:precompile')
+#   Rake::Task['assets:precompile'].enhance do
+#     Webpacker.manifest.refresh
+#     Rake::Task['assets:json:precompile'].invoke
+#   end
+# end
+
+private
+
+def avatar_source
+  Rails.root.join('app', 'javascript', 'images', 'defaults', 'avatars', 'missing.png')
+end
+
+def header_source
+  Rails.root.join('app', 'javascript', 'images', 'defaults', 'headers', 'missing.png')
+end
+
+def avatar_destination
+  Rails.public_path.join('avatars/original/missing.png')
+end
+
+def header_destination
+  Rails.public_path.join('headers/original/missing.png')
 end

@@ -38,4 +38,8 @@ module InstanceHelper
       I18n.t('auth.description.prefix_sign_up')
     end
   end
+
+  def site_tagline
+    Setting.site_tagline
+  end
 end

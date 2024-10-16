@@ -7,5 +7,11 @@ module WellKnown
 
       render json: json, content_type: 'application/did+json'
     end
+
+    def configuration
+      json = ENV.fetch('DID_CONFIGURATION', nil)
+
+      render json: json, content_type: 'application/ld+json'
+    end
   end
 end

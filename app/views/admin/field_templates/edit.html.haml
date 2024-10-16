@@ -1,0 +1,8 @@
+- content_for :page_title do
+  = 'Edit Field Template'
+
+.card.my-3
+  .card-body
+    %h1 Edit Field Template
+
+    = render 'form', field_template: @field_template

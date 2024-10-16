@@ -78,6 +78,7 @@ RUN \
     curl \
     tzdata \
     wget \
+    procps \
   ;
 
 # Set /opt/mastodon as working directory
@@ -88,7 +89,7 @@ COPY package.json yarn.lock .yarnrc.yml /opt/mastodon/
 COPY .yarn /opt/mastodon/.yarn
 # Copy Streaming source code from build system to container
 COPY ./streaming /opt/mastodon/streaming
-COPY ./root /
+COPY . /opt/mastodon/
 
 RUN \
 # Mount local Corepack and Yarn caches from Docker buildx caches
@@ -106,14 +107,21 @@ RUN \
 # Install Node packages
   yarn workspaces focus --production @mastodon/streaming;
 
+
+RUN mkdir /app && \
+  mkdir /run/sshd && \
+  ln -s /opt/mastodon /app/www && \
+  apt-get update  && \
+  apt-get install -y --no-install-recommends dialog && \
+  apt-get install -y --no-install-recommends \
+      openssh-server \
+      nginx \
+      nodejs && \
+  echo "root:Docker!" | chpasswd 
+
 # Set the running user for resulting container
-# USER root
+# USER mastodon
 # Expose default Streaming ports
-EXPOSE 4000
+EXPOSE 4000 8080 2222
 # Run streaming when started
 # CMD [ "node", "./streaming/index.js" ]
-ENTRYPOINT [ "bash", "/opt/mastodon/bin/entrypoint", "streaming" ]
-
-LABEL org.opencontainers.image.description="This is the image for TheBackroom & Justin Chase's Mastodon streaming instances."
-LABEL org.opencontainers.image.source="https://github.com/justinwritescode/mastodon"
-LABEL org.opencontainers.image.licenses="MIT"

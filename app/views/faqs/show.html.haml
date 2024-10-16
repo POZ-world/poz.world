@@ -1,0 +1,9 @@
+- content_for :page_title do
+  = @faq.question
+
+  
+%h1= @faq.question
+%p= @faq.answer
+= link_to 'Back', admin_faqs_path
+= link_to 'Edit', edit_admin_faq_path(@faq)
+= link_to 'Destroy', admin_faq_path(@faq), method: :delete, data: { confirm: t('faqs.delete_confirmation') }

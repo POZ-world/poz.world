@@ -28,6 +28,8 @@ admin:
     - manage_custom_emojis
     - manage_webhooks
     - manage_roles
+    - manage_faqs
+    - manage_fields
 owner:
   name: Owner
   position: 1000

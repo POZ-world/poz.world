@@ -86,7 +86,7 @@ class Api::BaseController < ApplicationController
 
   private
 
-  def respond_with_error(code)
+  def respond_with_error(code, exception = nil)
     render json: { error: Rack::Utils::HTTP_STATUS_CODES[code] }, status: code
   end
 end

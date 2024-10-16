@@ -1,15 +1,18 @@
 !!!
-%html{ lang: I18n.locale.to_s }
+%html{ lang: I18n.locale.to_s, 'data-bs-theme': theme_dark_light }
   %head
     %meta{ 'content' => 'text/html; charset=UTF-8', 'http-equiv' => 'Content-Type' }
     %meta{ charset: 'utf-8' }
     %title= safe_join([yield(:page_title), Setting.default_settings['site_title']], ' - ')
     %meta{ content: 'width=device-width,initial-scale=1', name: 'viewport' }
+    = bootstrap_stylesheet_tag
     = theme_style_tags Setting.default_settings['theme']
     = javascript_pack_tag 'common', crossorigin: 'anonymous'
     = javascript_pack_tag 'error', crossorigin: 'anonymous'
-    = identify_user_javascript
+    = environment_script_tag
+    = identify_user_javascript_tag
     = google_tag_manager_script_tag 
+    = bootstrap_icons_stylesheet_link_tag
   %body.error
     = google_tag_manager_noscript_tag
     .dialog
@@ -19,3 +22,5 @@
           %img{ alt: safe_join([yield(:page_title), Setting.default_settings['site_title']], ' - '), class: 'error-img-dynamic', src: yield(:dynamic_image) }
       .dialog__message
         %h1= yield :content
+        = yield :exception_message
+  = bootstrap_javascript_tag

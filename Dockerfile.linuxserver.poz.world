@@ -1,0 +1,221 @@
+ARG TAG=glitch \
+    AZURE_STORAGE_CONNECTION_STRING=''  \
+    AZURE_STORAGE_CONTAINER_NAME='' \
+    MASTODON_VERSION_METADATA='' \
+    MASTODON_VERSION_PRERELEASE='' \
+    CI='false'
+
+ARG BUNDLER_VERSION="2.5.21"
+
+ARG RUBY_VERSION="3.3.5"
+# # Node version to use in base image, change with [--build-arg NODE_MAJOR_VERSION="20"]
+# renovate: datasource=node-version depName=node
+ARG NODE_MAJOR_VERSION="22"
+# Debian image to use for base image, change with [--build-arg DEBIAN_VERSION="bookworm"]
+ARG DEBIAN_VERSION="bookworm"
+ARG ALPINE_VERSION="alpine"
+# Node image to use for base image based on combined variables (ex: 20-bookworm-slim)
+FROM docker.io/node:${NODE_MAJOR_VERSION}-${ALPINE_VERSION} AS node
+
+FROM docker.io/ruby:${RUBY_VERSION}-${ALPINE_VERSION} AS ruby
+
+FROM ghcr.io/linuxserver/mastodon:${TAG} AS base
+
+COPY ./root /
+COPY . /app/www/
+COPY config /config
+
+USER root
+
+# Install bash if not already available
+RUN apk update && apk add bash
+
+SHELL ["/bin/bash", "-o", "pipefail", "-o", "errexit", "-c"]
+
+FROM ruby AS bundler
+
+ARG TAG=glitch \
+    AZURE_STORAGE_CONNECTION_STRING=''  \
+    AZURE_STORAGE_CONTAINER_NAME='' \
+    MASTODON_VERSION_METADATA='' \
+    MASTODON_VERSION_PRERELEASE='nightly' \
+    CI='false'
+
+ENV PATH=/app/www/bin:/app/www/vendor/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    BUNDLE_APP_CONFIG=/app/www/vendor/bundle \
+    BUNDLE_PATH=/app/www/vendor/bundle \
+    BUNDLE_BIN=/app/www/vendor/bundle/bin \
+    BUNDLE_SILENCE_ROOT_WARNING=1 \
+    BUNDLE_JOBS=4 \
+    BUNDLE_RETRY=3 \
+    BUNDLE_DISABLE_VERSION_CHECK=1 \
+    BUNDLE_GEMFILE=/app/www/Gemfile \
+    GEM_HOME=/app/www/vendor/bundle \
+    GEM_PATH=/app/www/vendor/bundle \
+    BUNDLER_VERSION=2.5.21 \
+    RUBYOPT=-W:no-deprecated \
+    RUBY_VERSION=${RUBY_VERSION:-'3.3.5'} \
+    NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION:-'22'} \
+    DEBIAN_VERSION=${DEBIAN_VERSION:-'bookworm'} \
+    BIND=0.0.0.0
+
+RUN apk update && \
+    apk add --no-cache \
+    imagemagick \
+    ffmpeg \
+    vips-tools \
+    postgresql-dev \
+    libxml2-dev \
+    libxslt-dev \
+    file \
+    git \
+    g++ \
+    protobuf-dev \
+    protobuf \
+    pkgconfig \
+    gcc \
+    autoconf \
+    bison \
+    build-base \
+    openssl-dev \
+    yaml-dev \
+    readline-dev \
+    zlib-dev \
+    ncurses-dev \
+    libffi-dev \
+    gdbm-dev \
+    nginx \
+    nodejs \
+    redis \
+    postgresql \
+    libidn-dev \
+    icu-dev \
+    jemalloc-dev \
+    build-base \
+    libidn-dev \
+    icu-dev \
+    jemalloc-dev \
+    ruby-dev
+
+WORKDIR /app/www
+
+RUN \ 
+    rm -rf /usr/bin/bundle
+
+COPY ./root /
+COPY . /app/www/
+COPY config /config
+ENV PATH="/app/www/bin:${PATH}"
+ENV GEM_PATH="/app/www/vendor/bundle/ruby/3.3.0"
+COPY --from=ruby /usr/local/lib /usr/local/lib
+COPY --from=ruby /usr/local/bin /usr/local/bin
+
+RUN \ 
+    mkdir -p vendor/bundle && \
+    gem install bundler -v $BUNDLER_VERSION && \
+    bundle clean --force && \
+    # Configure bundle to prevent changes to Gemfile and Gemfile.lock
+    bundle config set --global frozen "true"; \
+    # Configure bundle to not cache downloaded Gems
+    bundle config set --global cache_all "false"; \
+    # Configure bundle to only process production Gems
+    bundle config set --local without "development test"; \
+    # Configure bundle to not warn about root user
+    bundle config set silence_root_warning "true"; \
+    bundle config set --global path $(readlink -f "vendor/bundle"); \
+    # Download and install required Gems
+    bundle install -j"$(nproc)"
+# Use Ruby on Rails to create Mastodon assets
+
+# Create temporary assets build layer from build layer
+FROM base AS precompiler
+
+ENV PATH="${PATH}:/usr/local/bin:/usr/bin:/bin"
+ARG YARN_VERSION="4.5.0"
+
+# Copy Mastodon sources into precompiler layer
+COPY . /app/www/
+
+COPY --from=node /usr/local/bin /usr/local/bin
+COPY --from=node /usr/local/lib /usr/local/lib
+COPY --from=ruby /usr/local/lib /usr/local/lib
+COPY --from=ruby /usr/local/bin /usr/local/bin
+COPY ./.yarn/releases/yarn-${YARN_VERSION}.cjs /usr/local/bin/yarn
+
+ARG TAG=glitch \
+    AZURE_STORAGE_CONNECTION_STRING=''  \
+    AZURE_STORAGE_CONTAINER_NAME='' \
+    MASTODON_VERSION_METADATA='' \
+    MASTODON_VERSION_PRERELEASE='' \
+    CI='false'
+
+ENV TZ=EST5EDT \
+    WEBSITE_TIME_ZONE='EST5EDT' \
+    PATH="${PATH}:/opt/ruby/bin:/app/www/bin" \
+    RAILS_ENV=production \
+    NODE_ENV=production \
+    AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING:-''}  \
+    AZURE_STORAGE_CONTAINER_NAME=${AZURE_STORAGE_CONTAINER_NAME:-''} \
+    MASTODON_VERSION_METADATA=${MASTODON_VERSION_METADATA:-''} \
+    MASTODON_VERSION_PRERELEASE=${MASTODON_VERSION_PRERELEASE:-''} \
+    CI=${CI:-'false'} \
+    BUNDLER_VERSION=${BUNDLER_VERSION:-'2.5.21'}
+
+ENV PATH=/app/www/bin:/app/www/vendor/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
+    BUNDLE_APP_CONFIG=/app/www/vendor/bundle \
+    BUNDLE_PATH=/app/www/vendor/bundle \
+    BUNDLE_BIN=/app/www/vendor/bundle/bin \
+    BUNDLE_SILENCE_ROOT_WARNING=1 \
+    BUNDLE_JOBS=4 \
+    BUNDLE_RETRY=3 \
+    BUNDLE_DISABLE_VERSION_CHECK=1 \
+    BUNDLE_GEMFILE=/app/www/Gemfile \
+    GEM_HOME=/app/www/vendor/bundle \
+    GEM_PATH=/app/www/vendor/bundle \
+    RUBYOPT=-W:no-deprecated \
+    RUBY_VERSION=${RUBY_VERSION:-'3.3.5'} \
+    NODE_MAJOR_VERSION=${NODE_MAJOR_VERSION:-22} \
+    DEBIAN_VERSION=${DEBIAN_VERSION:-'bookworm'} \
+    BIND=0.0.0.0
+
+WORKDIR /app/www
+
+# hadolint ignore=DL3008
+RUN \
+    gem install bundler -v $BUNDLER_VERSION && \
+    # --mount=type=cache,id=corepack-cache-${TARGETPLATFORM:-'amd64'},target=/usr/local/share/.cache/corepack,sharing=locked \
+    # --mount=type=cache,id=yarn-cache-${TARGETPLATFORM:-'amd64'},target=/usr/local/share/.cache/yarn,sharing=locked \
+    # Install Node packages
+    yarn workspaces focus --production @poz-world/poz.world;
+
+ARG TARGETPLATFORM
+
+ENV SECRET_KEY_BASE_DUMMY=1
+
+# RUN ldconfig; 
+# Use Ruby on Rails to create Mastodon assets
+RUN /app/www/bin/bundle exec rake assets:precompile; 
+# Cleanup temporary files
+# rm -fr /app/www/tmp;
+
+FROM base AS mastodon
+
+COPY --from=precompiler /app/www/public /app/www/public
+COPY --from=bundler /app/www/vendor /app/www/vendor
+
+RUN \
+    mkdir -p /var/log/supervisor && \
+    mkdir -p /var/log/nginx && \
+    mkdir -p /var/log/sshd && \
+    mkdir -p /var/log/sidekiq && \
+    mkdir -p /var/log/streaming
+
+COPY ./dist /etc/systemd/system/
+
+EXPOSE 8080 2222
+
+ENTRYPOINT [ "/init" ]
+
+LABEL org.opencontainers.image.description="Modifications to the base image for the site POZ.world"
+LABEL org.opencontainers.image.source="https://github.com/poz-world/poz.world"
+LABEL org.opencontainers.image.licenses="MIT"

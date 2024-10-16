@@ -2,6 +2,7 @@
 
 def download_material_icon(icon, weight: 400, filled: false, size: 20)
   url_template = Addressable::Template.new('https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/{icon}/{axes}/{size}px.svg')
+  backup_url_template = Addressable::Template.new('https://raw.githubusercontent.com/marella/material-symbols/refs/heads/main/svg/{weight}/outlined/{icon}.svg')
 
   variant = filled ? '-fill' : ''
 
@@ -11,6 +12,12 @@ def download_material_icon(icon, weight: 400, filled: false, size: 20)
   axes = axes.join.presence || 'default'
 
   url = url_template.expand(icon: icon, axes: axes, size: size).to_s
+  path = Rails.root.join('app', 'javascript', 'material-icons', "#{weight}-#{size}px", "#{icon}#{variant}.svg")
+  FileUtils.mkdir_p(File.dirname(path))
+
+  File.write(path, HTTP.get(url).to_s)
+rescue UndexpectedResponseError
+  url = backup_url_template.expand(icon: icon, weight: weight).to_s
   path = Rails.root.join('app', 'javascript', 'material-icons', "#{weight}-#{size}px", "#{icon}#{variant}.svg")
   FileUtils.mkdir_p(File.dirname(path))
 

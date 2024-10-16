@@ -1,0 +1,74 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "allowUmdGlobalAccess": true,
+    "alwaysStrict": false,
+    "baseUrl": "./app/javascript",
+    "checkJs": false,
+    "composite": true,
+    "declaration": true,
+    // "outFile": "./poz.world.ts",
+    "declarationDir": "./dist/@poz-world",
+    "declarationMap": true,
+    "diagnostics": true,
+    "emitDeclarationOnly": false,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "extendedDiagnostics": true,
+    "importHelpers": true,
+    "incremental": true,
+    "jsx": "react-jsx",
+    "listEmittedFiles": true,
+    "module": "amd",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "noEmitHelpers": false,
+    "noEmitOnError": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": false,
+    "outDir": "./dist/@poz-world",
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "mastodon": [
+        "./mastodon"
+      ],
+      "mastodon/*": [
+        "./mastodon/*"
+      ]
+    },
+    "resolveJsonModule": true,
+    "rootDir": "./app/javascript",
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "target": "ESNext",
+    "tsBuildInfoFile": "./tmp/cache/tsconfig.tsbuildinfo"
+  },
+  "exclude": [
+    "node_modules",
+    "public",
+    "dist",
+    "tmp"
+  ],
+  // "files": [
+  //   "./**/*.js",
+  //   "./**/*.jsx",
+  //   "./**/*.ts",
+  //   "./**/*.d.ts",
+  //   "./**/*.tsx",
+  //   "./**/*.json"
+  // ],
+  "include": [
+    "app/javascript/**/*.js",
+    "app/javascript/**/*.jsx",
+    "app/javascript/**/*.ts",
+    "app/javascript/**/*.d.ts",
+    "app/javascript/**/*.tsx",
+    "app/javascript/**/*.json"
+  ]
+}

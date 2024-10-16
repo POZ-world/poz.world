@@ -1,0 +1,61 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected how \"dominant\" {{subject}} {{be}} (yet)"
+  default: true
+  order: 0
+- display_value: 'total faggot'
+  value: 0
+  description: 'Total faggot - A total submissive faggot.  Not a bone of dominance in its body.  It lives only to serve at the feet of real Alpha Men.'
+  order: 1
+  default: false
+- display_value: 'faggot'
+  value: 1
+  description: 'Faggot - A faggot that knows its place in the world is at the feet of real Alpha Men.  No dominance in its body, save for a fleeting glimmer of self-confidence before it comes to its senses and remembers its true place and purpose.'
+  order: 2
+  default: false
+- display_value: 'mostly fag'
+  value: 2
+  description: "Mostly fag - Mostly a faggot.  Might stand up for itself once in a while but it's not comfortable doing it and looks hella dumb trying."
+  order: 3
+  default: false
+- display_value: 'sub'
+  value: 3
+  description: 'Sub - Submissive, but not a faggot.  {{have}} some self-respect.  {{verb:stand}} up for {{reflexive}} occasionally and {{have}} {{possessive}} own life apart from the Alphas whom {{subject}} {{verb:serve}}.'
+  order: 4
+  default: false
+- display_value: 'switchy sub'
+  value: 4
+  description: 'Switchy sub - A switch who leans sub.  Might dom occasionally, but prefers to be sub.'
+  order: 5
+  default: false
+- display_value: 'switch'
+  value: 5
+  description: 'Switch - {{subject}} {{be}} equal parts dom and sub.'
+  order: 6
+  default: false
+- display_value: 'switchy dom'
+  value: 6
+  description: 'Switchy Dom - {{subject}} {{be}} a switch who leans dom.  {{subject}} might sub occasionally, but {{subject}} {{verb:prefer}} to be dom.'
+  order: 7
+  default: false
+- display_value: 'dom'
+  value: 7
+  description: 'Dom - {{subject}} {{be}} predominantly dominant, but {{subject}} might enjoy subbing for the right guy or under the right circumstances.'
+  order: 8
+  default: false
+- display_value: 'mostly dom'
+  value: 8
+  description: 'Mostly Dom - {{subject}} {{be}} mostly dominant, but {{subject}} {{be}} not an arrogant asshole about it.  {{verb:know}} how to let {{possessive}} hair down on occasion.'
+  order: 9
+  default: false
+- display_value: 'beta dom'
+  value: 9
+  description: 'Beta Dom - {{subject}} {{be}} mostly dominant; {{subject}} might defer (but never submit) to an alpha dom'
+  order: 10
+  default: false
+- display_value: 'alpha dom'
+  value: 10
+  description: 'Alpha Dom - {{subject}} {{be}} total dominant arrogant-as-fuck Alpha male.  {{subject}} {{berb:exude}} dominance whenever {{subject}} {{verb:walk}} into a room.  {{subject}} NEVER {{verb:submit}}.  To anyone.'
+  order: 11
+  default: false

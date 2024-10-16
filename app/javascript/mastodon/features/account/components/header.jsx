@@ -33,7 +33,11 @@ import { WithRouterPropTypes } from 'mastodon/utils/react_router';
 import AccountNoteContainer from '../containers/account_note_container';
 import FollowRequestNoteContainer from '../containers/follow_request_note_container';
 
+import { apiGetFieldTemplates } from 'mastodon/api/fields';
+
 import { DomainPill } from './domain_pill';
+
+const fieldTemplates = await apiGetFieldTemplates();
 
 const messages = defineMessages({
   unfollow: { id: 'account.unfollow', defaultMessage: 'Unfollow' },
@@ -389,6 +393,20 @@ class Header extends ImmutablePureComponent {
 
     const content         = { __html: account.get('note_emojified') };
     const displayNameHtml = { __html: account.get('display_name_html') };
+    /** 
+     * @typedef Field
+     * @type {Object}
+     * @prop {string} name 
+     * @prop {string} value 
+     * @prop {string} value_plain
+     * @prop {string|undefined} name_emojified
+     * @prop {Date|undefined} verified_at
+     * @prop {("name"|"value"|"value_plain"|"name_emojified"|"verified_at"):any} get
+     */
+    /**
+     * @type {Array<Field>}
+     * @
+     */
     const fields          = account.get('fields');
     const isLocal         = account.get('acct').indexOf('@') === -1;
     const username        = account.get('acct').split('@')[0];

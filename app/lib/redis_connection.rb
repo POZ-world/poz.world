@@ -25,11 +25,13 @@ class RedisConnection
   attr_reader :config
 
   def initialize
-    @config = REDIS_CONFIGURATION.base
+    # Fetch configuration and remove namespace from config hash if exists
+    base_config = REDIS_CONFIGURATION.base
+    @config = base_config.except(:namespace)
+    @namespace = base_config[:namespace]
   end
 
   def connection
-    namespace = config[:namespace]
     if namespace.present?
       Redis::Namespace.new(namespace, redis: raw_connection)
     else
@@ -42,4 +44,7 @@ class RedisConnection
   def raw_connection
     Redis.new(**config)
   end
+
+  # Add a reader for namespace
+  attr_reader :namespace
 end

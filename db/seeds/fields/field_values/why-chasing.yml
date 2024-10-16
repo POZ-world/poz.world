@@ -1,0 +1,6 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't entered {{possessive}} reasons for chasing (yet)"
+  default: true
+  order: 0

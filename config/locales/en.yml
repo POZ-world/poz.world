@@ -721,6 +721,8 @@ en:
         manage_roles_description: Allows users to manage and assign roles below theirs
         manage_rules: Manage Rules
         manage_rules_description: Allows users to change server rules
+        manage_faqs: Manage FAQs
+        manage_faqs_description: Allows users to change FAQs
         manage_settings: Manage Settings
         manage_settings_description: Allows users to change site settings
         manage_taxonomies: Manage Taxonomies
@@ -748,9 +750,12 @@ en:
     settings:
       about:
         manage_rules: Manage server rules
+        manage_faqs: Manage FAQs
         preamble: Provide in-depth information about how the server is operated, moderated, funded.
+        faqs_hint: There is a dedicated area for FAQs that your users might ask before joining.
         rules_hint: There is a dedicated area for rules that your users are expected to adhere to.
         title: About
+      add_field: Add another field
       appearance:
         preamble: Customize Mastodon's web interface.
         title: Appearance
@@ -1247,46 +1252,52 @@ en:
     hint_html: "<strong>Customize what people see on your public profile and next to your posts.</strong> Other people are more likely to follow you back and interact with you when you have a filled out profile and a profile picture."
     other: Other
   errors:
+    '200': 
+      content: Everything's A-OK!
+      title: Everything's A-OK!
+      static_image: "images/errors/200.png"
+      dynamic_image: "images/errors/200-dynamic.png"
+      code: 200
     '400': 
       content: You done fucked up!
       title: You done fucked up!
-      static_image: "images/errors/400-static.png"
+      static_image: "images/errors/400.png"
       dynamic_image: "images/errors/400-dynamic.png"
       code: 400
     '401': 
       content: You're not fucking allowed to do that!
       title: You're not fucking allowed to do that!  Try authenticating first maybe, dickhead?!
-      static_image: "images/errors/401-static.png"
+      static_image: "images/errors/401.png"
       dynamic_image: "images/errors/401-dynamic.png"
       code: 401
     '403': 
       content: You're not allowed to fucking do that!
       title: You're not allowed to fucking do that!
-      static_image: "images/errors/403-static.png"
+      static_image: "images/errors/403.png"
       dynamic_image: "images/errors/403-dynamic.png"
       code: 403
     '404': 
       content: The shit you were looking for ain't fucking here.
       title: The shit you were looking for ain't fucking here.
-      static_image: "images/errors/404-static.png"
+      static_image: "images/errors/404.png"
       dynamic_image: "images/errors/404-dynamic.png"
       code: 404
     '406': 
       content: Hey, numbnuts, I can't fucking do that!
       title: I can't fucking do that!
-      static_image: "images/errors/406-static.png"
+      static_image: "images/errors/406.png"
       dynamic_image: "images/errors/406-dynamic.png"
       code: 406
     '409': 
       content: Dudebro, are you try'n'a cause a fucking paradox over there?!  Cut it the fuck out!
       title: Conflict!!!
-      static_image: "images/errors/406-static.png"
-      dynamic_image: "images/errors/406-dynamic.png"
+      static_image: "images/errors/409.png"
+      dynamic_image: "images/errors/409-dynamic.png"
       code: 409
     '410': 
       content: The shit you were looking for ain't here no more.  I don't know where the fuck it went, but look fucking elsewhere!
       title: The shit you were looking for ain't here no more.
-      static_image: "images/errors/410-static.png"
+      static_image: "images/errors/410.png"
       dynamic_image: "images/errors/410-dynamic.png"
       code: 410
     '418': 
@@ -1313,19 +1324,19 @@ en:
     '429': 
       content: Woah, woah!! Slow the fuck down!! Geez!! You've gotta give me time to catch up!  You're not the fucking MicroMachines™ spokesperson try'n'a set a fucking speed-talking record here!
       title: Slow the fuck down!!
-      static_image: "images/errors/429-static.png"
+      static_image: "images/errors/429.png"
       dynamic_image: "images/errors/429-dynamic.png"
       code: 429
     '500':
       content: Oh shit!! Oh fuck!! We're all gonna die!!!
       title: Shit hit the fucking fan!!
-      static_image: "images/errors/500-static.png"
+      static_image: "images/errors/500.png"
       dynamic_image: "images/errors/500-dynamic.png"
       code: 500
     '502':
       content: You can't get much worse than the gateway to fucking HELL!  But you've fucking succeeded!  You've followed a BAD GATEWAY!
       title: The Gates of Hell!
-      static_image: "images/errors/502-static.png"
+      static_image: "images/errors/502.png"
       dynamic_image: "images/errors/502-dynamic.png"
       code: 500
     '503': 
@@ -1461,7 +1472,7 @@ en:
       scheduled: I'm'a get to it
       unconfirmed: Unconfirmed
     status: Status
-    success: Your data was successfully uploaded and will be processed in due time
+    success: Your data were successfully uploaded and will be processed in due time
     time_started: Started at
     titles:
       blocking: Importing blocked accounts
@@ -1495,7 +1506,7 @@ en:
     expires_in_prompt: Never
     generate: Generate invite link
     invalid: This invite is not valid
-    invited_by: 'You were invited by:'
+    invited_by: 'You were invited by '
     max_uses:
       one: 1 use
       other: "%{count} uses"
@@ -1879,6 +1890,18 @@ en:
     mastodon-light: Mastodon (Light)
     system: Automatic (use system theme)
     mastodon-bird-ui-dark: Mastodon Bird UI (Dark)
+    purple-haze: Purple Haze for Mastodon
+    colorful-light: Colorful Mastodon (Light)
+    colorful-dark: Colorful Mastodon (Dark)
+    feelin-blue: "Feelin' Blue"
+    elephant: Elephant (Twitter-like) Theme (Dark)
+    elephant-light: Elephant (Twitter-like) Theme (Light)
+    elephant-contrast: Elephant (Twitter-like) Theme (High Contrast)
+    canta-dark: Canta Dark
+    tangerineui: Tangerine UI
+    tangerineui-lagoon: Tangerine UI (Lagoon)
+    tangerineui-cherry: Tangerine UI (Cherry)
+    tangerineui-purple: Tangerine UI (Purple)
   time:
     formats:
       default: "%b %d, %Y, %H:%M"

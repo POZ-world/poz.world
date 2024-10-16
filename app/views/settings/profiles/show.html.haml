@@ -20,52 +20,67 @@
       .fields-group
         = f.input :note, wrapper: :with_block_label, input_html: { maxlength: Account::NOTE_LENGTH_LIMIT }
 
-    .fields-row__column.fields-group.fields-row__column-6
-      .input.with_block_label
-        %label= t('simple_form.labels.defaults.fields')
-        %span.hint= t('simple_form.hints.account.fields')
+  // Full-width fields section
+  .fields-full-width
+    %h4= t('edit_profile.additional_information')
 
-        = f.simple_fields_for :fields do |fields_f|
-          .row
-            = fields_f.input :name, placeholder: t('simple_form.labels.account.fields.name'), input_html: { maxlength: Account::Field::MAX_CHARACTERS_LOCAL }
-            = fields_f.input :value, placeholder: t('simple_form.labels.account.fields.value'), input_html: { maxlength: Account::Field::MAX_CHARACTERS_LOCAL }
+%div.profile-fields-form
+  = form_with model: @account, url: settings_profile_path(@account), method: :put do |form|
+    - @field_templates.each do |category, templates|
+      %div.accordion(data-category=category)
+        %h3
+          %a.accordion-toggle{ href: '#' }= category.titleize
+        %div.accordion-content{ style: 'display: none;' }
+          - templates.each do |template|
+            - if template.rules_match?(@account.fields)
+              = form.fields_for :fields, @account.fields.find { |field| field.name == template.name } || form.object.fields.build do |field_form|
+                %div.field-group
+                  %label
+                    = field_form.label :name, template.description
+                    - if template.dropdown
+                      %select{ name: "#{field_form.object_name}[value]", class: 'field-dropdown' }
+                        - template.dropdown_options.each do |option|
+                          %option{ value: option.value, selected: (field_form.object.value == option.value) }= option.display_value
+                        %option.add-custom{ value: 'custom' } Add custom...
+                      = field_form.text_field :value, class: 'field-text', style: 'display: none;'
+                      %button.cancel-custom.button{ type: 'button', style: 'display: none;' } Cancel
+                    - else
+                      = field_form.text_field :value, class: 'field-text'
+                  %input{ type: 'checkbox', name: "#{field_form.object_name}[marked_for_deletion]", title: 'mark for deletion' }
+                    Mark for deletion
 
-  .fields-row
-    .fields-row__column.fields-row__column-6
-      .fields-group
-        = f.input :avatar,
-                  hint: t('simple_form.hints.defaults.avatar', dimensions: Account::Avatar::AVATAR_GEOMETRY, size: number_to_human_size(Account::Avatar::LIMIT)),
-                  input_html: { accept: Account::Avatar::IMAGE_MIME_TYPES.join(',') },
-                  wrapper: :with_block_label
-
-    .fields-row__column.fields-row__column-6
-      .fields-group
-        = image_tag @account.avatar.url, class: 'fields-group__thumbnail', id: 'account_avatar-preview'
-        - if @account.avatar.present?
-          = link_to settings_profile_picture_path('avatar'), data: { method: :delete }, class: 'link-button link-button--destructive' do
-            = material_symbol 'delete'
-            = t('generic.delete')
-
-  .fields-row
-    .fields-row__column.fields-row__column-6
-      .fields-group
-        = f.input :header,
-                  hint: t('simple_form.hints.defaults.header', dimensions: Account::Header::HEADER_GEOMETRY, size: number_to_human_size(Account::Header::LIMIT)),
-                  input_html: { accept: Account::Header::IMAGE_MIME_TYPES.join(',') },
-                  wrapper: :with_block_label
-
-    .fields-row__column.fields-row__column-6
-      .fields-group
-        = image_tag @account.header.url, class: 'fields-group__thumbnail', id: 'account_header-preview'
-        - if @account.header.present?
-          = link_to settings_profile_picture_path('header'), data: { method: :delete }, class: 'link-button link-button--destructive' do
-            = material_symbol 'delete'
-            = t('generic.delete')
-
-  %h4= t('edit_profile.other')
-
-  .fields-group
-    = f.input :bot, as: :boolean, wrapper: :with_label, hint: t('simple_form.hints.defaults.bot')
-
-  .actions
-    = f.button :button, t('generic.save_changes'), type: :submit
+:javascript
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.field-dropdown').forEach(select => {
+      select.addEventListener('change', function() {
+        if (this.value === 'custom') {
+          this.style.display = 'none';
+          const textField = this.closest('.field-group').querySelector('.field-text');
+          const cancelButton = this.closest('.field-group').querySelector('.cancel-custom.button');
+          textField.style.display = '';
+          cancelButton.style.display = '';
+        }
+      });
+    });
+    
+    document.querySelectorAll('.cancel-custom.button').forEach(button => {
+      button.addEventListener('click', function() {
+        this.style.display = 'none';
+        const textField = this.closest('.field-group').querySelector('.field-text');
+        const dropdown = this.closest('.field-group').querySelector('.field-dropdown');
+        textField.style.display = 'none';
+        textField.value = '';
+        dropdown.style.display = '';
+        dropdown.selectedIndex = 0;
+      });
+    });
+    
+    document.querySelectorAll('.accordion-toggle').forEach(toggle => {
+      toggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        const content = this.closest('.accordion').querySelector('.accordion-content');
+        const isVisible = content.style.display === 'block';
+        content.style.display = isVisible ? 'none' : 'block';
+      });
+    });
+  });

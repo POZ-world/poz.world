@@ -1,0 +1,438 @@
+---
+- value: null
+  display_value: '[not entered]'
+  description: "{{subject}} {{have}}n't entered {{possessive}} height (yet)"
+  default: true
+  order: 0
+
+- display_value: '2ft (61cm)'
+  value: 24
+  description: '{{subject}} {{verb:stand}} 2 feet (61 centimeters) tall'
+  order: 1
+  default: false
+
+- display_value: '2ft 1in (64cm)'
+  value: 25
+  description: '{{subject}} {{verb:stand}} 2 feet 1 inches (64 centimeters) tall'
+  order: 2
+  default: false
+
+- display_value: '2ft 2in (66cm)'
+  value: 26
+  description: '{{subject}} {{verb:stand}} 2 feet 2 inches (66 centimeters) tall'
+  order: 3
+  default: false
+
+- display_value: '2ft 3in (69cm)'
+  value: 27
+  description: '{{subject}} {{verb:stand}} 2 feet 3 inches (69 centimeters) tall'
+  order: 4
+  default: false
+
+- display_value: '2ft 4in (71cm)'
+  value: 28
+  description: '{{subject}} {{verb:stand}} 2 feet 4 inches (71 centimeters) tall'
+  order: 5
+  default: false
+
+- display_value: '2ft 5in (74cm)'
+  value: 29
+  description: '{{subject}} {{verb:stand}} 2 feet 5 inches (74 centimeters) tall'
+  order: 6
+  default: false
+
+- display_value: '2ft 6in (76cm)'
+  value: 30
+  description: '{{subject}} {{verb:stand}} 2 feet 6 inches (76 centimeters) tall'
+  order: 7
+  default: false
+
+- display_value: '2ft 7in (79cm)'
+  value: 31
+  description: '{{subject}} {{verb:stand}} 2 feet 7 inches (79 centimeters) tall'
+  order: 8
+  default: false
+
+- display_value: '2ft 8in (81cm)'
+  value: 32
+  description: '{{subject}} {{verb:stand}} 2 feet 8 inches (81 centimeters) tall'
+  order: 9
+  default: false
+
+- display_value: '2ft 9in (84cm)'
+  value: 33
+  description: '{{subject}} {{verb:stand}} 2 feet 9 inches (84 centimeters) tall'
+  order: 10
+  default: false
+
+- display_value: '2ft 10in (86cm)'
+  value: 34
+  description: '{{subject}} {{verb:stand}} 2 feet 10 inches (86 centimeters) tall'
+  order: 11
+  default: false
+
+- display_value: '2ft 11in (89cm)'
+  value: 35
+  description: '{{subject}} {{verb:stand}} 2 feet 11 inches (89 centimeters) tall'
+  order: 12
+  default: false
+
+- display_value: '3ft (91cm)'
+  value: 36
+  description: '{{subject}} {{verb:stand}} 3 feet (91 centimeters) tall'
+  order: 13
+  default: false
+
+- display_value: '3ft 1in (94cm)'
+  value: 37
+  description: '{{subject}} {{verb:stand}} 3 feet 1 inches (94 centimeters) tall'
+  order: 14
+  default: false
+
+- display_value: '3ft 2in (97cm)'
+  value: 38
+  description: '{{subject}} {{verb:stand}} 3 feet 2 inches (97 centimeters) tall'
+  order: 15
+  default: false
+
+- display_value: '3ft 3in (99cm)'
+  value: 39
+  description: '{{subject}} {{verb:stand}} 3 feet 3 inches (99 centimeters) tall'
+  order: 16
+  default: false
+
+- display_value: '3ft 4in (102cm)'
+  value: 40
+  description: '{{subject}} {{verb:stand}} 3 feet 4 inches (102 centimeters) tall'
+  order: 17
+  default: false
+
+- display_value: '3ft 5in (104cm)'
+  value: 41
+  description: '{{subject}} {{verb:stand}} 3 feet 5 inches (104 centimeters) tall'
+  order: 18
+  default: false
+
+- display_value: '3ft 6in (107cm)'
+  value: 42
+  description: '{{subject}} {{verb:stand}} 3 feet 6 inches (107 centimeters) tall'
+  order: 19
+  default: false
+
+- display_value: '3ft 7in (109cm)'
+  value: 43
+  description: '{{subject}} {{verb:stand}} 3 feet 7 inches (109 centimeters) tall'
+  order: 20
+  default: false
+
+- display_value: '3ft 8in (112cm)'
+  value: 44
+  description: '{{subject}} {{verb:stand}} 3 feet 8 inches (112 centimeters) tall'
+  order: 21
+  default: false
+
+- display_value: '3ft 9in (114cm)'
+  value: 45
+  description: '{{subject}} {{verb:stand}} 3 feet 9 inches (114 centimeters) tall'
+  order: 22
+  default: false
+
+- display_value: '3ft 10in (117cm)'
+  value: 46
+  description: '{{subject}} {{verb:stand}} 3 feet 10 inches (117 centimeters) tall'
+  order: 23
+  default: false
+
+- display_value: '3ft 11in (119cm)'
+  value: 47
+  description: '{{subject}} {{verb:stand}} 3 feet 11 inches (119 centimeters) tall'
+  order: 24
+  default: false
+
+- display_value: '4ft (122cm)'
+  value: 48
+  description: '{{subject}} {{verb:stand}} 4 feet (122 centimeters) tall'
+  order: 25
+  default: false
+
+- display_value: '4ft 1in (124cm)'
+  value: 49
+  description: '{{subject}} {{verb:stand}} 4 feet 1 inches (124 centimeters) tall'
+  order: 26
+  default: false
+
+- display_value: '4ft 2in (127cm)'
+  value: 50
+  description: '{{subject}} {{verb:stand}} 4 feet 2 inches (127 centimeters) tall'
+  order: 27
+  default: false
+
+- display_value: '4ft 3in (130cm)'
+  value: 51
+  description: '{{subject}} {{verb:stand}} 4 feet 3 inches (130 centimeters) tall'
+  order: 28
+  default: false
+
+- display_value: '4ft 4in (132cm)'
+  value: 52
+  description: '{{subject}} {{verb:stand}} 4 feet 4 inches (132 centimeters) tall'
+  order: 29
+  default: false
+
+- display_value: '4ft 5in (135cm)'
+  value: 53
+  description: '{{subject}} {{verb:stand}} 4 feet 5 inches (135 centimeters) tall'
+  order: 30
+  default: false
+
+- display_value: '4ft 6in (137cm)'
+  value: 54
+  description: '{{subject}} {{verb:stand}} 4 feet 6 inches (137 centimeters) tall'
+  order: 31
+  default: false
+
+- display_value: '4ft 7in (140cm)'
+  value: 55
+  description: '{{subject}} {{verb:stand}} 4 feet 7 inches (140 centimeters) tall'
+  order: 32
+  default: false
+
+- display_value: '4ft 8in (142cm)'
+  value: 56
+  description: '{{subject}} {{verb:stand}} 4 feet 8 inches (142 centimeters) tall'
+  order: 33
+  default: false
+
+- display_value: '4ft 9in (145cm)'
+  value: 57
+  description: '{{subject}} {{verb:stand}} 4 feet 9 inches (145 centimeters) tall'
+  order: 34
+  default: false
+
+- display_value: '4ft 10in (147cm)'
+  value: 58
+  description: '{{subject}} {{verb:stand}} 4 feet 10 inches (147 centimeters) tall'
+  order: 35
+  default: false
+
+- display_value: '4ft 11in (150cm)'
+  value: 59
+  description: '{{subject}} {{verb:stand}} 4 feet 11 inches (150 centimeters) tall'
+  order: 36
+  default: false
+
+- display_value: '5ft (152cm)'
+  value: 60
+  description: '{{subject}} {{verb:stand}} 5 feet (152 centimeters) tall'
+  order: 37
+  default: false
+
+- display_value: '5ft 1in (155cm)'
+  value: 61
+  description: '{{subject}} {{verb:stand}} 5 feet 1 inches (155 centimeters) tall'
+  order: 38
+  default: false
+
+- display_value: '5ft 2in (157cm)'
+  value: 62
+  description: '{{subject}} {{verb:stand}} 5 feet 2 inches (157 centimeters) tall'
+  order: 39
+  default: false
+
+- display_value: '5ft 3in (160cm)'
+  value: 63
+  description: '{{subject}} {{verb:stand}} 5 feet 3 inches (160 centimeters) tall'
+  order: 40
+  default: false
+
+- display_value: '5ft 4in (163cm)'
+  value: 64
+  description: '{{subject}} {{verb:stand}} 5 feet 4 inches (163 centimeters) tall'
+  order: 41
+  default: false
+
+- display_value: '5ft 5in (165cm)'
+  value: 65
+  description: '{{subject}} {{verb:stand}} 5 feet 5 inches (165 centimeters) tall'
+  order: 42
+  default: false
+
+- display_value: '5ft 6in (168cm)'
+  value: 66
+  description: '{{subject}} {{verb:stand}} 5 feet 6 inches (168 centimeters) tall'
+  order: 43
+  default: false
+
+- display_value: '5ft 7in (170cm)'
+  value: 67
+  description: '{{subject}} {{verb:stand}} 5 feet 7 inches (170 centimeters) tall'
+  order: 44
+  default: false
+
+- display_value: '5ft 8in (173cm)'
+  value: 68
+  description: '{{subject}} {{verb:stand}} 5 feet 8 inches (173 centimeters) tall'
+  order: 45
+  default: false
+
+- display_value: '5ft 9in (175cm)'
+  value: 69
+  description: '{{subject}} {{verb:stand}} 5 feet 9 inches (175 centimeters) tall'
+  order: 46
+  default: false
+
+- display_value: '5ft 10in (178cm)'
+  value: 70
+  description: '{{subject}} {{verb:stand}} 5 feet 10 inches (178 centimeters) tall'
+  order: 47
+  default: false
+
+- display_value: '5ft 11in (180cm)'
+  value: 71
+  description: '{{subject}} {{verb:stand}} 5 feet 11 inches (180 centimeters) tall'
+  order: 48
+  default: false
+
+- display_value: '6ft (183cm)'
+  value: 72
+  description: '{{subject}} {{verb:stand}} 6 feet (183 centimeters) tall'
+  order: 49
+  default: false
+
+- display_value: '6ft 1in (185cm)'
+  value: 73
+  description: '{{subject}} {{verb:stand}} 6 feet 1 inches (185 centimeters) tall'
+  order: 50
+  default: false
+
+- display_value: '6ft 2in (188cm)'
+  value: 74
+  description: '{{subject}} {{verb:stand}} 6 feet 2 inches (188 centimeters) tall'
+  order: 51
+  default: false
+
+- display_value: '6ft 3in (191cm)'
+  value: 75
+  description: '{{subject}} {{verb:stand}} 6 feet 3 inches (191 centimeters) tall'
+  order: 52
+  default: false
+
+- display_value: '6ft 4in (193cm)'
+  value: 76
+  description: '{{subject}} {{verb:stand}} 6 feet 4 inches (193 centimeters) tall'
+  order: 53
+  default: false
+
+- display_value: '6ft 5in (196cm)'
+  value: 77
+  description: '{{subject}} {{verb:stand}} 6 feet 5 inches (196 centimeters) tall'
+  order: 54
+  default: false
+
+- display_value: '6ft 6in (198cm)'
+  value: 78
+  description: '{{subject}} {{verb:stand}} 6 feet 6 inches (198 centimeters) tall'
+  order: 55
+  default: false
+
+- display_value: '6ft 7in (201cm)'
+  value: 79
+  description: '{{subject}} {{verb:stand}} 6 feet 7 inches (201 centimeters) tall'
+  order: 56
+  default: false
+
+- display_value: '6ft 8in (203cm)'
+  value: 80
+  description: '{{subject}} {{verb:stand}} 6 feet 8 inches (203 centimeters) tall'
+  order: 57
+  default: false
+
+- display_value: '6ft 9in (206cm)'
+  value: 81
+  description: '{{subject}} {{verb:stand}} 6 feet 9 inches (206 centimeters) tall'
+  order: 58
+  default: false
+
+- display_value: '6ft 10in (208cm)'
+  value: 82
+  description: '{{subject}} {{verb:stand}} 6 feet 10 inches (208 centimeters) tall'
+  order: 59
+  default: false
+
+- display_value: '6ft 11in (211cm)'
+  value: 83
+  description: '{{subject}} {{verb:stand}} 6 feet 11 inches (211 centimeters) tall'
+  order: 60
+  default: false
+
+- display_value: '7ft (213cm)'
+  value: 84
+  description: '{{subject}} {{verb:stand}} 7 feet (213 centimeters) tall'
+  order: 61
+  default: false
+
+- display_value: '7ft 1in (216cm)'
+  value: 85
+  description: '{{subject}} {{verb:stand}} 7 feet 1 inches (216 centimeters) tall'
+  order: 62
+  default: false
+
+- display_value: '7ft 2in (218cm)'
+  value: 86
+  description: '{{subject}} {{verb:stand}} 7 feet 2 inches (218 centimeters) tall'
+  order: 63
+  default: false
+
+- display_value: '7ft 3in (221cm)'
+  value: 87
+  description: '{{subject}} {{verb:stand}} 7 feet 3 inches (221 centimeters) tall'
+  order: 64
+  default: false
+
+- display_value: '7ft 4in (224cm)'
+  value: 88
+  description: '{{subject}} {{verb:stand}} 7 feet 4 inches (224 centimeters) tall'
+  order: 65
+  default: false
+
+- display_value: '7ft 5in (226cm)'
+  value: 89
+  description: '{{subject}} {{verb:stand}} 7 feet 5 inches (226 centimeters) tall'
+  order: 66
+  default: false
+
+- display_value: '7ft 6in (229cm)'
+  value: 90
+  description: '{{subject}} {{verb:stand}} 7 feet 6 inches (229 centimeters) tall'
+  order: 67
+  default: false
+
+- display_value: '7ft 7in (231cm)'
+  value: 91
+  description: '{{subject}} {{verb:stand}} 7 feet 7 inches (231 centimeters) tall'
+  order: 68
+  default: false
+
+- display_value: '7ft 8in (234cm)'
+  value: 92
+  description: '{{subject}} {{verb:stand}} 7 feet 8 inches (234 centimeters) tall'
+  order: 69
+  default: false
+
+- display_value: '7ft 9in (236cm)'
+  value: 93
+  description: '{{subject}} {{verb:stand}} 7 feet 9 inches (236 centimeters) tall'
+  order: 70
+  default: false
+
+- display_value: '7ft 10in (239cm)'
+  value: 94
+  description: '{{subject}} {{verb:stand}} 7 feet 10 inches (239 centimeters) tall'
+  order: 71
+  default: false
+
+- display_value: '7ft 11in (241cm)'
+  value: 95
+  description: '{{subject}} {{verb:stand}} 7 feet 11 inches (241 centimeters) tall'
+  order: 72
+  default: false

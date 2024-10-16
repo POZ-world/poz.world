@@ -1,0 +1,201 @@
+---
+- value: null
+  display_value: '[not entered]'
+  description: "{{subject}} {{have}}n't selected {{possessive}} cock girth (yet)"
+  default: true
+  order: 0
+- value: 0.5
+  display_value: '½"'
+  description: "{{possessive}} cock measures ½ inches in girth (circumference)"
+  order: 1
+  default: false
+- value: 0.75
+  display_value: '¾"'
+  description: "{{possessive}} cock measures ¾ inches in girth (circumference)"
+  order: 2
+  default: false
+- value: 1
+  display_value: '1"'
+  description: "{{possessive}} cock measures 1 inches in girth (circumference)"
+  order: 3
+  default: false
+- value: 1.25
+  display_value: '1 ¼"'
+  description: "{{possessive}} cock measures 1 ¼ inches in girth (circumference)"
+  order: 4
+  default: false
+- value: 1.5
+  display_value: '1 ½"'
+  description: "{{possessive}} cock measures 1 ½ inches in girth (circumference)"
+  order: 5
+  default: false
+- value: 2
+  display_value: '2"'
+  description: "{{possessive}} cock measures 2 inches in girth (circumference)"
+  order: 7
+  default: false
+- value: 2.25
+  display_value: '2 ¼"'
+  description: "{{possessive}} cock measures 2 ¼ inches in girth (circumference)"
+  order: 8
+  default: false
+- value: 2.5
+  display_value: '2 ½"'
+  description: "{{possessive}} cock measures 2 ½ inches in girth (circumference)"
+  order: 9
+  default: false
+- value: 2.75
+  display_value: '2 ¾"'
+  description: "{{possessive}} cock measures 2 ¾ inches in girth (circumference)"
+  order: 10
+  default: false
+- value: 3
+  display_value: '3"'
+  description: "{{possessive}} cock measures 3 inches in girth (circumference)"
+  order: 11
+  default: false
+- value: 3.25
+  display_value: '3 ¼"'
+  description: "{{possessive}} cock measures 3 ¼ inches in girth (circumference)"
+  order: 12
+  default: false
+- value: 3.5
+  display_value: '3 ½"'
+  description: "{{possessive}} cock measures 3 ½ inches in girth (circumference)"
+  order: 13
+  default: false
+- value: 3.75
+  display_value: '3 ¾"'
+  description: "{{possessive}} cock measures 3 ¾ inches in girth (circumference)"
+  order: 14
+  default: false
+- value: 4
+  display_value: '4"'
+  description: "{{possessive}} cock measures 4 inches in girth (circumference)"
+  order: 15
+  default: false
+- value: 4.25
+  display_value: '4 ¼"'
+  description: "{{possessive}} cock measures 4 ¼ inches in girth (circumference)"
+  order: 16
+  default: false
+- value: 4.5
+  display_value: '4 ½"'
+  description: "{{possessive}} cock measures 4 ½ inches in girth (circumference)"
+  order: 17
+  default: false
+- value: 4.75
+  display_value: '4 ¾"'
+  description: "{{possessive}} cock measures 4 ¾ inches in girth (circumference)"
+  order: 18
+  default: false
+- value: 5
+  display_value: '5"'
+  description: "{{possessive}} cock measures 5 inches in girth (circumference)"
+  order: 19
+  default: false
+- value: 5.25
+  display_value: '5 ¼"'
+  description: "{{possessive}} cock measures 5 ¼ inches in girth (circumference)"
+  order: 20
+  default: false
+- value: 5.5
+  display_value: '5 ½"'
+  description: "{{possessive}} cock measures 5 ½ inches in girth (circumference)"
+  order: 21
+  default: false
+- value: 5.75
+  display_value: '5 ¾"'
+  description: "{{possessive}} cock measures 5 ¾ inches in girth (circumference)"
+  order: 22
+  default: false
+- value: 6
+  display_value: '6"'
+  description: "{{possessive}} cock measures 6 inches in girth (circumference)"
+  order: 23
+  default: false
+- value: 6.25
+  display_value: '6 ¼"'
+  description: "{{possessive}} cock measures 6 ¼ inches in girth (circumference)"
+  order: 24
+  default: false
+- value: 6.5
+  display_value: '6 ½"'
+  description: "{{possessive}} cock measures 6 ½ inches in girth (circumference)"
+  order: 25
+  default: false
+- value: 6.75
+  display_value: '6 ¾"'
+  description: "{{possessive}} cock measures 6 ¾ inches in girth (circumference)"
+  order: 26
+  default: false
+- value: 7
+  display_value: '7"'
+  description: "{{possessive}} cock measures 7 inches in girth (circumference)"
+  order: 27
+  default: false
+- value: 7.25
+  display_value: '7 ¼"'
+  description: "{{possessive}} cock measures 7 ¼ inches in girth (circumference)"
+  order: 28
+  default: false
+- value: 7.5
+  display_value: '7 ½"'
+  description: "{{possessive}} cock measures 7 ½ inches in girth (circumference)"
+  order: 29
+  default: false
+- value: 7.75
+  display_value: '7 ¾"'
+  description: "{{possessive}} cock measures 7 ¾ inches in girth (circumference)"
+  order: 30
+  default: false
+- value: 8
+  display_value: '8"'
+  description: "{{possessive}} cock measures 8 inches in girth (circumference)"
+  order: 31
+  default: false
+- value: 8.25
+  display_value: '8 ¼"'
+  description: "{{possessive}} cock measures 8 ¼ inches in girth (circumference)"
+  order: 32
+  default: false
+- value: 8.5
+  display_value: '8 ½"'
+  description: "{{possessive}} cock measures 8 ½ inches in girth (circumference)"
+  order: 33
+  default: false
+- value: 8.75
+  display_value: '8 ¾"'
+  description: "{{possessive}} cock measures 8 ¾ inches in girth (circumference)"
+  order: 34
+  default: false
+- value: 9
+  display_value: '9"'
+  description: "{{possessive}} cock measures 9 inches in girth (circumference)"
+  order: 35
+  default: false
+- value: 9.25
+  display_value: '9 ¼"'
+  description: "{{possessive}} cock measures 9 ¼ inches in girth (circumference)"
+  order: 36
+  default: false
+- value: 9.5
+  display_value: '9 ½"'
+  description: "{{possessive}} cock measures 9 ½ inches in girth (circumference)"
+  order: 37
+  default: false
+- value: 9.75
+  display_value: '9 ¾"'
+  description: "{{possessive}} cock measures 9 ¾ inches in girth (circumference)"
+  order: 38
+  default: false
+- value: 10
+  display_value: '10"'
+  description: "{{possessive}} cock measures an impossibly huge 10 inches in girth (circumference)"
+  order: 39
+  default: false
+- value: 9999
+  display_value: '> 10"'
+  description: "{{possessive}} cock measures an impossibly huge > 10 inches in girth (circumference)"
+  order: 40
+  default: false

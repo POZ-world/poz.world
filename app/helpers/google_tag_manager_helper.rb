@@ -7,13 +7,13 @@ module GoogleTagManagerHelper
   include Webpacker::Helper
   # Method to include Google Tag Manager script tag
   def google_tag_manager_script_tag
-    javascript_tag '', src: URI.join(asset_host, '/google_tag_manager.js') unless google_tag_manager_id.blank? || google_tag_manager_id.nil?
+    javascript_tag '', src: '/js/google_tag_manager.js' unless google_tag_manager_id.blank? || google_tag_manager_id.nil?
   end
 
   # Method to include Google Tag Manager noscript tag
   def google_tag_manager_noscript_tag
     # Noscript code for Google Tag Manager
-    noscript_content.html_safe unless google_tag_manager_id.blank? || google_tag_manager_id.nil? # rubocop:disable Rails/OutputSafety
+    raw noscript_content.html_safe unless google_tag_manager_id.blank? || google_tag_manager_id.nil? # rubocop:disable Rails/OutputSafety
   end
 
   def google_tag_manager_id
@@ -21,7 +21,7 @@ module GoogleTagManagerHelper
   end
 
   def noscript_content
-    <<~HTML
+    raw <<~HTML # rubocop:disable Rails/OutputSafety
       <!-- Google Tag Manager (noscript) -->
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=#{google_tag_manager_id}"
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

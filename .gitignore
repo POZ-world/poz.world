@@ -80,4 +80,12 @@ letsencrypt/
 
 # Ignore local-only rspec configuration
 .rspec-local
+./error.txt
 .npmrc
+/config/master.key
+/config/log
+/config/keys
+/config/nginx/dhparams.pem
+/public/@poz.world
+/dist/@poz.world
+/dist/@poz-world

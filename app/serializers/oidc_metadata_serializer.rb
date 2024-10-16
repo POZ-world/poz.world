@@ -1,0 +1,33 @@
+# frozen_string_literal: true
+
+class OidcMetadataSerializer < OauthMetadataSerializer
+  attributes :jwks_uri, :userinfo_endpoint, :end_session_endpoint,
+             :claims_supported, :scopes_supported, :response_types_supported,
+             :response_modes_supported, :grant_types_supported,
+             :acr_values_supported, :subject_types_supported,
+             :id_token_signing_alg_values_supported, :id_token_encryption_alg_values_supported,
+             :id_token_encryption_enc_values_supported, :userinfo_signing_alg_values_supported,
+             :userinfo_encryption_alg_values_supported, :userinfo_encryption_enc_values_supported,
+             :request_object_signing_alg_values_supported, :request_object_encryption_alg_values_supported,
+             :request_object_encryption_enc_values_supported, :token_endpoint_auth_methods_supported,
+             :token_endpoint_auth_signing_alg_values_supported, :display_values_supported, :claim_types_supported,
+             :claims_locales_supported, :ui_locales_supported, :claims_parameter_supported,
+             :request_parameter_supported, :request_uri_parameter_supported, :require_request_uri_registration,
+             :op_policy_uri, :op_tos_uri, :introspection_endpoint, :introspection_endpoint_auth_methods_supported,
+             :introspection_endpoint_auth_signing_alg_values_supported, :revocation_endpoint,
+             :revocation_endpoint_auth_methods_supported, :revocation_endpoint_auth_signing_alg_values_supported,
+             :frontchannel_logout_supported, :frontchannel_logout_session_supported, :backchannel_logout_supported,
+             :backchannel_logout_session_supported, :tls_client_certificate_bound_access_tokens, :mtls_endpoint_aliases,
+             :request_object_signing_alg_values_supported, :request_object_encryption_alg_values_supported,
+             :request_object_encryption_enc_values_supported, :token_endpoint_auth_methods_supported,
+             :token_endpoint_auth_signing_alg_values_supported, :display_values_supported, :claim_types_supported,
+             :claims_locales_supported, :ui_locales_supported, :claims_parameter_supported, :request_parameter_supported,
+             :request_uri_parameter_supported, :require_request_uri_registration, :op_policy_uri, :op_tos_uri,
+             :introspection_endpoint, :introspection_endpoint_auth_methods_supported,
+             :introspection_endpoint_auth_signing_alg_values_supported, :revocation_endpoint,
+             :revocation_endpoint_auth_methods_supported, :revocation_endpoint_auth_signing_alg_values_supported,
+             :frontchannel_logout_supported, :frontchannel_logout_session_supported, :backchannel_logout_supported,
+             :backchannel_logout_session_supported, :tls_client_certificate_bound_access_tokens, :mtls_endpoint_aliases,
+             :request_object_signing_alg_values_supported, :request_object_encryption_alg_values_supported,
+             :request_object_encryption_enc_values_supported, :token_endpoint_auth_methods_supported
+end

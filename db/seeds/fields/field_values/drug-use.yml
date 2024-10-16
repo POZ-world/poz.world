@@ -1,0 +1,51 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected whether {{subject}} uses recreational drugs (yet)"
+  default: true
+  order: 0
+- display_value: 'addict'
+  value: 'addict'
+  description: '{{subject}} {{be}} a drug addict'
+  order: 1
+  default: false
+- display_value: 'junkie'
+  value: 'junkie'
+  description: '{{subject}} {{be}} a junkie'
+  order: 2
+  default: false
+- display_value: 'yes, heavily'
+  value: 'heavily'
+  description: '{{subject}} {{verb:use}} recreational drugs a lot'
+  order: 3
+  default: false
+- display_value: 'yes'
+  value: 'yes'
+  description: '{{subject}} {{verb:use}} recreational drugs'
+  order: 4
+  default: false
+- display_value: 'socially'
+  value: 'socially'
+  description: "{{subject}} {{verb:use}} recreational drugs when {{subject}} {{be}} out with friends"
+  order: 5
+  default: false
+- display_value: 'quitting'
+  value: 'quitting'
+  description: '{{subject}} {{be}} trying to quit using recreational drugs'
+  order: 6
+  default: false
+- display_value: 'no'
+  value: 'no'
+  description: "{{subject}} {{do}}n't use recreational drugs"
+  order: 7
+  default: false
+- display_value: 'in recovery'
+  value: 'in recovery'
+  description: '{{subject}} {{be}} in recovery from drug addiction'
+  order: 8
+  default: false
+- display_value: 'fuck no'
+  value: 'fuck no'
+  description: '{{subject}} {{have}} never and will never use recreational drugs'
+  order: 9
+  default: false

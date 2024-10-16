@@ -1,0 +1,95 @@
+name: Build and Deploy POZ.World
+description: Builds and deploys POZ.world for a specific platform
+
+inputs:
+  platforms:
+    description: 'The platform to build and deploy'
+    required: true
+    default: 'linux/amd64'
+  github-username:
+    required: false
+    default: justinwritescode
+    description: the username to use when logging in to the container registry
+  github-password:
+    required: true
+    description: the token to use when logging in to the GitHub container registry (GHCR)
+  acr-password:
+    required: true
+    description: the Azure Container Registry (ACR) login token
+  dockerfile:
+    required: true
+    description: The Dockerfile to build
+  tag:
+    required: true
+    description: The tag to use for the image
+  git-token:
+    required: false
+    default: ${{ github.token }}
+    description: The GitHub token to use for authenticating with the repo
+  tag-prefix:
+    required: false
+    default: v
+    description: The tag prefix to use when calculating the version number using MinVer
+  description:
+    required: false
+    default: Your self-hosted social media platform
+    description: The descritpion label to attach to the image
+  publish-profile:
+    required: true
+    description: The publish profile to use when deploying to Azure Web Apps
+  docker-build-cloud-username:
+    required: false
+    description: The username to use when logging in to the Docker Cloud
+  docker-build-cloud-password:
+    required: false
+    description: The password to use when logging in to the Docker Cloud
+  docker-build-cloud-endpoint:
+    required: false
+    description: The endpoint to use when using Docker build cloud
+outputs:
+  image:
+    description: The image to push to the Azure Web App
+    value: ghcr.io/poz-world/${{ inputs.tag }}:${{ github.sha }}
+
+runs:
+  using: composite
+  steps:
+  - name: Checkout code
+    uses: actions/checkout@v2
+
+  - name: Set up Docker Buildx
+    uses: docker/setup-buildx-action@v1
+
+  - name: Convert repository name to lowercase
+    shell: bash
+    id: repo-name
+    run: echo "::set-output name=lowercase_repo::$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
+
+  - name: Build and Push Docker Image
+    uses: ../build-and-push-docker-image
+    env: 
+      APPLICATIONINSIGHTS_ENDPOINT: https://eastus-8.in.applicationinsights.azure.com
+    with:
+      git-token: ${{ inputs.git-token }}
+      github-password: ${{ inputs.github-password }}
+      username: ${{ inputs.github-username }}
+      acr-password: ${{ inputs.acr-password }}
+      tag: |
+        ghcr.io/${{ steps.repo-name.outputs.lowercase_repo }}
+        thebackroomlife.azurecr.io/poz.world
+      tag-prefix: ${{ inputs.tag-prefix}}
+      description: Your self-hosted social media platform for the HIV community
+      dockerfile: Dockerfile
+      platforms: ${{ inputs.platforms }}
+      docker-build-cloud-username: ${{ inputs.docker-build-cloud-username }}
+      docker-build-cloud-password: ${{ inputs.docker-build-cloud-password }}
+      docker-build-cloud-endpoint: ${{ inputs.docker-build-cloud-endpoint }}
+      
+  - name: Deploy to Azure Web App
+    id: deploy
+    uses: azure/webapps-deploy@v2
+    with:
+      app-name: 'pozworld'
+      slot-name: 'production'
+      publish-profile: ${{ inputs.publish-profile }}
+      images: 'ghcr.io/poz-world/poz.world:${{ github.sha }}'

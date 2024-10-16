@@ -1,0 +1,94 @@
+{
+	"ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY": {
+		"uri": "https://pozworld.vault.azure.net/secrets/ACTIVE-RECORD-ENCRYPTION-DETERMINISTIC-KEY"
+	},
+	"ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT": {
+		"uri": "https://pozworld.vault.azure.net/secrets/ACTIVE-RECORD-ENCRYPTION-KEY-DERIVATION-SALT"
+	},
+	"ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY": {
+		"uri": "https://pozworld.vault.azure.net/secrets/ACTIVE-RECORD-ENCRYPTION-PRIMARY-KEY"
+	},
+	"ALTERNATE_DOMAINS": "pozworld.azurewebsites.net,pozz.me,pozzme.azurewebsites.net,pozz.ing,poz.world",
+	"APPLICATIONINSIGHTS_INSTRUMENTATION_KEY": "59cb42e8-c9ef-4545-b32c-6a8a6788468f",
+	"AWS_ACCESS_KEY_ID": "AKIASBGQLIREH6V4CYMI",
+	"AWS_SECRET_ACCESS_KEY": {
+		"uri": "https://pozworld.vault.azure.net/secrets/AWS-SECRET-ACCESS-KEY"
+	},
+	"CDN_HOST": "https://cdn.poz.world",
+	"CSP_CONTENT_SRC": "matomo.my www.googletagmanager.com www.google-analytics.com unsafe-inline *.clarity.ms *.consentmanager.net delivery.consentmanager.net",
+	"CSP_SCRIPT_SRC": "matomo.my www.googletagmanager.com www.google-analytics.com unsafe-inline *.clarity.ms *.consentmanager.net delivery.consentmanager.net",
+	"DB_HOST": "thebackroomlife.postgres.database.azure.com",
+	"DB_NAME": "pozworld",
+	"DB_PASS": {
+		"uri": "https://pozworld.vault.azure.net/secrets/DB-PASS"
+	},
+	"DB_PORT": "5432",
+	"DB_SSLMODE": "prefer",
+	"DB_USER": "thebackroomlife",
+	"DEFAULT_LOCALE": "en",
+	"ES_ENABLED": "false",
+	"GA_ID": "G-T7C71HF9DS",
+	"GITHUB_REPOSITORY": "justinwritescode/mastodon",
+	"GOOGLE_ANALYTICS_ENABLED": "true",
+	"GOOGLE_ANALYTICS_TRACKING_ID": "G-T7C71HF9DS",
+	"GOOGLE_TAG_MANAGER_ENABLED": "true",
+	"GOOGLE_TAG_MANAGER_ID": "GTM-TH82DZ77",
+	"GTM_ID": "GTM-TH82DZ77",
+	"HCAPTCHA_SECRET_KEY": {
+		"uri": "https://pozworld.vault.azure.net/secrets/HCAPTCHA-SECRET-KEY"
+	},
+	"HCAPTCHA_SITE_KEY": "add8ff0a-9a1c-46ae-9ffc-6dec5f8e2996",
+	"IP_RETENTION_PERIOD": "31556952",
+	"LOCAL_DOMAIN": "poz.world",
+	"LOG_LEVEL": "silly",
+	"MASCOT_IMAGES_DIRECTORY": "app/javascript/images/mascots",
+	"MATOMO_ENABLED": "true",
+	"MATOMO_HOST": "matomo.my",
+	"MS_CLARITY_ENABLED": "true",
+	"MS_CLARITY_ID": "o3cd9vo0c6",
+	"OTP_SECRET": {
+		"uri": "https://pozworld.vault.azure.net/secrets/OTP-SECRET-KEY"
+	},
+	"PAPERCLIP_ROOT_PATH": "/var/mastodon/files",
+	"PGID": "1000",
+	"PUID": "1000",
+	"RAILS_ENVIRONMENT": "production",
+	"RAILS_LOG_LEVEL": "debug",
+	"RAILS_SERVE_STATIC_FILES": "false",
+	"REDIS_DRIVER": "ruby",
+	"REDIS_HOST": "redis-18738.c56.east-us.azure.redns.redis-cloud.com",
+	"REDIS_NAMESPACE": "POZ.world",
+	"REDIS_PASS": {
+		"uri": "https://pozworld.vault.azure.net/secrets/REDIS-PASSWORD"
+	},
+	"REDIS_PORT": "18738",
+	"REDIS_URL": {
+		"uri": "https://pozworld.vault.azure.net/secrets/REDIS-URL"
+	},
+	"S3_ALIAS_HOST": "media.poz.world",
+	"S3_BUCKET": "pozworld",
+	"S3_ENABLED": "true",
+	"S3_REGION": "us-east-1",
+	"SECRET_KEY_BASE": {
+		"uri": "https://pozworld.vault.azure.net/secrets/SECRET-KEY-BASE"
+	},
+	"SESSION_RETENTION_PERIOD": "31556952",
+	"SMTP_AUTH_METHOD": "plain",
+	"SMTP_ENABLE_STARTTLS": "auto",
+	"SMTP_FROM_ADDRESS": "notifications@poz.world",
+	"SMTP_LOGIN": "justin@backroomfederation.xyz",
+	"SMTP_PASSWORD": {
+		"uri": "https://pozworld.vault.azure.net/secrets/SMTP-PASSWORD"
+	},
+	"SMTP_PORT": "587",
+	"SMTP_SERVER": "smtp.gmail.com",
+	"SMTP_TLS": "true",
+	"STREAMING_API_BASE_URL": "wss://streaming.poz.world",
+	"TZ": "EST5EDT",
+	"VAPID_PRIVATE_KEY": {
+		"uri": "https://pozworld.vault.azure.net/secrets/VAPID-PRIVATE-KEY"
+	},
+	"VAPID_PUBLIC_KEY": "BF3Q_BrL_g3FHCBiiqd9xv85XLhk2aeisqhic8aQzfQiC02GR6i9h_L8whNC42lOiZ_LMGYfjc8V0VcSNd1CSXo=",
+	"WEBSITE_TIME_ZONE": "EST5EDT",
+	"WEB_DOMAIN": "poz.world"
+}

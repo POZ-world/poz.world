@@ -1,0 +1,18 @@
+- faq_counter ||= 0
+.announcements-list__item
+  = link_to edit_admin_faq_path(faq), class: 'announcements-list__item__title' do
+    #{faq.number}.
+    = truncate(faq.question)
+
+  .announcements-list__item__action-bar
+    .announcements-list__item__meta
+      = faq.answer
+
+    %div
+      - unless faq_counter == 0
+        = button_to '↑&nbsp;Move&nbsp;up'.html_safe, swap_positions_admin_faq_path(faq, direction: :up), method: :patch, class: 'btn btn-default', form: { data: { remote: true } }
+      - unless faq_counter == total_faqs - 1
+        = button_to '↓&nbsp;Move&nbsp;down'.html_safe, swap_positions_admin_faq_path(faq, direction: :down), method: :patch, class: 'btn btn-default', form: { data: { remote: true } }
+      = table_link_to 'delete', t('admin.faqs.delete'), admin_faq_path(faq), method: :delete, data: { confirm: t('admin.accounts.are_you_sure') } if can?(:destroy, faq)
+
+- faq_counter += 1

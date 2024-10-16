@@ -29,6 +29,10 @@ class Instance < ApplicationRecord
   scope :by_domain_and_subdomains, ->(domain) { where("reverse('.' || domain) LIKE reverse(?)", "%.#{domain}") }
   scope :with_domain_follows, ->(domains) { where(domain: domains).where(domain_account_follows) }
 
+  def faqs
+    Faq.ordered
+  end
+
   def self.domain_account_follows
     Arel.sql(
       <<~SQL.squish

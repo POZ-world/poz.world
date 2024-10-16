@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  include Pundit::Authorization
+  include InlineSvg::ActionView::Helpers
+  include InitialStateHelper
+
+  DANGEROUS_SCOPES = %w(
+    read
+    write
+    follow
+  ).freeze
+
   RTL_LOCALES = %i(
     ar
     ckb
@@ -99,7 +109,8 @@ module ApplicationHelper
   def can?(action, record)
     return false if record.nil?
 
-    policy(record).public_send(:"#{action}?")
+    policy = policy(record) # This line assumes the policy method exists and is called correctly.
+    policy.public_send(:"#{action}?")
   end
 
   def material_symbol(icon, attributes = {})
@@ -186,35 +197,8 @@ module ApplicationHelper
   end
 
   def render_initial_state
-    state_params = {
-      settings: {},
-      text: [params[:title], params[:text], params[:url]].compact.join(' '),
-    }
-
-    permit_visibilities = %w(public unlisted private direct)
-    default_privacy     = current_account&.user&.setting_default_privacy
-    permit_visibilities.shift(permit_visibilities.index(default_privacy) + 1) if default_privacy.present?
-    state_params[:visibility] = params[:visibility] if permit_visibilities.include? params[:visibility]
-
-    if user_signed_in? && current_user.functional?
-      state_params[:settings]          = state_params[:settings].merge(Web::Setting.find_by(user: current_user)&.data || {})
-      state_params[:push_subscription] = current_account.user.web_push_subscription(current_session)
-      state_params[:current_account]   = current_account
-      state_params[:token]             = current_session.token
-      state_params[:admin]             = Account.find_local(Setting.site_contact_username.strip.gsub(/\A@/, ''))
-    end
-
-    if user_signed_in? && !current_user.functional?
-      state_params[:disabled_account] = current_account
-      state_params[:moved_to_account] = current_account.moved_to_account
-    end
-
-    state_params[:owner] = Account.local.without_suspended.without_internal.first if single_user_mode?
-
-    json = ActiveModelSerializers::SerializableResource.new(InitialStatePresenter.new(state_params), serializer: InitialStateSerializer).to_json
-    # rubocop:disable Rails/OutputSafety
-    content_tag(:script, json_escape(json).html_safe, id: 'initial-state', type: 'application/json')
-    # rubocop:enable Rails/OutputSafety
+    my_initial_state = initial_state({})
+    content_tag(:script, my_initial_state, id: 'initial-state', type: 'application/json')
   end
 
   def grouped_scopes(scopes)
@@ -241,6 +225,59 @@ module ApplicationHelper
     # full_asset_url(instance_presenter.mascot&.file&.url || frontend_asset_path('images/elephant_ui_plane.svg'))
   end
 
+  def svg_symbol(icon, prefix, attributes = {})
+    safe_join(
+      [
+        render_inline_svg(
+          "#{icon}.svg",
+          class: ['icon', "#{prefix}-#{icon}"].concat(attributes[:class].to_s.split),
+          role: :img,
+          data: attributes[:data]
+        ),
+        ' ',
+      ]
+    )
+  end
+
+  def bootstrap_icon(name, options = {})
+    options[:class] = "bi bi-#{name} #{options[:class]}".strip
+    content_tag(:i, nil, options)
+  end
+
+  def bootstrap_icon_text(name, text, options = {})
+    options[:class] = "bi bi-#{name} #{options[:class]}".strip
+    content_tag(:i, text, options)
+  end
+
+  def bootstrap_icon_button(name, text, options = {})
+    options[:class] = "bi bi-#{name} #{options[:class]}".strip
+    options[:type] = 'button'
+    button_tag(text, options)
+  end
+
+  def bootstrap_icon_link(name, text, url, options = {})
+    options[:class] = "bi bi-#{name} #{options[:class]}".strip
+    link_to(text, url, options)
+  end
+
+  def bootstrap_icon_button_link(name, text, url, options = {})
+    options[:class] = "bi bi-#{name} #{options[:class]}".strip
+    options[:type] = 'button'
+    link_to(text, url, options)
+  end
+
+  def bootstrap_icons_stylesheet_link_tag
+    stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css'
+  end
+
+  def bootstrap_stylesheet_tag
+    stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css'
+  end
+
+  def bootstrap_javascript_tag
+    javascript_tag '', src: 'https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.js'
+  end
+
   def copyable_input(options = {})
     tag.input(type: :text, maxlength: 999, spellcheck: false, readonly: true, **options)
   end
@@ -249,5 +286,9 @@ module ApplicationHelper
 
   def storage_host_var
     ENV.fetch('S3_ALIAS_HOST', nil) || ENV.fetch('S3_CLOUDFRONT_HOST', nil) || ENV.fetch('AZURE_ALIAS_HOST', nil)
+  end
+
+  def ci?
+    ENV.fetch('CI', 'false') == 'true'
   end
 end

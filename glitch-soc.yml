@@ -1,0 +1,16 @@
+---
+services:
+  glitch-soc:
+    image: ghcr.io/glitch-soc/mastodon:nightly
+    env_file: .env.production
+    entrypoint: [ "/opt/mastodon/bin/bundle", "exec", "puma", "-C", "/opt/mastodon/config/puma.rb" ]
+    environment:
+      - RAILS_ENVIRONMENT=testing
+      - ALTERNATIVE_DOMAINS=localhost
+      - LOCAL_DOMAIN=poz.world
+      - RAILS_SERVE_STATIC_FILES=true
+      - CDN_HOST=http://poz.world:3001
+    ports:
+      - 3001:3000
+    volumes:
+      - ./config/environments/production.rb:/opt/mastodon/config/environments/production.rb

@@ -1,0 +1,58 @@
+ARG TAG=nightly \
+    AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}  \
+    AZURE_STORAGE_CONTAINER_NAME=${AZURE_STORAGE_CONTAINER_NAME} \
+    MASTODON_VERSION_METADATA=${MASTODON_VERSION_METADATA:-''} \
+    MASTODON_VERSION_PRERELEASE=${MASTODON_VERSION_PRERELEASE:-'nightly'}
+
+FROM ghcr.io/mastodon/mastodon-streaming:${TAG} AS base
+
+SHELL ["/bin/bash", "-o", "pipefail", "-o", "errexit", "-c"]
+
+ENV TZ=EST5EDT \
+    WEBSITE_TIME_ZONE=EST5EDT \
+    PATH="${PATH}:/opt/ruby/bin:/opt/mastodon/bin" \
+    RAILS_ENV=production \
+    NODE_ENV=production \
+    AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}  \
+    AZURE_STORAGE_CONTAINER_NAME=${AZURE_STORAGE_CONTAINER_NAME} \
+    MASTODON_VERSION_METADATA=${MASTODON_VERSION_METADATA} \
+    MASTODON_VERSION_PRERELEASE=${MASTODON_VERSION_PRERELEASE}
+
+USER root
+
+RUN mkdir /app && \
+    mkdir /run/sshd && \
+    ln -s /opt/mastodon /app/www && \
+    apt-get update  && \
+    apt-get install -y --no-install-recommends dialog && \
+    apt-get install -y --no-install-recommends \
+    openssh-server \
+    nginx \
+    nodejs && \
+    echo "root:Docker!" | chpasswd 
+
+RUN apt-get install -y \
+    build-essential \ 
+    libssl-dev \
+    git \
+    libicu-dev \
+    libidn11-dev \
+    libpq-dev
+
+WORKDIR /opt/mastodon
+
+EXPOSE 8081 2222 
+
+RUN \ 
+    rm -rf /usr/bin/bundle && \
+    ln -s /opt/mastodon/bin/bundle /usr/bin/bundle;
+
+COPY ./root /
+COPY . /opt/mastodon/
+COPY config /config
+
+ENTRYPOINT [ "/bin/bash", "/opt/mastodon/bin/start-streaming" ]
+
+LABEL org.opencontainers.image.description="This is the image for the POZ.world Mastodon streaming instances."
+LABEL org.opencontainers.image.source="https://github.com/justinwritescode/mastodon"
+LABEL org.opencontainers.image.licenses="MIT"

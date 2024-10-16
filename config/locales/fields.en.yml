@@ -1,0 +1,50 @@
+# 
+# faqs.en copy.yml
+#     Created: 2024-09-24T06:36:56-04:00
+#    Modified: 2024-09-24T06:36:57-04:00
+#      Author: Justin Paul Chase <justin@justinwritescode.com>
+#   Copyright: © 2024 Justin Paul Chase, All Rights Reserved
+#     License: MIT (https://opensource.org/licenses/MIT)
+# 
+
+---
+en:
+  fields:
+    title: "Field Templates & Values"
+  field_templates:
+    title: Field Templates
+    destroyed: "The template has been deleted."
+    updated: "The template has been updated."
+    created: "The template has been created."
+    not_found: "The template was not found."
+    delete_confirmation: 'Are you sure?'
+    new: 
+      title: "New field template"
+    edit: 
+      title: "Edit field template"
+    index:
+      empty: "No field templates found."
+      title: "Field Templates"
+  admin:
+    fields:
+      title: User Profile Fields
+    field_values:
+      title: Field Values
+      add_new: 'Create field value'
+      empty: "No field values found."
+      edit: "Edit field value"
+      delete: "Delete"
+      moderation_notes:
+        destroyed: "The field value has been deleted."
+        updated: "The field value has been updated."
+        created: "The field value has been created."
+    field_templates:
+      title: Field Templates
+      add_new: 'Create field template'
+      empty: "No field valutemplateses found."
+      edit: "Edit field template"
+      delete: "Delete"
+      moderation_notes:
+        destroyed: "The field template has been deleted."
+        updated: "The field template has been updated."
+        created: "The field template has been created."

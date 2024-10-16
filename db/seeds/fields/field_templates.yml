@@ -1,0 +1,220 @@
+---
+- name: 'build'
+  dropdown: true
+  description: '{{possessive}} build/body type'
+  multiple: false
+  type: 'string'
+  source: 'db/seeds/fields/field_values/build.yml'
+  category: 'physical'
+  order: 0
+
+- name: 'sexual role'
+  dropdown: true
+  description: '{{do}} {{subject}} prefer the top or the bottom bunk?'
+  multiple: false
+  type: 'string'
+  source: 'db/seeds/fields/field_values/sexual-role.yml'
+  category: 'sex'
+  order: 0
+
+- name: 'cock length'
+  dropdown: true
+  description: 'how long is {{possessive}} cock, measured from the base along the top, in inches?'
+  multiple: false
+  type: 'float'
+  source: 'db/seeds/fields/field_values/cock-length.yml'
+  category: 'sex'
+  order: 1
+
+- name: 'cock girth'
+  dropdown: true
+  description: 'how thick around is {{possessive}} cock (i.e., its circumference), in inches?'
+  multiple: false
+  type: 'float'
+  source: 'db/seeds/fields/field_values/cock-girth.yml'
+  category: 'sex'
+  order: 2
+
+- name: 'cut'
+  dropdown: true
+  description: '{{be:past}} {{subject}} the victim of infant male genital mutilation (i.e., {{be}} {{subject}} circumcised)'
+  multiple: false
+  type: boolean
+  source: 'db/seeds/fields/field_values/cut.yml'
+  category: 'sex'
+  order: 3
+
+- name: 'hiv status'
+  dropdown: true
+  description: '{{possessive}} HIV status'
+  multiple: false
+  type: 'string'
+  source: 'db/seeds/fields/field_values/hiv-status.yml'
+  category: 'sex'
+  order: 4
+
+- name: 'dominance'
+  dropdown: true
+  description: 'how "dominant" {{be}} {{subject}} in the sack (or dungeon)?'
+  multiple: false
+  type: 'integer'
+  source: 'db/seeds/fields/field_values/dominance.yml'
+  category: 'sex'
+  order: 5
+
+- name: 'kinks/fetishes'
+  dropdown: false
+  description: 'the fuck {{be}} {{subject}} into, BBro?'
+  multiple: true
+  type: 'string'
+  source: 'db/seeds/fields/field_values/kinks.yml'
+  category: 'sex'
+  order: 6
+
+- name: 'drug use'
+  dropdown: true
+  description: '{{possessive}} habits as they relate to recreational drug usage'
+  multiple: false
+  type: 'string'
+  source: 'db/seeds/fields/field_values/drug-use.yml'
+  category: 'lifestyle'
+  order: 0
+
+- name: 'drugs of choice'
+  dropdown: true
+  description: 'when/if {{subject}} {{verb:use}} recreational drugs, which one(s) {{do}} {{subject}} use?'
+  multiple: true
+  type: 'string'
+  source: 'db/seeds/fields/field_values/drug-of-choice.yml'
+  category: 'lifestyle'
+  order: 1
+  rules:
+    method: none_of
+    'drug use': ['fuck no', 'in recovery', 'no', 'quitting']
+
+- name: 'drinker'
+  dropdown: true
+  description: '{{possessive}} habits with alcohol'
+  multiple: false
+  type: 'string'
+  source: 'db/seeds/fields/field_values/drinker.yml'
+  category: 'lifestyle'
+  order: 2
+
+- name: 'smoker'
+  dropdown: true
+  description: '{{do}} {{subject}} use cigarettes?'
+  multiple: false
+  type: 'string'
+  source: 'db/seeds/fields/field_values/smoker.yml'
+  category: 'lifestyle'
+  order: 3
+
+- name: 'eye color'
+  dropdown: true
+  description: 'what color are {{possessive}} eyes? (note: if {{subject}} {{have}} heterochromia, {{subject}} can select more than one)'
+  multiple: true
+  type: 'string'
+  source: 'db/seeds/fields/field_values/eye-color.yml'
+  category: 'physical'
+  order: 0
+
+- name: 'hair color'
+  dropdown: true
+  description: 'what color is {{possessive}} hair?'
+  multiple: false
+  type: 'string'
+  source: 'db/seeds/fields/field_values/hair-color.yml'
+  category: 'physical'
+  order: 1
+
+- name: 'hair length/style'
+  dropdown: true
+  description: 'how {{do}} {{subject}} {{verb:wear}} {{possessive}} hair?'
+  multiple: false
+  type: 'string'
+  source: 'db/seeds/fields/field_values/hair-length-style.yml'
+  category: 'physical'
+  order: 2
+
+- name: 'body hair'
+  dropdown: true
+  description: 'how hairy {{be}} {{subject}}?'
+  multiple: false
+  type: 'string'
+  source: 'db/seeds/fields/field_values/body-hair.yml'
+  category: 'physical'
+  order: 3
+
+- name: 'height'
+  dropdown: true
+  description: 'how tall {{be}} {{subject}}?'
+  multiple: false
+  type: 'float'
+  source: 'db/seeds/fields/field_values/height.yml'
+  category: 'physical'
+  order: 4
+
+- name: 'weight'
+  dropdown: true
+  description: 'how much {{do}} {{subject}} weigh?'
+  multiple: false
+  type: 'float'
+  source: 'db/seeds/fields/field_values/weight.yml'
+  category: 'physical'
+  order: 5
+
+- name: 'location'
+  dropdown: false
+  description: '{{possessive}} current location (city, state)'
+  multiple: false
+  type: 'object'
+  source: 'db/seeds/fields/field_values/location.yml'
+  category: 'location'
+  order: 0
+
+- name: 'race'
+  dropdown: true
+  description: '{{possessive}} racial makeup'
+  multiple: true
+  type: 'string'
+  source: 'db/seeds/fields/field_values/race.yml'
+  category: 'identity'
+  order: 0
+
+- name: 'viral load'
+  dropdown: true
+  description: '{{possessive}} latest viral load'
+  multiple: false
+  type: 'float'
+  source: 'db/seeds/fields/field_values/viral-load.yml'
+  category: 'for poz men only'
+  order: 100
+  rules:
+    method: any_of
+    'hiv status': ['poz', 'undetectable', 'toxic']
+
+- name: 'former chaser'
+  dropdown: true
+  description: '{{be}} {{subject}} a former chaser?'
+  multiple: false
+  type: boolean
+  source: 'db/seeds/fields/field_values/former-chaser.yml'
+  category: 'for poz men only'
+  order: 100
+  rules:
+    method: any_of
+    'hiv status': ['poz', 'undetectable', 'toxic']
+
+- name: 'why chase?'
+  dropdown: false
+  description: 'why {{be}} {{subject}} chasing/did {{subject}} chase hiv?'
+  multiple: false
+  type: 'string'
+  source: 'db/seeds/fields/field_values/why-chasing.yml'
+  category: 'for chasers and former chasers only'
+  order: 100
+  rules:
+    method: any_of
+    'former chaser': 'yes'
+    'hiv status': 'chaser'

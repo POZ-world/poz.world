@@ -1,0 +1,33 @@
+- content_for :page_title do
+  = @field_value ? @field_value.value : 'Field Value'
+
+- content_for :header_tags do
+  - if @field_value
+    %meta{ name: 'description', content: @field_value.third_person_masculine_description }
+    %link{ rel: 'edit', href: edit_admin_field_template_field_value_path(@field_value.field_template_id, @field_value.id) }
+
+- if @field_value
+  .card.my-3
+    .card-body
+      %p
+        %strong Value:
+        = @field_value.value
+      %p
+        %strong Display Value:
+        = @field_value.display_value
+      %p
+        %strong Description:
+        = @field_value.description
+      %p
+        %strong Default:
+        = @field_value.default
+      %p
+        %strong Order:
+        = @field_value.order
+
+  = link_to 'Edit', edit_admin_field_template_field_value_path(@field_value.field_template_id, @field_value.id), class: 'btn btn-warning'
+  |
+  = link_to 'Back', admin_field_template_field_values_path(@field_value.field_template_id), class: 'btn btn-secondary'
+- else
+  .alert.alert-danger Field Value not found.
+  = link_to 'Back', admin_field_template_field_values_path, class: 'btn btn-secondary'

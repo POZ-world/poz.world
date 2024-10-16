@@ -1,0 +1,18 @@
+#!/bin/bash
+# shellcheck shell=bash
+
+bin/show-sshd-branding
+
+if /usr/bin/pgrep -f "sshd:" >/dev/null; then
+    /bin/echo "Zombie sshd processes detected, sending SIGTERM"
+    /usr/bin/pkill -ef sshd:
+    csleep 1
+fi
+
+if /usr/bin/pgrep -f "sshd:" >/dev/null; then
+    /bin/echo "Zombie sshd processes still active, sending SIGKILL"
+    /usr/bin/pkill -9 -ef sshd:
+    /bin/sleep 1
+fi
+
+/usr/sbin/sshd 

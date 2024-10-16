@@ -230,28 +230,21 @@ Rails.application.routes.draw do
   get '/privacy-policy', to: 'privacy#show', as: :privacy_policy
   get '/terms',          to: redirect('/privacy-policy')
 
-  # Route for Google Tag Manager script at /js/gtm.js
-  get '/js/google_tag_manager.js', to: 'js/google_tag_manager#serve'
+  draw(:dynamic_javascript)
+  draw(:did)
+  draw(:errors)
+  draw(:faqs)
+  draw(:environment)
+  draw(:fields)
+  draw(:mascot)
+  draw(:images)
+  draw(:api_vnext)
 
-  # Route for User Identification script at /js/ga.js
-  get '/js/identify_user.js', to: 'js/analytics_identify_user#serve'
-
-  # get '/css/error/:error_code.css', to: 'css/error_css#serve'
-
-  get '/.well-known/did.json', to: 'well_known/did#did'
-  get '/mascot.png', to: 'mascot#serve'
-
-  get '/400', to: 'application#bad_request'
-  get '/403', to: 'application#forbidden'
-  get '/404', to: 'application#not_found'
-  get '/406', to: 'application#not_acceptable'
-  get '/410', to: 'application#gone'
-  get '/418', to: 'application#im_a_teapot'
-  get '/422', to: 'application#unprocessable_entity'
-  get '/429', to: 'application#too_many_requests'
-  get '/500', to: 'application#internal_server_error'
-  get '/502', to: 'application#bad_gateway'
-  get '/503', to: 'application#service_unavailable'
+  namespace :api do
+    namespace :v1 do
+      get 'landing', to: 'landing#show'
+    end
+  end
 
   match '/', via: [:post, :put, :patch, :delete], to: 'application#raise_not_found', format: false
   match '*unmatched_route', via: :all, to: 'application#raise_not_found', format: false

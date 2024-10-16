@@ -1,15 +1,18 @@
 [Unit]
 Description=mastodon-web
 After=network.target
+Requires=nginx.service
+Requires=mastodon-init.service
 
 [Service]
 Type=simple
 User=mastodon
-WorkingDirectory=/home/mastodon/live
+WorkingDirectory=/opt/mastodon
 Environment="RAILS_ENV=production"
 Environment="PORT=3000"
 Environment="LD_PRELOAD=libjemalloc.so"
-ExecStart=/home/mastodon/.rbenv/shims/bundle exec puma -C config/puma.rb
+Environment="PATH=/opt/mastodon/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin"
+ExecStart=/opt/mastodon/bin/bundle exec puma -C config/puma.rb
 ExecReload=/bin/kill -SIGUSR1 $MAINPID
 TimeoutSec=15
 Restart=always

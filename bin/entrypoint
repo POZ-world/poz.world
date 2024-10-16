@@ -1,16 +1,35 @@
-#!/usr/bin/with-contenv bash
+#!/usr/with-contenv bash
 # shellcheck shell=bash
-
+echo "Entering entrypoint."
 set -e
-export RAILS_ENV=production
-export PATH="/mastodon/bin:${PATH}"
+
+/opt/mastodon/bin/start-sshd;
+
+/opt/mastodon/bin/show-branding;
 
 if [[ $PROGRAM == "mastodon" ]]; then
-    bash start-mastodon;
+    /opt/mastodon/bin/show-mastodon-branding;
+    /opt/mastodon/bin/start-mastodon;
 elif [[ $PROGRAM == "sidekiq" ]]; then
-    bash start-sidekiq;
+    /opt/mastodon/bin/show-sidekiq-branding;
+    /opt/mastodon/bin/start-sidekiq;
 elif [[ $PROGRAM == "streaming" ]]; then
-    bash start-streaming;
+    /opt/mastodon/bin/show-streaming-branding;
+    /opt/mastodon/bin/start-streaming;
+elif [[ $PROGRAM == "all" ]]; then
+    /opt/mastodon/bin/show-mastodon-branding;
+    /opt/mastodon/bin/start-mastodon;
+    /opt/mastodon/bin/show-sidekiq-branding;
+    /opt/mastodon/bin/start-sidekiq;
+    /opt/mastodon/bin/show-mastodon-branding;
+    /opt/mastodon/bin/start-streaming;
 else
-    echo "Program '${PROGRAM}' could not be started.";
+    echo "Program '${PROGRAM}' was not found and could not be started.";
+    exit 1;
 fi
+
+/opt/mastodon/bin/start-nginx;
+
+/opt/mastodon/bin/sleep-forever;
+
+echo "Exiting entrypoint."

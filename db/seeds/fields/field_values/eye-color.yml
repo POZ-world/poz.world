@@ -1,0 +1,36 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected an eye color (yet)"
+  default: true
+  order: 0
+- display_value: 'brown'
+  value: 'brown'
+  description: "{{subject}} {{have}} brown eyes"
+  order: 1
+  default: false
+- display_value: 'blue'
+  value: 'blue'
+  description: "{{subject}} {{have}} blue eyes"
+  order: 2
+  default: false
+- display_value: 'hazel'
+  value: 'hazel'
+  description: "{{subject}} {{have}} hazel eyes"
+  order: 3
+  default: false
+- display_value: 'black'
+  value: 'black'
+  description: "{{subject}} {{have}} black eyes"
+  order: 4
+  default: false
+- display_value: 'green'
+  value: 'green'
+  description: "{{subject}} {{have}} green eyes"
+  order: 5
+  default: false
+- display_value: 'gray'
+  value: 'gray'
+  description: "{{subject}} {{have}} gray eyes"
+  order: 6
+  default: false

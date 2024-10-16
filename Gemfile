@@ -14,6 +14,8 @@ gem 'haml-rails', '~>2.0'
 gem 'pg', '~> 1.5'
 gem 'pghero'
 
+gem 'aws-sdk-core', '~> 3.209.1', require: false
+gem 'aws-sdk-kms', '~> 1.94.0', require: false
 gem 'aws-sdk-s3', '~> 1.166', require: false
 gem 'blurhash', '~> 0.1'
 gem 'fog-core', '<= 2.5.0'
@@ -82,10 +84,10 @@ gem 'rqrcode', '~> 2.2'
 gem 'ruby-progressbar', '~> 1.13'
 gem 'sanitize', '~> 6.0'
 gem 'scenic', '~> 1.7'
-gem 'sidekiq', '~> 7.3'
+gem 'sidekiq', '~> 6.5.5'
 gem 'sidekiq-bulk', '~> 0.2.0'
 gem 'sidekiq-scheduler', '~> 5.0'
-gem 'sidekiq-unique-jobs', '~> 8.0'
+gem 'sidekiq-unique-jobs', '~> 7.1.24'
 gem 'simple_form', '~> 5.2'
 gem 'simple-navigation', '~> 4.4'
 gem 'stoplight', '~> 4.1'
@@ -107,6 +109,7 @@ group :opentelemetry do
   gem 'opentelemetry-exporter-otlp', '~> 0.29.0', require: false
   gem 'opentelemetry-instrumentation-active_job', '~> 0.7.1', require: false
   gem 'opentelemetry-instrumentation-active_model_serializers', '~> 0.20.1', require: false
+  gem 'opentelemetry-instrumentation-all', '~> 0.66.0', require: true
   gem 'opentelemetry-instrumentation-concurrent_ruby', '~> 0.21.2', require: false
   gem 'opentelemetry-instrumentation-excon', '~> 0.22.0', require: false
   gem 'opentelemetry-instrumentation-faraday', '~> 0.24.1', require: false
@@ -163,7 +166,7 @@ group :test do
   gem 'webmock', '~> 3.18'
 end
 
-group :development do
+group :development, :production do
   # Code linting CLI and plugins
   gem 'rubocop', require: false
   gem 'rubocop-capybara', require: false
@@ -234,4 +237,4 @@ gem 'redis-rb', '~> 9001.0'
 
 gem 'ffi', '~> 1.17.0'
 
-gem 'ruby-lsp', '~> 0.19.0'
+gem 'ruby-lsp', '~> 0.20.0'

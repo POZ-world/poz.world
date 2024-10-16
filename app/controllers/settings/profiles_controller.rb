@@ -5,6 +5,8 @@ class Settings::ProfilesController < Settings::BaseController
 
   def show
     @account.build_fields
+    Rails.logger.debug { "Account Fields: #{@account.fields.inspect}" } # Debug statement using logger
+    puts "Account Fields: #{@account.fields.inspect}" # Ensure this gets printed in console
   end
 
   def update

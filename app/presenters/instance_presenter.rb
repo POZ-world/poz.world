@@ -2,7 +2,8 @@
 
 class InstancePresenter < ActiveModelSerializers::Model
   attributes :domain, :title, :version, :source_url,
-             :description, :languages, :rules, :contact
+             :description, :languages, :rules, :contact,
+             :faqs, :tagline
 
   class ContactPresenter < ActiveModelSerializers::Model
     attributes :email, :account
@@ -94,5 +95,13 @@ class InstancePresenter < ActiveModelSerializers::Model
     return @app_icon if defined?(@app_icon)
 
     @app_icon ||= Rails.cache.fetch('site_uploads/app_icon') { SiteUpload.find_by(var: 'app_icon') }
+  end
+
+  def faqs
+    Faq.ordered
+  end
+
+  def tagline
+    Setting.site_tagline
   end
 end

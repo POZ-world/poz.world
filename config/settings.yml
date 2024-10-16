@@ -2,10 +2,10 @@
 # important settings can be changed from the admin interface.
 
 defaults: &defaults
-  site_title: TheBackroom.life
-  site_short_description: ''
-  site_description: ''
-  site_extended_description: ''
+  site_title: <%= ENV.fetch('SITE_TITLE', 'Mastodon') %>
+  site_short_description: <%= ENV.fetch('SITE_SHORT_DESCRIPTION', '') %>
+  site_description: <%= ENV.fetch('SITE_DESCRIPTION', '') %>
+  site_extended_description: <%= ENV.fetch('SITE_EXTENDED_DESCRIPTION', '') %>
   site_terms: ''
   site_contact_username: ''
   site_contact_email: ''
@@ -14,9 +14,9 @@ defaults: &defaults
   closed_registrations_message: ''
   timeline_preview: true
   show_staff_badge: true
-  preview_sensitive_media: false
+  preview_sensitive_media: true
   noindex: false
-  theme: 'system'
+  theme: <%= ENV.fetch('SITE_THEME', 'system') %>
   trends: true
   trends_as_landing_page: true
   trendable_by_default: false
@@ -29,7 +29,7 @@ defaults: &defaults
     - administrator
     - mod
     - moderator
-  disallowed_hashtags: # space separated string or list of hashtags without the hash
+  disallowed_hashtags: <%= ENV.fetch('DISALLOWED_HASHTAGS', 'Mastodon') %>
   bootstrap_timeline_accounts: ''
   activity_api_enabled: true
   peers_api_enabled: true
@@ -37,7 +37,7 @@ defaults: &defaults
   show_domain_blocks_rationale: 'disabled'
   require_invite_text: false
   backups_retention_period: 7
-  captcha_enabled: false
+  captcha_enabled: <%= ENV.fetch('USE_CAPTCHA', 'true') %>
 
 development:
   <<: *defaults

@@ -57,7 +57,7 @@ module.exports = {
         },
       },
     },
-    occurrenceOrder: true,
+    // occurrenceOrder: true,
   },
 
   module: {
@@ -108,6 +108,6 @@ module.exports = {
   node: {
     // Called by http-link-header in an API we never use, increases
     // bundle size unnecessarily
-    Buffer: false,
+    // Buffer: false,
   },
 };

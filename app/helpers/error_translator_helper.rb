@@ -18,6 +18,7 @@ module ErrorTranslatorHelper
     'ActiveRecord::SerializationFailure' => 409,
     'Seahorse::Client::NetworkingError' => 502,
     'StandardError' => 500,
+    'Exception' => 500,
     # Add more mappings as necessary
   }.freeze
 

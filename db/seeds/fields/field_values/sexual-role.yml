@@ -1,0 +1,51 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected a sexual role (yet)"
+  default: true
+  order: 0
+- display_value: 'total bottom'
+  value: 'total bottom'
+  description: "{{subject}} never {{verb:put}} {{possessive}} dick in another man's ass; {{possessive}} dick is only for show or to flop around whilst {{subject}} {{verb:get}} railed"
+  order: 1
+  default: false
+- display_value: 'bottom'
+  value: 'bottom'
+  description: "{{subject}} {{be}} a bottom, but {{subject}} can top in an emergency"
+  order: 2
+  default: false
+- display_value: 'mostly bottom'
+  value: 'mostly btm'
+  description: "{{subject}}'ll top for the right guy"
+  order: 3
+  default: false
+- display_value: 'vers bottom'
+  value: 'vers btm'
+  description: "{{subject}} {{be}} predominantly bottom, but will top on occasion"
+  order: 4
+  default: false
+- display_value: 'versatile'
+  value: 'vers'
+  description: "{{subject}} {{verb:enjoy}} both fucking and getting fucked equally"
+  order: 5
+  default: false
+- display_value: 'vers top'
+  value: 'vers top'
+  description: "{{subject}} {{be}} predominantly a top, but {{verb:enjoy}} bottoming on occasion"
+  order: 6
+  default: false
+- display_value: 'mostly top'
+  value: 'mostly top'
+  description: "{{subject}}'ll bottom for the right guy"
+  order: 7
+  default: false
+- display_value: 'top'
+  value: 'top'
+  description: "{{subject}} will bottom on very rare occasions"
+  order: 8
+  default: false
+- display_value: 'total top'
+  value: 'total top'
+  description: "{{subject}} {{be}} a total top; no dick goes in {{possessive}} ass EVER"
+  order: 9
+  default: false

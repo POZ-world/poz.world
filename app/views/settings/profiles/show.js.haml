@@ -1,0 +1,39 @@
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.delete-field').forEach((el) => {
+    const checkbox = el.querySelector('.delete-field-checkbox');
+    const deleteIcon = el.querySelector('.delete-icon');
+    const restoreIcon = el.querySelector('.restore-icon');
+
+    checkbox.addEventListener('change', () => {
+      deleteIcon.style.display = checkbox.checked ? 'none' : 'inline';
+      restoreIcon.style.display = checkbox.checked ? 'inline' : 'none';
+    });
+  });
+
+  document.querySelectorAll('.add-field-icon').forEach((el) => {
+    el.addEventListener('click', (event) => {
+      const fieldContainer = event.target.closest('.row');
+      const newField = fieldContainer.cloneNode(true);
+
+      // Ensure the cloned fields' names and IDs are unique
+      newField.querySelectorAll('input, select').forEach((input) => {
+        const newId = `${input.id}_copy_${new Date().getTime()}`;
+        input.id = newId;
+        input.name = input.name.replace(/\[\d+\]/, `[${Date.now()}]`);
+        if (input.type !== 'checkbox') {
+          input.value = '';
+        } else {
+          input.checked = false;
+          const deleteIcon = newField.querySelector('.delete-icon');
+          const restoreIcon = newField.querySelector('.restore-icon');
+          restoreIcon.style.display = 'none';
+          deleteIcon.style.display = 'inline';
+        }
+      });
+
+      const parent = fieldContainer.parentNode;
+      parent.insertBefore(newField, fieldContainer.nextSibling);
+      newField.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    });
+  });
+});

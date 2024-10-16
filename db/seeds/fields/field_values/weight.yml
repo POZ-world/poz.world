@@ -1,0 +1,258 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't entered {{possessive}} weight (yet)"
+  default: true
+  order: 0
+
+- display_value: '90lbs (41kg)'
+  value: 90
+  description: '{{subject}} {{verb:weigh}} 90 pounds (41 kilograms)'
+  order: 1
+  default: false
+
+- display_value: '95lbs (43kg)'
+  value: 95
+  description: '{{subject}} {{verb:weigh}} 95 pounds (43 kilograms)'
+  order: 2
+  default: false
+
+- display_value: '100lbs (45kg)'
+  value: 100
+  description: '{{subject}} {{verb:weigh}} 100 pounds (45 kilograms)'
+  order: 3
+  default: false
+
+- display_value: '105lbs (48kg)'
+  value: 105
+  description: '{{subject}} {{verb:weigh}} 105 pounds (48 kilograms)'
+  order: 4
+  default: false
+
+- display_value: '110lbs (50kg)'
+  value: 110
+  description: '{{subject}} {{verb:weigh}} 110 pounds (50 kilograms)'
+  order: 5
+  default: false
+
+- display_value: '115lbs (52kg)'
+  value: 115
+  description: '{{subject}} {{verb:weigh}} 115 pounds (52 kilograms)'
+  order: 6
+  default: false
+
+- display_value: '130lbs (59kg)'
+  value: 130
+  description: '{{subject}} {{verb:weigh}} 130 pounds (59 kilograms)'
+  order: 7
+  default: false
+
+- display_value: '135lbs (61kg)'
+  value: 135
+  description: '{{subject}} {{verb:weigh}} 135 pounds (61 kilograms)'
+  order: 8
+  default: false
+
+- display_value: '140lbs (64kg)'
+  value: 140
+  description: '{{subject}} {{verb:weigh}} 140 pounds (64 kilograms)'
+  order: 9
+  default: false
+
+- display_value: '145lbs (66kg)'
+  value: 145
+  description: '{{subject}} {{verb:weigh}} 145 pounds (66 kilograms)'
+  order: 10
+  default: false
+
+- display_value: '150lbs (68kg)'
+  value: 150
+  description: '{{subject}} {{verb:weigh}} 150 pounds (68 kilograms)'
+  order: 11
+  default: false
+
+- display_value: '155lbs (70kg)'
+  value: 155
+  description: '{{subject}} {{verb:weigh}} 155 pounds (70 kilograms)'
+  order: 12
+  default: false
+
+- display_value: '160lbs (73kg)'
+  value: 160
+  description: '{{subject}} {{verb:weigh}} 160 pounds (73 kilograms)'
+  order: 13
+  default: false
+
+- display_value: '165lbs (75kg)'
+  value: 165
+  description: '{{subject}} {{verb:weigh}} 165 pounds (75 kilograms)'
+  order: 14
+  default: false
+
+- display_value: '170lbs (77kg)'
+  value: 170
+  description: '{{subject}} {{verb:weigh}} 170 pounds (77 kilograms)'
+  order: 15
+  default: false
+
+- display_value: '175lbs (79kg)'
+  value: 175
+  description: '{{subject}} {{verb:weigh}} 175 pounds (79 kilograms)'
+  order: 16
+  default: false
+
+- display_value: '180lbs (82kg)'
+  value: 180
+  description: '{{subject}} {{verb:weigh}} 180 pounds (82 kilograms)'
+  order: 17
+  default: false
+
+- display_value: '185lbs (84kg)'
+  value: 185
+  description: '{{subject}} {{verb:weigh}} 185 pounds (84 kilograms)'
+  order: 18
+  default: false
+
+- display_value: '190lbs (86kg)'
+  value: 190
+  description: '{{subject}} {{verb:weigh}} 190 pounds (86 kilograms)'
+  order: 19
+  default: false
+
+- display_value: '195lbs (88kg)'
+  value: 195
+  description: '{{subject}} {{verb:weigh}} 195 pounds (88 kilograms)'
+  order: 20
+  default: false
+
+- display_value: '200lbs (91kg)'
+  value: 200
+  description: '{{subject}} {{verb:weigh}} 200 pounds (91 kilograms)'
+  order: 21
+  default: false
+
+- display_value: '205lbs (93kg)'
+  value: 205
+  description: '{{subject}} {{verb:weigh}} 205 pounds (93 kilograms)'
+  order: 22
+  default: false
+
+- display_value: '210lbs (95kg)'
+  value: 210
+  description: '{{subject}} {{verb:weigh}} 210 pounds (95 kilograms)'
+  order: 23
+  default: false
+
+- display_value: '215lbs (98kg)'
+  value: 215
+  description: '{{subject}} {{verb:weigh}} 215 pounds (98 kilograms)'
+  order: 24
+  default: false
+
+- display_value: '220lbs (100kg)'
+  value: 220
+  description: '{{subject}} {{verb:weigh}} 220 pounds (100 kilograms)'
+  order: 25
+  default: false
+
+- display_value: '225lbs (102kg)'
+  value: 225
+  description: '{{subject}} {{verb:weigh}} 225 pounds (102 kilograms)'
+  order: 26
+  default: false
+
+- display_value: '230lbs (104kg)'
+  value: 230
+  description: '{{subject}} {{verb:weigh}} 230 pounds (104 kilograms)'
+  order: 27
+  default: false
+
+- display_value: '235lbs (107kg)'
+  value: 235
+  description: '{{subject}} {{verb:weigh}} 235 pounds (107 kilograms)'
+  order: 28
+  default: false
+
+- display_value: '240lbs (109kg)'
+  value: 240
+  description: '{{subject}} {{verb:weigh}} 240 pounds (109 kilograms)'
+  order: 29
+  default: false
+
+- display_value: '245lbs (111kg)'
+  value: 245
+  description: '{{subject}} {{verb:weigh}} 245 pounds (111 kilograms)'
+  order: 30
+  default: false
+
+- display_value: '250lbs (113kg)'
+  value: 250
+  description: '{{subject}} {{verb:weigh}} 250 pounds (113 kilograms)'
+  order: 31
+  default: false
+
+- display_value: '255lbs (116kg)'
+  value: 255
+  description: '{{subject}} {{verb:weigh}} 255 pounds (116 kilograms)'
+  order: 32
+  default: false
+
+- display_value: '260lbs (118kg)'
+  value: 260
+  description: '{{subject}} {{verb:weigh}} 260 pounds (118 kilograms)'
+  order: 33
+  default: false
+
+- display_value: '265lbs (120kg)'
+  value: 265
+  description: '{{subject}} {{verb:weigh}} 265 pounds (120 kilograms)'
+  order: 34
+  default: false
+
+- display_value: '270lbs (122kg)'
+  value: 270
+  description: '{{subject}} {{verb:weigh}} 270 pounds (122 kilograms)'
+  order: 35
+  default: false
+
+- display_value: '275lbs (125kg)'
+  value: 275
+  description: '{{subject}} {{verb:weigh}} 275 pounds (125 kilograms)'
+  order: 36
+  default: false
+
+- display_value: '280lbs (127kg)'
+  value: 280
+  description: '{{subject}} {{verb:weigh}} 280 pounds (127 kilograms)'
+  order: 37
+  default: false
+
+- display_value: '285lbs (129kg)'
+  value: 285
+  description: '{{subject}} {{verb:weigh}} 285 pounds (129 kilograms)'
+  order: 38
+  default: false
+
+- display_value: '290lbs (132kg)'
+  value: 290
+  description: '{{subject}} {{verb:weigh}} 290 pounds (132 kilograms)'
+  order: 39
+  default: false
+
+- display_value: '295lbs (134kg)'
+  value: 295
+  description: '{{subject}} {{verb:weigh}} 295 pounds (134 kilograms)'
+  order: 40
+  default: false
+
+- display_value: '300lbs (136kg)'
+  value: 300
+  description: '{{subject}} {{verb:weigh}} 300 pounds (136 kilograms)'
+  order: 41
+  default: false
+
+- display_value: '305lbs (138kg)'
+  value: 305
+  description: '{{subject}} {{verb:weigh}} 305 pounds (138 kilograms)'
+  order: 42
+  default: false

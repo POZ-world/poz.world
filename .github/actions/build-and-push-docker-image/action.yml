@@ -1,5 +1,5 @@
-name: 'Setup Docker'
-description: 'Setup Docker for cross-platform compilation'
+name: "Setup Docker"
+description: "Setup Docker for cross-platform compilation"
 inputs:
   username:
     required: false
@@ -21,13 +21,34 @@ inputs:
     required: false
     default: ${{ github.token }}
     description: The GitHub token to use for authenticating with the repo
+  tag-prefix:
+    required: false
+    default: v
+    description: The tag prefix to use when calculating the version number using MinVer
+  description:
+    required: false
+    default: Your self-hosted social media platform
+    description: The descritpion label to attach to the image
+  platforms:
+    required: false
+    default: linux/amd64
+    description: The platform to build and deploy
+  docker-build-cloud-username:
+    required: false
+    description: The username to use when logging in to the Docker Cloud
+  docker-build-cloud-password:
+    required: false
+    description: The password to use when logging in to the Docker Cloud
+  docker-build-cloud-endpoint:
+    required: false
+    description: The endpoint to use when using Docker build cloud
 outputs:
   image:
     description: The image to push to the Azure Web App
-    value: ghcr.io/justinwritescode/mastodon:${{ inputs.tag }}-${{ github.sha }}
+    value: ghcr.io/poz-world/${{ inputs.tag }}:${{ github.sha }}
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - uses: actions/checkout@v4
       with:
@@ -39,70 +60,75 @@ runs:
     - uses: ./.github/actions/setup-docker
       with:
         password: ${{ inputs.github-password }}
-
-    - uses: docker/login-action@v3
-      with: 
-        username: thebackroomlife
-        password: ${{ inputs.acr-password }}
-        registry: thebackroomlife.azurecr.io
+        azurecr-password: ${{ inputs.acr-password }}
+        docker-build-cloud-endpoint: ${{ inputs.docker-build-cloud-endpoint }}
+        docker-build-cloud-username: ${{ inputs.docker-build-cloud-username }}
+        docker-build-cloud-password: ${{ inputs.docker-build-cloud-password }}
 
     - name: Calculate "MASTODON_VERSION_METADATA"
+      id: mastodon_version_metadata
       shell: pwsh
       run: |
         $GITHUB_SHA="${{ github.sha }}"
         $GITHUB_SHA_TRUNCATED=$GITHUB_SHA.Substring(0, 8)
-        Write-Output "MASTODON_VERSION_METADATA=$GITHUB_SHA_TRUNCATED" >> $GITHUB_ENV
+        Write-Output "::set-output name=MASTODON_VERSION_METADATA::$GITHUB_SHA_TRUNCATED"
 
-    - uses: thefringeninja/action-minver@2.0.0-preview1
+    - uses: poz-world/minver@main
       id: minver
       with:
-        # Optional. Specifies which part of the version to auto-increment.
         auto-increment: patch
-        # Optional. Sets custom build metadata for your semantic version.
-        # build-metadata: ${{ github.sha }}
-        # Optional. Specifies the default pre-release phase.
         default-pre-release-phase: preview
-        # Optional. Specifies the minimum version to use when no tags exist.
         minimum-major-minor: 0.0
-        # Optional. Specifies the prefix of the tags
-        tag-prefix: blv
-        # Optional. Specifies the log level.
-        verbosity: trace
+        tag-prefix: ${{ inputs.tag-prefix }}
+        verbosity: info
 
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v5
       with:
         images: ${{ inputs.tag }}
+        flavor: |
+          latest=auto
         labels: |
           org.opencontainers.image.version=${{ steps.minver.outputs.version }}
           org.opencontainers.image.licenses=MIT,agpl-3.0
+          org.opencontainers.image.description="${{ inputs.description }}"
+        tags: |
+          type=raw,value=latest
+          type=ref,event=branch
+          type=ref,event=pr
+          type=ref,event=tag
+          type=raw,value=${{ steps.minver.outputs.version }}
+          type=sha,format=long,pattern={{sha}},prefix=
+          type=sha,format=short,prefix=
+          type=schedule
+          type=schedule,pattern=nightly
+          type=schedule,pattern={{date 'YYYYMMDD'}}
 
     - name: Build & push the Docker image
       uses: docker/build-push-action@v6.7.0
+      env: 
+        APPLICATIONINSIGHTS_ENDPOINT: https://eastus-8.in.applicationinsights.azure.com
+        MASTODON_VERSION_METADATA: ${{ steps.mastodon_version_metadata.outputs.MASTODON_VERSION_METADATA }}
       with:
         context: .
         pull: true
         push: true
-        tags: |
-          ghcr.io/justinwritescode/mastodon:${{ inputs.tag }}-${{ github.sha }}
-          ghcr.io/justinwritescode/mastodon:${{ inputs.tag }}-latest
-          ghcr.io/justinwritescode/mastodon:${{ inputs.tag }}-${{ steps.minver.outputs.version }}
-          thebackroomlife.azurecr.io/${{ inputs.tag }}:${{ github.sha }}
-          thebackroomlife.azurecr.io/${{ inputs.tag }}:latest
-          thebackroomlife.azurecr.io/justinwritescode/${{ inputs.tag }}:${{ github.sha }}
-          thebackroomlife.azurecr.io/justinwritescode/${{ inputs.tag }}:latest
-          thebackroomlife.azurecr.io/justinwritescode/mastodon/${{ inputs.tag }}:${{ github.sha }}
-          thebackroomlife.azurecr.io/justinwritescode/mastodon/${{ inputs.tag }}:latest
-          thebackroomlife.azurecr.io/justinwritescode/mastodon/${{ inputs.tag }}:${{ steps.minver.outputs.version }}
-          thebackroomlife.azurecr.io/mastodon:${{ inputs.tag }}
-          thebackroomlife.azurecr.io/mastodon/${{ inputs.tag }}:${{ github.sha }}
-          thebackroomlife.azurecr.io/mastodon/${{ inputs.tag }}:latest
-          thebackroomlife.azurecr.io/mastodon/${{ inputs.tag }}:${{ steps.minver.outputs.version }}
+        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
         file: ${{ inputs.dockerfile }}
-        platforms: linux/amd64,linux/arm64
+        platforms: ${{ inputs.platforms }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+        annotations: ${{ steps.meta.outputs.annotations }}
         build-args: |
-          MASTODON_VERSION_METADATA: ${{ env.MASTODON_VERSION_METADATA }}
+          "APPLICATIONINSIGHTS_ENDPOINT=${{ env.APPLICATIONINSIGHTS_ENDPOINT }}"
+          "MASTODON_VERSION_METADATA=${{ steps.mastodon_version_metadata.outputs.MASTODON_VERSION_METADATA }}"
+          "AZURE_STORAGE_CONTAINER_NAME=${{ env.AZURE_STORAGE_CONTAINER_NAME }}"
+          "CI=true"
+          "FFMPEG_URL=./ffmpeg"
+          "AZURE_STORAGE_CONNECTION_STRING=${{ env.POZ_WORLD_AZURE_STORAGE_CONNECTION_STRING }}"
+          "DB_PASSWORD=${{ env.DB_PASSWORD }}"
+          "DB_PASS=${{ env.DB_PASSWORD }}"
+          "DATABASE_URL=${{ env.DATABASE_URL }}"
+          "REDIS_URL=${{ env.REDIS_URL }}"

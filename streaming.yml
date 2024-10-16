@@ -1,0 +1,35 @@
+# 
+# sidekiq.yml
+#     Created: 2024-09-11T15:44:25-04:00
+#    Modified: 2024-09-11T15:44:25-04:00
+#      Author: Justin Paul Chase <justin@justinwritescode.com>
+#   Copyright: © 2024 Justin Paul Chase, All Rights Reserved
+#     License: MIT (https://opensource.org/licenses/MIT)
+# 
+
+---
+services:
+  streaming:
+    # You can uncomment the following line if you want to not use the prebuilt image, for example if you have local code changes
+    # image: ghcr.io/mastodon/mastodon:v4.3.0-beta.1
+    container_name: streaming
+    image: ghcr.io/justinwritescode/streaming.poz.world:latest
+    restart: always
+    env_file: .env.production
+    entrypoint: ["bash", "/opt/mastodon/bin/entrypoint", "streaming"]
+    ports:
+      - '8081:4000'
+    volumes:
+      # - ./app:/opt/mastodon/app
+      # - ./app:/app/www/app
+      # - ./app:/mastodon/app
+      # - ./config:/config
+      # - ./config:/opt/mastodon/config
+      # - ./config:/app/www/config
+      # - ./config:/mastodon/config
+      # - ./public:/opt/mastodon/public
+      # - ./public:/app/www/public
+      # - ./public:/mastodon/public
+      # - ./public/system:/opt/mastodon/public/system
+      # - ./root/etc/letsencrypt/live/thebackroom.life:/etc/letsencrypt/live/thebackroom.life
+      - ./root/opt/mastodon/bin:/opt/mastodon/bin

@@ -1,0 +1,72 @@
+# This is a basic workflow that is manually triggered
+
+name: Push Static Assets
+
+env:
+  CONNECTION_STRING: ${{ secrets.POZ_WORLD_AZURE_STORAGE_CONNECTION_STRING }}
+  CONTAINER_NAME: cdn
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+
+permissions: write-all
+
+concurrency: 
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  pull-from-the-image:
+    name: "Pull the assets from the image"
+    runs-on: ubuntu-latest
+    env:
+      PATH: /opt/mastodon/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin
+      RAILS_ENV: production
+
+    steps:
+    - name: Convert repository name to lowercase
+      id: repo-name
+      run: echo "lowercase_repo=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
+    - uses: actions/checkout@v4
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ vars.USERNAME }}
+        password: ${{ secrets.HIVCHASER_PACKAGES_PAT }}
+
+    - name: Pull the static assets from the Docker image
+      run: |
+        # Define the image and container name
+        IMAGE_NAME=ghcr.io/poz-world/poz.world:latest
+        CONTAINER_NAME=poz.world
+        FOLDER_TO_COPY=/opt/mastodon/public
+        DESTINATION_FOLDER=./
+
+        # Pull the Docker image
+        docker pull $IMAGE_NAME
+
+        # Create and start a container from the image
+        docker create --name $CONTAINER_NAME $IMAGE_NAME
+
+        # Copy the folder from the container to the host
+        docker cp -L $CONTAINER_NAME:$FOLDER_TO_COPY $DESTINATION_FOLDER
+
+        # Remove the container
+        docker rm $CONTAINER_NAME
+
+    - uses: LanceMcCarthy/Action-AzureBlobUpload@v3.2.0
+      with:
+        connection_string: ${{ env.CONNECTION_STRING }}
+        container_name: ${{ env.CONTAINER_NAME }}
+        source_folder: ./public
+        destination_folder: / # optional
+        clean_destination_folder: true # optional
+        fail_if_source_empty: true # optional
+        is_recursive: true # optional, default is true
+        delete_if_exists: true # optional

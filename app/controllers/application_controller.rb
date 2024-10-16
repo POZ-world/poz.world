@@ -16,6 +16,9 @@ class ApplicationController < ActionController::Base
   include SelfDestructHelper
   include ErrorTranslatorHelper
   include ErrorsAssetHelper
+  include Pundit::Authorization
+  include ApplicationHelper
+  include ThemeHelper
 
   helper_method :current_account
   helper_method :current_session
@@ -28,22 +31,22 @@ class ApplicationController < ActionController::Base
   helper_method :skip_csrf_meta_tags?
 
   # Catch-all rescue for all exceptions
-  rescue_from StandardError, with: :handle_exception
+  # rescue_from StandardError, with: :handle_exception
 
-  # rescue_from ActionController::ParameterMissing, Paperclip::AdapterRegistry::NoHandlerError, with: :bad_request
-  # rescue_from Mastodon::NotPermittedError, with: :forbidden
-  # rescue_from ActionController::RoutingError, ActiveRecord::RecordNotFound, with: :not_found
-  # rescue_from ActionController::UnknownFormat, with: :not_acceptable
-  # rescue_from ActionController::InvalidAuthenticityToken, with: :unprocessable_entity
-  # rescue_from Mastodon::RateLimitExceededError, with: :too_many_requests
+  rescue_from ActionController::ParameterMissing, Paperclip::AdapterRegistry::NoHandlerError, with: :bad_request
+  rescue_from Mastodon::NotPermittedError, with: :forbidden
+  rescue_from ActionController::RoutingError, ActiveRecord::RecordNotFound, with: :not_found
+  rescue_from ActionController::UnknownFormat, with: :not_acceptable
+  rescue_from ActionController::InvalidAuthenticityToken, with: :unprocessable_entity
+  rescue_from Mastodon::RateLimitExceededError, with: :too_many_requests
 
-  # rescue_from HTTP::Error, OpenSSL::SSL::SSLError, with: :internal_server_error
-  # rescue_from Mastodon::RaceConditionError, Stoplight::Error::RedLight, ActiveRecord::SerializationFailure, with: :service_unavailable
+  rescue_from HTTP::Error, OpenSSL::SSL::SSLError, with: :internal_server_error
+  rescue_from Mastodon::RaceConditionError, Stoplight::Error::RedLight, ActiveRecord::SerializationFailure, with: :service_unavailable
 
-  # rescue_from Seahorse::Client::NetworkingError do |e|
-  #   Rails.logger.warn "Storage server error: #{e}"
-  #   service_unavailable
-  # end
+  rescue_from Seahorse::Client::NetworkingError do |e|
+    Rails.logger.warn "Storage server error: #{e}"
+    service_unavailable
+  end
 
   before_action :check_self_destruct!
 
@@ -56,43 +59,6 @@ class ApplicationController < ActionController::Base
 
   def raise_not_found
     raise ActionController::RoutingError, "No route matches #{params[:unmatched_route]}"
-  end
-
-  private
-
-  def public_fetch_mode?
-    !authorized_fetch_mode?
-  end
-
-  def store_referrer
-    return if request.referer.blank?
-
-    redirect_uri = URI(request.referer)
-    return if redirect_uri.path.start_with?('/auth')
-
-    stored_url = redirect_uri.to_s if redirect_uri.host == request.host && redirect_uri.port == request.port
-
-    store_location_for(:user, stored_url)
-  end
-
-  def require_functional!
-    redirect_to edit_user_registration_path unless current_user.functional?
-  end
-
-  def skip_csrf_meta_tags?
-    false
-  end
-
-  def after_sign_out_path_for(_resource_or_scope)
-    if ENV['OMNIAUTH_ONLY'] == 'true' && ENV['OIDC_ENABLED'] == 'true'
-      '/auth/auth/openid_connect/logout'
-    else
-      new_user_session_path
-    end
-  end
-
-  def truthy_param?(key)
-    ActiveModel::Type::Boolean.new.cast(params[key])
   end
 
   def forbidden
@@ -139,6 +105,47 @@ class ApplicationController < ActionController::Base
     respond_with_error(418)
   end
 
+  def conflict
+    respond_with_error(409)
+  end
+
+  private
+
+  def public_fetch_mode?
+    !authorized_fetch_mode?
+  end
+
+  def store_referrer
+    return if request.referer.blank?
+
+    redirect_uri = URI(request.referer)
+    return if redirect_uri.path.start_with?('/auth')
+
+    stored_url = redirect_uri.to_s if redirect_uri.host == request.host && redirect_uri.port == request.port
+
+    store_location_for(:user, stored_url)
+  end
+
+  def require_functional!
+    redirect_to edit_user_registration_path unless current_user.functional?
+  end
+
+  def skip_csrf_meta_tags?
+    false
+  end
+
+  def after_sign_out_path_for(_resource_or_scope)
+    if ENV['OMNIAUTH_ONLY'] == 'true' && ENV['OIDC_ENABLED'] == 'true'
+      '/auth/auth/openid_connect/logout'
+    else
+      new_user_session_path
+    end
+  end
+
+  def truthy_param?(key)
+    ActiveModel::Type::Boolean.new.cast(params[key])
+  end
+
   def single_user_mode?
     @single_user_mode ||= Rails.configuration.x.single_user_mode && Account.without_internal.exists?
   end
@@ -164,19 +171,23 @@ class ApplicationController < ActionController::Base
   end
 
   def current_theme
-    return Setting.theme unless Themes.instance.names.include? current_user&.setting_theme
+    return 'system' if ci?
+    return Setting.theme unless ci? || (Themes.instance.names.include? current_user&.setting_theme)
 
     current_user.setting_theme
+  rescue
+    'system'
   end
 
   def body_class_string
     @body_classes || ''
   end
 
-  def respond_with_error(code)
+  def respond_with_error(code, exception = nil)
     respond_to do |format|
-      format.any  { render "errors/#{code}", layout: 'error', status: code, formats: [:html] }
-      format.json { render json: { error: Rack::Utils::HTTP_STATUS_CODES[code] }, status: code }
+      format.html { render 'errors/500', layout: 'error', status: '500', formats: [:html], exception: exception } if code.blank?
+      format.html { render "errors/#{code}", layout: 'error', status: code, formats: [:html], exception: exception } if code.present?
+      format.json { render json: { error: Rack::Utils::HTTP_STATUS_CODES[code], exception: exception }, status: code }
     end
   end
 
@@ -198,9 +209,9 @@ class ApplicationController < ActionController::Base
   # This method will handle the exceptions
   def handle_exception(exception)
     # Log the error message
-    logger.error "An error occurred: #{exception.message}"
+    logger.error "An error occurred; type: #{exception.class.name}, message: #{exception.message}"
     logger.error exception.backtrace.join("\n")
-    respond_with_error(to_error_code(exception))
+    respond_with_error(to_error_code(exception), exception: exception)
 
     # You can render an error page or message if you choose
     # render plain: "An error occurred", status: 500

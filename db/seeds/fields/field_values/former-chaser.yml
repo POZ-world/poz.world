@@ -1,0 +1,16 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected whether {{subject}} {{be}} a former chaser (yet)"
+  default: true
+  order: 0
+- display_value: 'yep! {{subject}} {{be}} a proud former chaser!'
+  value: 'yes'
+  description: "{{subject}} {{be}} a former (and successful) chaser"
+  order: 1
+  default: false
+- display_value: 'no, {{subject}} {{be}} not a former chaser'
+  value: 'no'
+  description: "{{subject}} {{be}} not a former chaser"
+  order: 2
+  default: false

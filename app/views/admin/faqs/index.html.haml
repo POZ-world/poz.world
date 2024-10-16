@@ -1,0 +1,33 @@
+- content_for :page_title do
+  = t('admin.faqs.title')
+
+:javascript
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('form[data-remote="true"]').forEach(form => {
+      form.addEventListener('ajax:success', () => {
+        window.location.reload();
+      });
+    });
+  });
+
+%p= t('admin.faqs.description_html')
+
+%hr.spacer/
+
+- if can? :create, :faq
+  = simple_form_for @faq, url: admin_faqs_path do |form|
+    = render 'shared/error_messages', object: @faq
+
+    = render form
+
+    .actions
+      = form.button :button, t('admin.faqs.add_new'), type: :submit
+
+  %hr.spacer/
+
+- if @faqs.empty?
+  .muted-hint.center-text
+    = t 'admin.faqs.empty'
+- else
+  .announcements-list
+    = render partial: 'faq', collection: @faqs, as: :faq, locals: { total_faqs: @faqs.size }

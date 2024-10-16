@@ -1,0 +1,46 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected whether {{subject}} drinks alcohol (yet)"
+  default: true
+  order: 0
+- display_value: 'alcoholic'
+  value: 'alcoholic'
+  description: '{{subject}} {{be}} an alcoholic'
+  order: 1
+  default: false
+- display_value: 'yes, heavily'
+  value: 'heavily'
+  description: '{{subject}} {{verb:drink}} a lot'
+  order: 2
+  default: false
+- display_value: 'yes'
+  value: 'yes'
+  description: '{{subject}} {{verb:drink}} alcohol'
+  order: 3
+  default: false
+- display_value: 'socially'
+  value: 'socially'
+  description: "{{subject}} {{verb:drink}} alcohol when {{subject}}'s out with friends"
+  order: 4
+  default: false
+- display_value: 'quitting'
+  value: 'quitting'
+  description: '{{subject}} {{be}} trying to quit drinking'
+  order: 5
+  default: false
+- display_value: 'no'
+  value: 'no'
+  description: "{{subject}} {{does}}n't drink alcohol"
+  order: 6
+  default: false
+- display_value: 'in recovery'
+  value: 'in-recovery'
+  description: '{{subject}} {{be}} in recovery from alcoholism'
+  order: 7
+  default: false
+- display_value: 'teetotaler'
+  value: 'teetotaler'
+  description: '{{subject}} {{have}} never touched alcohol'
+  order: 8
+  default: false

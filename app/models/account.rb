@@ -95,6 +95,11 @@ class Account < ApplicationRecord
   include Paginable
   include Reviewable
 
+  before_validation :prepare_contents, if: :local?
+  before_create :set_default_fields
+  before_create :generate_keys
+  before_update :set_default_fields
+
   enum :protocol, { ostatus: 0, activitypub: 1 }
   enum :suspension_origin, { local: 0, remote: 1 }, prefix: true
 
@@ -112,7 +117,7 @@ class Account < ApplicationRecord
   validates_with UnreservedUsernameValidator, if: -> { local? && will_save_change_to_username? && actor_type != 'Application' }
   validates :display_name, length: { maximum: DISPLAY_NAME_LENGTH_LIMIT }, if: -> { local? && will_save_change_to_display_name? }
   validates :note, note_length: { maximum: NOTE_LENGTH_LIMIT }, if: -> { local? && will_save_change_to_note? }
-  validates :fields, length: { maximum: DEFAULT_FIELDS_SIZE }, if: -> { local? && will_save_change_to_fields? }
+  # validates :fields, length: { maximum: DEFAULT_FIELDS_SIZE }, if: -> { local? && will_save_change_to_fields? }
   with_options on: :create do
     validates :uri, absence: true, if: :local?
     validates :inbox_url, absence: true, if: :local?
@@ -345,44 +350,59 @@ class Account < ApplicationRecord
   end
 
   def fields
-    (self[:fields] || []).filter_map do |f|
+    (self[:fields] || []).map do |f|
       Account::Field.new(self, f)
-    rescue
-      nil
-    end
+    end.sort_by { |field| field.name.downcase } # Sort case-insensitively # rubocop:disable Style/MultilineBlockChain
   end
 
   def fields_attributes=(attributes)
-    fields     = []
-    old_fields = self[:fields] || []
-    old_fields = [] if old_fields.is_a?(Hash)
+    # fields     = []
+    # old_fields = self[:fields] || []
+    # old_fields = [] if old_fields.is_a?(Hash)
 
-    if attributes.is_a?(Hash)
-      attributes.each_value do |attr|
-        next if attr[:name].blank?
+    # if attributes.is_a?(Hash)
+    #   attributes.each_value do |attr|
+    #     next if attr[:name].blank?
 
-        previous = old_fields.find { |item| item['value'] == attr[:value] }
+    #     previous = old_fields.find { |item| item['value'] == attr[:value] }
 
-        attr[:verified_at] = previous['verified_at'] if previous && previous['verified_at'].present?
+    #     attr[:verified_at] = previous['verified_at'] if previous && previous['verified_at'].present?
 
-        fields << attr
-      end
-    end
+    #     fields << attr
+    #   end
+    # end
 
-    self[:fields] = fields
+    # self[:fields] = fields
+    self[:fields] = attributes.values.reject { |attr| (attr['name'].blank? && attr['value'].blank?) || attr['marked_for_deletion'] == '1' }
   end
 
   def build_fields
-    return if fields.size >= DEFAULT_FIELDS_SIZE
+    existing_fields = self[:fields] || []
+    field_templates = FieldTemplate.all
 
-    tmp = self[:fields] || []
-    tmp = [] if tmp.is_a?(Hash)
-
-    (DEFAULT_FIELDS_SIZE - tmp.size).times do
-      tmp << { name: '', value: '' }
+    field_templates.each do |template|
+      existing_fields << { 'name' => template.name, 'value' => '', 'verified_at' => nil } unless existing_fields.any? { |field| field['name'] == template.name }
     end
 
-    self.fields = tmp
+    self.fields = existing_fields
+  end
+
+  def set_default_fields
+    # Fetch all field templates and their defaults
+    field_templates = FieldTemplate.includes(:field_values)
+    default_fields = field_templates.map do |template|
+      default_value = template.default_value
+      { name: template.name, value: default_value }
+    end
+
+    existing_fields = self[:fields] || []
+
+    # Merge existing fields with default fields, giving priority to existing fields
+    default_fields.each do |default_field|
+      existing_fields << default_field unless existing_fields.any? { |field| field['name'] == default_field[:name] }
+    end
+
+    self[:fields] = existing_fields
   end
 
   def save_with_optional_media!
@@ -488,8 +508,6 @@ class Account < ApplicationRecord
     @emojis ||= CustomEmoji.from_text(emojifiable_text, domain)
   end
 
-  before_validation :prepare_contents, if: :local?
-  before_create :generate_keys
   before_destroy :clean_feed_manager
 
   def ensure_keys!

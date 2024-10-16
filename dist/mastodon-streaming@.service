@@ -8,9 +8,10 @@ ReloadPropagatedFrom=mastodon-streaming.service
 [Service]
 Type=simple
 User=mastodon
-WorkingDirectory=/home/mastodon/live
+WorkingDirectory=/opt/mastodon
 Environment="NODE_ENV=production"
 Environment="PORT=%i"
+Environment="PATH=/opt/mastodon/bin:/bin:/usr/bin:/usr/sbin:/usr/local/bin"
 ExecStart=/usr/bin/node ./streaming
 TimeoutSec=15
 Restart=always
@@ -48,7 +49,7 @@ SystemCallArchitectures=native
 SystemCallFilter=~@cpu-emulation @debug @keyring @ipc @memlock @mount @obsolete @privileged @resources @setuid
 SystemCallFilter=pipe
 SystemCallFilter=pipe2
-ReadWritePaths=/home/mastodon/live
+ReadWritePaths=/opt/mastodon
 
 [Install]
 WantedBy=multi-user.target mastodon-streaming.service

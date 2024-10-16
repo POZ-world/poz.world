@@ -1,0 +1,16 @@
+- content_for :page_title do
+  = t('errors.200.title')
+
+- content_for :content do
+  = t('errors.200.content')
+
+- content_for :error_code do
+  = 200
+
+- content_for :static_image do
+  = error_asset_url(t('errors.200.static_image')) unless t('errors.200.static_image').nil?
+  = error_asset_url('images/errors/200-static.png') if t('errors.200.static_image').nil?
+
+- content_for :dynamic_image do
+  = error_asset_url(t('errors.200.dynamic_image')) unless t('errors.200.dynamic_image').nil?
+  = error_asset_url('images/errors/200-dynamic.png') if t('errors.200.dynamic_image').nil?

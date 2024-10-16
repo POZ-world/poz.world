@@ -1,0 +1,31 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected a hair style (yet)"
+  default: true
+  order: 0
+- display_value: 'short'
+  value: 'short'
+  description: "{{subject}} {{verb:wear}} {{possessive}} hair short"
+  order: 1
+  default: false
+- display_value: 'military'
+  value: 'military'
+  description: "{{subject}} {{verb:wear}} {{possessive}} hair in military-style or crew cut"
+  order: 2
+  default: false
+- display_value: 'bald'
+  value: 'bald'
+  description: "{{possessive}} head is bald/shaved"
+  order: 3
+  default: false
+- display_value: 'medium'
+  value: 'medium'
+  description: "{{subject}} {{verb:wear}} {{possessive}} hair at a medium length"
+  order: 4
+  default: false
+- display_value: 'long'
+  value: 'like-a-chicks'
+  description: "{{subject}} {{have}} long hair, like a chick's"
+  order: 5
+  default: false

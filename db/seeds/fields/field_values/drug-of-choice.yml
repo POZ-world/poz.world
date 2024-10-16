@@ -1,0 +1,156 @@
+---
+- value: ~
+  display_value: "[not entered]"
+  description: "{{subject}} {{have}}n't entered any drugs of choice (yet)"
+  default: true
+  order: 0
+
+- value: "meth"
+  display_value: "methamphetamine"
+  description: "Methamphetamine is a powerful, highly addictive stimulant that affects the central nervous system. Known for its euphoric effects, it is used recreationally and, less commonly, for certain medical conditions."
+  order: 1
+  default: false
+
+- value: "coke"
+  display_value: "cocaine"
+  description: "Cocaine is a powerful stimulant drug that is commonly used for recreational purposes. It is highly addictive and can have serious health effects."
+  order: 2
+  default: false
+
+- value: "crack"
+  display_value: "crack cocaine"
+  description: "Crack cocaine is a highly addictive form of cocaine that is smoked. It is a powerful stimulant that can have serious health effects."
+  order: 3
+  default: false
+
+- value: "heroin"
+  display_value: "heroin"
+  description: "Heroin is a highly addictive opioid drug that is commonly used for recreational purposes. It is illegal and can have serious health effects."
+  order: 4
+  default: false
+
+- value: "opiates"
+  display_value: "opiates"
+  description: "Opiates are a class of drugs that are commonly used for pain relief. They can be highly addictive and have serious health effects."
+  order: 5
+  default: false
+
+- value: "benzos"
+  display_value: "benzodiazepines (Xanax, Valium, etc.)"
+  description: "Benzodiazepines are a class of drugs that are commonly used for anxiety and sleep disorders. They can be highly addictive and have serious health effects."
+  order: 6
+  default: false
+
+- value: "ecstasy"
+  display_value: "ecstasy"
+  description: "Ecstasy is a synthetic drug that is commonly used for recreational purposes. It is a stimulant and hallucinogen that can have serious health effects."
+  order: 7
+  default: false
+
+- value: "lsd"
+  display_value: "LSD (acid)"
+  description: "LSD is a powerful hallucinogenic drug that is commonly used for recreational purposes. It can have serious health effects."
+  order: 8
+  default: false
+
+- value: "mushrooms"
+  display_value: "magic mushrooms"
+  description: "Magic mushrooms are a type of hallucinogenic drug that is commonly used for recreational purposes. They can have serious health effects."
+  order: 9
+  default: false
+
+- value: "weed"
+  display_value: "marijuana"
+  description: "Marijuana is a psychoactive drug that is commonly used for recreational purposes. It is legal in some states and can have serious health effects."
+  order: 10
+  default: false
+
+- value: "methadone"
+  display_value: "methadone"
+  description: "Methadone is a synthetic opioid drug that is commonly used for pain relief and to treat opioid addiction. It can be highly addictive and have serious health effects."
+  order: 11
+  default: false
+
+- value: "suboxone"
+  display_value: "suboxone"
+  description: "Suboxone is a combination of buprenorphine and naloxone that is commonly used to treat opioid addiction. It can be highly addictive and have serious health effects."
+  order: 12
+  default: false
+
+- value: "ethanol"
+  display_value: "alcohol"
+  description: "Alcohol is a legal psychoactive drug that is commonly used for recreational purposes. It can be highly addictive and have serious health effects."
+  order: 13
+  default: false
+
+- value: "pcp"
+  display_value: "PCP"
+  description: "PCP is a powerful hallucinogenic drug that is commonly used for recreational purposes. It can have serious health effects."
+  order: 14
+  default: false
+
+- value: "trimix"
+  display_value: "trimix"
+  description: "Trimix is a compounded medication, not typically used recreationally, that consists of three drugs: papaverine, phentolamine, and alprostadil. It is primarily used to treat erectile dysfunction (ED) and is administered through intracavernosal injection directly into the penis."
+  order: 15
+  default: false
+
+- value: "poppers"
+  display_value: "poppers"
+  description: "Amyl nitrate, often confused with amyl nitrite, is a chemical compound used in certain industrial processes. Amyl nitrite, on the other hand, is a vasodilator often used recreationally and for medical purposes to treat heart diseases like angina. Recreational users seek the drug for its brief but intense effects that enhance sexual experiences and produce a 'rush' or 'high.'"
+  order: 16
+  default: false
+
+- value: "k"
+  display_value: "ketamine"
+  description: "Ketamine is a powerful dissociative anesthetic used in both human and veterinary medicine. It has gained popularity as a recreational drug for its hallucinogenic and dissociative effects, allowing users to experience altered perceptions of time and space."
+  order: 17
+  default: false
+
+- value: "g"
+  display_value: "GHB/GBL"
+  description: "GHB (Gamma-Hydroxybutyrate) and GBL (Gamma-Butyrolactone) are closely related drugs, with GBL being a prodrug to GHB. They are central nervous system depressants with similar effects. GHB is naturally found in small amounts in the human body. Both are used medically for narcolepsy treatment and recreationally for their euphoric and sedative effects."
+  order: 18
+  default: false
+
+- value: "imodium"
+  display_value: "loperamide (imodium)"
+  description: "Loperamide, commonly known by the brand name Imodium, is an over-the-counter medication used to treat diarrhea. It is an opioid receptor agonist, meaning it binds to opioid receptors in the gut to slow down bowel movements and reduce diarrhea. While loperamide is safe and effective when used as directed, it can be dangerous and even deadly when misused or abused."
+  order: 19
+  default: false
+
+- value: "mdma"
+  display_value: "MDMA"
+  description: "MDMA (3,4-methylenedioxymethamphetamine), commonly known as ecstasy or molly, is a synthetic drug that alters mood and perception. It is chemically similar to both stimulants and hallucinogens, producing feelings of increased energy, pleasure, emotional warmth, and distorted sensory and time perception."
+  order: 20
+  default: false
+
+- value: "ed"
+  display_value: "erectile dysfunction medication"
+  description: "Erectile dysfunction (ED) medications are drugs that treat erectile dysfunction, a condition characterized by the inability to get or maintain an erection suitable for sexual intercourse. The most common ED medications belong to a class of drugs known as phosphodiesterase type 5 inhibitors (PDE5 inhibitors)."
+  order: 21
+  default: false
+
+- value: "other"
+  display_value: "other"
+  description: "Some other drug of choice"
+  order: 22
+  default: false
+
+- value: "laughing-gas"
+  display_value: "nitrous oxide (laughing gas)"
+  description: "Nitrous oxide, commonly known as laughing gas, is a chemical compound, an oxide of nitrogen with the formula N2O. It is used recreationally for its euphoric and relaxing effects."
+  order: 23
+  default: false
+
+- value: "speed"
+  display_value: "speed"
+  description: "Speed is a slang term for amphetamine, a powerful stimulant drug that affects the central nervous system. It is commonly used for recreational purposes and can have serious health effects."
+  order: 24
+  default: false
+
+- value: "other"
+  display_value: "other"
+  description: "Some other drug of choice"
+  order: 25
+  default: false

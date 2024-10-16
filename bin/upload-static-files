@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Exit script if any command fails
+set -e
+
+$AZURE_STORAGE_CONTAINER_NAME = "$1"
+$AZURE_STORAGE_CONNECTION_STRING = "$2"
+
+# Variables (replace these with your actual values)
+# CONNECTION_STRING="your_azure_storage_connection_string"
+# CONTAINER_NAME="your_container_name"
+DIRECTORY_PATH="/opt/mastodon/public"  # local directory path you want to upload
+
+# Make sure the az CLI is installed
+if ! command -v az &> /dev/null; then
+    echo "Azure CLI is not installed. Please install it and run az login."
+    exit 1
+fi
+
+# Function to recursively upload directory contents
+upload_directory() {
+    local path="$1"
+    for file in "$path"/*; do
+        if [ -d "$file" ]; then
+            # Recursive call to upload_directory for directories
+            upload_directory "$file"
+        elif [ -f "$file" ]; then
+            # Upload file
+            az storage blob upload --connection-string "$AZURE_STORAGE_CONNECTION_STRING" --container-name $AZURE_STORAGE_CONTAINER_NAME --file "$file" --name "${file#"$DIRECTORY_PATH/"}"
+        fi
+    done
+}
+
+# Start uploading directory contents
+upload_directory "$DIRECTORY_PATH"
+
+echo "Upload complete."

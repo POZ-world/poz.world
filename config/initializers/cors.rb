@@ -11,18 +11,24 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins '*'
 
-    with_options headers: :any, credentials: false do
-      with_options methods: [:get] do
-        resource '/.well-known/*'
-        resource '/nodeinfo/*'
-        resource '/@:username'
-        resource '/users/:username'
-      end
-      resource '/api/*',
-               expose: %w(Link X-RateLimit-Reset X-RateLimit-Limit X-RateLimit-Remaining X-Request-Id),
-               methods: %i(post put delete get patch options)
-      resource '/oauth/token', methods: [:post]
-      resource '/oauth/revoke', methods: [:post]
-    end
+    resource '*',
+      headers: :any,
+      expose: %w(Link X-RateLimit-Reset X-RateLimit-Limit X-RateLimit-Remaining X-Request-Id),
+      methods: %i(get post put delete patch options head),
+      credentials: false
+
+    # with_options headers: :any, credentials: false do
+    #   with_options methods: [:get] do
+    #     resource '/.well-known/*'
+    #     resource '/nodeinfo/*'
+    #     resource '/@:username'
+    #     resource '/users/:username'
+    #   end
+    #   resource '/api/*',
+    #            expose: %w(Link X-RateLimit-Reset X-RateLimit-Limit X-RateLimit-Remaining X-Request-Id),
+    #            methods: %i(post put delete get patch options)
+    #   resource '/oauth/token', methods: [:post]
+    #   resource '/oauth/revoke', methods: [:post]
+    # end
   end
 end

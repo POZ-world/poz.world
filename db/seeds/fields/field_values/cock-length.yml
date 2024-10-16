@@ -1,0 +1,136 @@
+---
+- value: null
+  display_value: '[not entered]'
+  description: "{{subject}} {{have}}n't entered {{possessive}} cock length (yet)"
+  default: true
+  order: 0
+- value: 0.5
+  display_value: '½"'
+  description: "{{possessive}} cock measures ½ inches long"
+  order: 1
+  default: false
+- value: 1
+  display_value: '1"'
+  description: "{{possessive}} cock measures 1 inches long"
+  order: 2
+  default: false
+- value: 1.5
+  display_value: '1 ½"'
+  description: "{{possessive}} cock measures 1 ½ inches long"
+  order: 3
+  default: false
+- value: 2
+  display_value: '2"'
+  description: "{{possessive}} cock measures 2 inches long"
+  order: 4
+  default: false
+- value: 2.5
+  display_value: '2 ½"'
+  description: "{{possessive}} cock measures 2 ½ inches long"
+  order: 5
+  default: false
+- value: 3
+  display_value: '3"'
+  description: "{{possessive}} cock measures 3 inches long"
+  order: 6
+  default: false
+- value: 3.5
+  display_value: '3 ½"'
+  description: "{{possessive}} cock measures 3 ½ inches long"
+  order: 7
+  default: false
+- value: 4
+  display_value: '4"'
+  description: "{{possessive}} cock measures 4 inches long"
+  order: 8
+  default: false
+- value: 4.5
+  display_value: '4 ½"'
+  description: "{{possessive}} cock measures 4 ½ inches long"
+  order: 9
+  default: false
+- value: 5
+  display_value: '5"'
+  description: "{{possessive}} cock measures 5 inches long"
+  order: 10
+  default: false
+- value: 5.5
+  display_value: '5 ½"'
+  description: "{{possessive}} cock measures 5 ½ inches long"
+  order: 11
+  default: false
+- value: 6
+  display_value: '6"'
+  description: "{{possessive}} cock measures 6 inches long"
+  order: 12
+  default: false
+- value: 6.5
+  display_value: '6 ½"'
+  description: "{{possessive}} cock measures 6 ½ inches long"
+  order: 13
+  default: false
+- value: 7
+  display_value: '7"'
+  description: "{{possessive}} cock measures 7 inches long"
+  order: 14
+  default: false
+- value: 7.5
+  display_value: '7 ½"'
+  description: "{{possessive}} cock measures 7 ½ inches long"
+  order: 15
+  default: false
+- value: 8
+  display_value: '8"'
+  description: "{{possessive}} cock measures 8 inches long"
+  order: 16
+  default: false
+- value: 8.5
+  display_value: '8 ½"'
+  description: "{{possessive}} cock measures 8 ½ inches long"
+  order: 17
+  default: false
+- value: 9
+  display_value: '9"'
+  description: "{{possessive}} cock measures 9 inches long"
+  order: 18
+  default: false
+- value: 9.5
+  display_value: '9 ½"'
+  description: "{{possessive}} cock measures 9 ½ inches long"
+  order: 19
+  default: false
+- value: 10
+  display_value: '10"'
+  description: "{{possessive}} cock measures 10 inches long"
+  order: 20
+  default: false
+- value: 10.5
+  display_value: '10 ½"'
+  description: "{{possessive}} cock measures 10 ½ inches long"
+  order: 21
+  default: false
+- value: 11
+  display_value: '11"'
+  description: "{{possessive}} cock measures 11 inches long"
+  order: 22
+  default: false
+- value: 11.5
+  display_value: '11 ½"'
+  description: "{{possessive}} cock measures 11 ½ inches long"
+  order: 23
+  default: false
+- value: 12
+  display_value: '12"'
+  description: "{{possessive}} cock measures 12 inches long"
+  order: 24
+  default: false
+- value: 12.5
+  display_value: '12 ½"'
+  description: "{{possessive}} cock measures 12 ½ inches long"
+  order: 25
+  default: false
+- value: 9999
+  display_value: '> 12 ½"'
+  description: "{{possessive}} cock measures greater than 12 ½ inches!!"
+  order: 26
+  default: false

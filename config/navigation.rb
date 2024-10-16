@@ -69,6 +69,8 @@ SimpleNavigation::Configuration.run do |navigation|
       s.item :custom_emojis, safe_join([material_symbol('mood'), t('admin.custom_emojis.title')]), admin_custom_emojis_path, highlights_on: %r{/admin/custom_emojis}, if: -> { current_user.can?(:manage_custom_emojis) }
       s.item :webhooks, safe_join([material_symbol('inbox'), t('admin.webhooks.title')]), admin_webhooks_path, highlights_on: %r{/admin/webhooks}, if: -> { current_user.can?(:manage_webhooks) }
       s.item :relays, safe_join([material_symbol('captive_portal'), t('admin.relays.title')]), admin_relays_path, highlights_on: %r{/admin/relays}, if: -> { !limited_federation_mode? && current_user.can?(:manage_federation) }
+      s.item :faqs, safe_join([bootstrap_icon('person-raised-hand'), t('admin.faqs.title')]), admin_faqs_path, highlights_on: %r{/admin/faqs}, if: -> { current_user.can?(:manage_faqs) }
+      s.item :profile_fields, safe_join([bootstrap_icon('pencil-square'), t('admin.fields.title')]), admin_field_templates_path, highlights_on: %r{/admin/field_templates}, if: -> { current_user.can?(:manage_fields) }
     end
 
     n.item :sidekiq, safe_join([material_symbol('diamond'), 'Sidekiq']), sidekiq_path, link_html: { target: 'sidekiq' }, if: -> { current_user.can?(:view_devops) }

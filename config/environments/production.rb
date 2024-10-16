@@ -20,10 +20,10 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
   config.action_controller.asset_host      = ENV['CDN_HOST'] if ENV['CDN_HOST'].present?
   config.middleware.use ActionDispatch::Cookies
-  config.middleware.use ActionDispatch::Session::CookieStore, key: 'session.thebackroom.life'
+  config.middleware.use ActionDispatch::Session::CookieStore, key: 'session.poz.world'
   config.action_controller.default_protect_from_forgery = false
   config.action_controller.forgery_protection_origin_check = false
-  Rails.application.config.session_store ActionDispatch::Session::CookieStore, key: "#{Rails.env}.session.thebackroom.life"
+  Rails.application.config.session_store ActionDispatch::Session::CookieStore, key: "#{Rails.env}.session.poz.world"
 
   # Ensures that a master key has been made available in ENV["RAILS_MASTER_KEY"], config/master.key, or an environment
   # key such as config/credentials/production.key. This key is used to decrypt credentials (and other encrypted files).
@@ -33,7 +33,7 @@ Rails.application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  config.assets.compile = true
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
@@ -48,13 +48,13 @@ Rails.application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # Ensuring we actually set that non-SSL requests are allowed and no redirect should occur
-  config.force_ssl = false
   config.hosts << '127.0.0.1:3000'
 
   # If SSL configuration is defined, it should ensure no redirects occur
+  config.force_ssl = false
   config.ssl_options = {
     redirect: {
-      exclude: ->(request) { true },
+      exclude: ->(_) { true }, # { request.path.start_with?('/health') || request.headers['Host'].end_with?('.onion') || request.headers['Host'].end_with?('.i2p') },
     },
   }
 
@@ -166,7 +166,7 @@ Rails.application.configure do
   config.action_mailer.logger = config.logger
   config.action_mailer.logger.level = Logger::DEBUG
 
-  config.logger.debug { "SMTP Settings: #{config.action_mailer.smtp_settings.inspect}" }
+  # config.logger.debug { "SMTP Settings: #{config.action_mailer.smtp_settings.inspect}" }
 
   config.action_dispatch.default_headers = {
     'Server' => 'Mastodon',

@@ -1,0 +1,56 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected a build (yet)"
+  default: true
+  order: 0
+- display_value: 'skinny'
+  value: 'skinny'
+  description: "{{subject}} {{have}} a skinny/slim build"
+  order: 1
+  default: false
+- display_value: 'athletic'
+  value: 'athletic'
+  description: "{{subject}} {{have}} an athletic build"
+  order: 2
+  default: false
+- display_value: 'average'
+  value: 'average'
+  description: "{{subject}} {{have}} an average build"
+  order: 3
+  default: false
+- display_value: 'muscular'
+  value: 'muscular'
+  description: "{{subject}} {{have}} a muscular build"
+  order: 4
+  default: false
+- display_value: 'heavy-set'
+  value: 'fat'
+  description: "{{subject}} {{have}} a heavy-set (i.e., fat) build"
+  order: 5
+  default: false
+- display_value: 'twink'
+  value: 'twink'
+  description: "{{subject}} {{have}} a skinny smooth twinkish build"
+  order: 6
+  default: false
+- display_value: 'swimmers'
+  value: 'swimmers'
+  description: "{{subject}} {{have}} a skinny athletic swimmers build"
+  order: 7
+  default: false
+- display_value: 'chub'
+  value: 'chub'
+  description: "{{subject}} {{have}} a chubby (i.e., fat) build"
+  order: 8
+  default: false
+- display_value: 'bear'
+  value: 'bear'
+  description: "{{subject}} {{have}} a bearish build"
+  order: 9
+  default: false
+- display_value: 'otter'
+  value: 'otter'
+  description: "{{subject}} {{have}} an otterish (slim and hairy) build"
+  order: 10
+  default: false

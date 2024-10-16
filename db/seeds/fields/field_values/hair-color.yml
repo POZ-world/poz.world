@@ -1,0 +1,66 @@
+---
+- display_value: '[not entered]'
+  value: null
+  description: "{{subject}} {{have}}n't selected a hair color (yet)"
+  default: true
+  order: 0
+- display_value: 'light blond'
+  value: 'light blond'
+  description: '{{subject}} {{have}} light blond hair'
+  order: 1
+  default: false
+- display_value: 'blond'
+  value: 'blond'
+  description: '{{subject}} {{have}} blond hair'
+  order: 2
+  default: false
+- display_value: 'dark blond'
+  value: 'dark blond'
+  description: '{{subject}} {{have}} dark blond hair'
+  order: 3
+  default: false
+- display_value: 'light brown'
+  value: 'light brown'
+  description: '{{subject}} {{have}} light brown hair'
+  order: 4
+  default: false
+- display_value: 'brown'
+  value: 'brown'
+  description: '{{subject}} {{have}} brown hair'
+  order: 5
+  default: false
+- display_value: 'dark brown'
+  value: 'dark brown'
+  description: '{{subject}} {{have}} dark brown hair'
+  order: 6
+  default: false
+- display_value: 'red'
+  value: 'red'
+  description: '{{subject}} {{have}} auburn/red hair'
+  order: 7
+  default: false
+- display_value: 'black'
+  value: 'black'
+  description: '{{subject}} {{have}} black hair'
+  order: 8
+  default: false
+- display_value: 'gray'
+  value: 'gray'
+  description: '{{subject}} {{have}} gray hair'
+  order: 9
+  default: false
+- display_value: 'bald'
+  value: 'bald'
+  description: '{{subject}} {{have}} no hair'
+  order: 10
+  default: false
+- display_value: 'dyed'
+  value: 'dyed'
+  description: '{{subject}} {{have}} dyed hair'
+  order: 11
+  default: false
+- display_value: 'other'
+  value: 'other'
+  description: '{{possessive}} hair is some other color'
+  order: 12
+  default: false

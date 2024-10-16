@@ -30,22 +30,21 @@ def sso_host
   end
 end
 
-ENV.each do |key, value|
-  if key.start_with?('CSP_')
-    # Emit a debug message with the key and its value
-    Rails.logger.debug { "#{key}: #{value} (#{value.split})" }
-  end
-end
+# ENV.each do |key, value|
+#   if key.start_with?('CSP_')
+#     # Emit a debug message with the key and its value
+#     Rails.logger.debug { "#{key}: #{value} (#{value.split})" }
+#   end
+# end
 
 def get_csp_source(key, default = "'unsafe-inline' http: https: *")
   ENV.fetch(key, default).split.compact
 end
 
 def csp_script_src
-  Rails.logger.debug { "ENV['CSP_SCRIPT_SRC'] raw value: #{ENV.fetch('CSP_SCRIPT_SRC', "'unsafe-inline' http https *")}" }
-  logger_output = ENV.fetch('CSP_SCRIPT_SRC', "'unsafe-inline' http https *").split.compact
-  Rails.logger.debug { "Calculated csp_script_src: #{logger_output.inspect}" }
-  logger_output
+  # Rails.logger.debug { "ENV['CSP_SCRIPT_SRC'] raw value: #{ENV.fetch('CSP_SCRIPT_SRC', "'unsafe-inline' http https *")}" }
+  ENV.fetch('CSP_SCRIPT_SRC', "'unsafe-inline' http https *").split.compact
+  # Rails.logger.debug { "Calculated csp_script_src: #{logger_output.inspect}" }
 end
 
 def csp_content_src
@@ -84,9 +83,9 @@ def csp_connect_src
   get_csp_source('CSP_CONNECT_SRC', '*')
 end
 
-Rails.logger.debug { "assets_host = #{assets_host}, media_hosts = #{media_hosts}" }
-Rails.logger.debug { "SSO host = #{sso_host}" } if sso_host.present?
-Rails.logger.debug { "csp_content_src = #{csp_content_src}, csp_script_src = #{csp_script_src}, csp_connect_src = #{csp_connect_src}, csp_img_src = #{csp_img_src}" }
+# Rails.logger.debug { "assets_host = #{assets_host}, media_hosts = #{media_hosts}" }
+# Rails.logger.debug { "SSO host = #{sso_host}" } if sso_host.present?
+# Rails.logger.debug { "csp_content_src = #{csp_content_src}, csp_script_src = #{csp_script_src}, csp_connect_src = #{csp_connect_src}, csp_img_src = #{csp_img_src}" }
 
 Rails.application.config.content_security_policy do |p|
   p.base_uri        :none
