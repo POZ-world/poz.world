@@ -26,9 +26,9 @@ module ThemeHelper
   end
 
   def theme_dark_light(theme = current_theme)
-    ['mastodon-light'].include?(theme) ? 'light' : 'dark'
+    ['mastodon-light'].include?(theme) ? :light : :dark
   rescue
-    'dark'
+    Themes::THEMES.first
   end
 
   private

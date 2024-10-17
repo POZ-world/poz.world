@@ -26,11 +26,30 @@ namespace :assets do
     render_static_page 'errors/503', layout: 'error', dest: Rails.public_path.join('assets', '503.html')
   end
 
+  IMAGE_SIZES = [192, 512].freeze
+  IMAGE_FORMATS = [".png", ".jpeg"].freeze
+
   namespace :javascript do
     task precompile: :environment do
       desc 'Copy the "dynamic" JavaScript files to the output directory'
       Rails.public_path.join('packs/js/google_tag_manager.js').write(Api::Vnext::Js::GoogleTagManagerController.new.script_content)
       Rails.logger.info { 'google_tag_manager.js precompiled.' }
+  end
+end
+
+  namespace :svg do
+    task prerender: :environment do
+      desc 'Generate necessary graphic assets for PNG and JPEG from source SVG files'
+        rsvg_convert = Terrapin::CommandLine.new('rsvg-convert', '-h :size --keep-aspect-ratio :input -o :output')
+        output_dest  = Rails.root.join('app', 'javascript', 'images')
+    
+        Rails.root.glob('app/javascript/images/*.svg').each do |path|
+          IMAGE_SIZES.each do |size|
+            IMAGE_FORMATS.each do |format|
+              rsvg_convert.run(input: path, size: size, output: output_dest.join("#{File.basename(path, '.svg')}#{format}"))
+            end
+          end
+        end
     end
   end
 
@@ -66,21 +85,11 @@ end
 if Rake::Task.task_defined?('assets:precompile')
   Rake::Task['assets:precompile'].enhance do
     Webpacker.manifest.refresh
-    Rake::Task['assets:generate_static_pages'].invoke
-  end
-end
-
-if Rake::Task.task_defined?('assets:precompile')
-  Rake::Task['assets:precompile'].enhance do
-    Webpacker.manifest.refresh
     Rake::Task['assets:missing_images:copy_to_public'].invoke
-  end
-end
-
-if Rake::Task.task_defined?('assets:precompile')
-  Rake::Task['assets:precompile'].enhance do
-    Webpacker.manifest.refresh
+    Rake::Task['assets:generate_static_pages'].invoke
     Rake::Task['assets:javascript:precompile'].invoke
+    Rake::Task['assets:svg:prerender'].invoke
+    Webpacker.manifest.refresh
   end
 end
 

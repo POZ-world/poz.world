@@ -11,6 +11,8 @@ class Themes
     light: '#ffffff',
   }.freeze
 
+  THEMES = [:dark, :light].freeze
+
   def initialize
     @conf = YAML.load_file(Rails.root.join('config', 'themes.yml'))
   end

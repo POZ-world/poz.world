@@ -5,7 +5,7 @@ module WellKnown
     def did
       json = ENV.fetch('DID_DOCUMENT', nil)
 
-      render json: json, content_type: 'application/did+json'
+      render json: json, content_type: 'application/did+ld+json'
     end
 
     def configuration

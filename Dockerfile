@@ -429,7 +429,7 @@ RUN \
   mkdir -p /.ssh /root  \
   mkdir -p /run/sshd 
 
-ADD . /opt/mastodon/
+COPY . /opt/mastodon/
 COPY ./bin/entrypoint /opt/mastodon/bin/entrypoint
 COPY ./bin/start-nginx /opt/mastodon/bin/start-nginx
 COPY ./bin/start-sshd /opt/mastodon/bin/start-sshd

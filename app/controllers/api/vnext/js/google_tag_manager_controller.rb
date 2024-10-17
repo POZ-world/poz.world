@@ -9,7 +9,10 @@ class Api::Vnext::Js::GoogleTagManagerController < ApplicationController
       return
     end
 
-    render js: script_content, content_type: 'application/javascript'
+    respond_to do |format|
+      format.js { render js: script_content, content_type: 'application/javascript' }
+      format.json { render json: { google_tag_manager_id: google_tag_manager_id } }
+    end
   end
 
   def script_content

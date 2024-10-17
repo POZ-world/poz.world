@@ -43,6 +43,7 @@ runs:
 
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v3
+      if: ${{ inputs.registry && inputs.password && inputs.username }}
       with:
         registry: ${{ inputs.registry }}
         username: ${{ inputs.username }}
@@ -50,6 +51,7 @@ runs:
 
     - name: Login to Azure Container Registry
       uses: docker/login-action@v3
+      if: ${{ inputs.acr-password && inputs.azurecr-registry && inputs.azurecr-username }}
       with:
         registry: ${{ inputs.azurecr-registry }}.azurecr.io
         username: ${{ inputs.azurecr-username }}
@@ -57,10 +59,10 @@ runs:
 
     - name: Login to Docker Cloud
       uses: docker/login-action@v3
+      if: ${{ inputs.docker-build-cloud-endpoint && inputs.docker-build-cloud-username && inputs.docker-build-cloud-password }}
       with:
         username: ${{ inputs.docker-build-cloud-username }}
         password: ${{ inputs.docker-build-cloud-password }}
-      if: ${{ inputs.docker-build-cloud-username && inputs.docker-build-cloud-password }}
 
     - name: Set up Docker Buildx
       id: buildx-cloud

@@ -1,4 +1,8 @@
 # frozen_string_literal: true
 
-get '/.well-known/did.json', to: 'well_known/did#did'
-get '/.well-known/did-configuration.json', to: 'well_known/did#configuration'
+scope path: '.well-known' do
+  scope module: :well_known do
+    get :did, to: 'did#did', as: :did, defaults: { format: 'json' }
+    get 'did-configuration', to: 'did#configuration', as: :configuration, defaults: { format: 'json' }
+  end
+end

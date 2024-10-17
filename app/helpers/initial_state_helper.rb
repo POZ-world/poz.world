@@ -5,6 +5,8 @@ module InitialStateHelper
   include InlineSvg::ActionView::Helpers
   include ERB::Util
 
+  CONTENT_TYPE = 'application/initial-state+json'
+
   def initial_state(params = {})
     state_params = {
       settings: {},
