@@ -5,7 +5,7 @@ ruby '>= 3.3.4'
 
 gem 'propshaft'
 gem 'puma', '~> 6.3'
-gem 'rack', '~> 2.2.7'
+gem 'rack', '~> 3.1.8'
 gem 'rails', '~> 7.2.1'
 gem 'thor', '~> 1.2'
 
@@ -84,10 +84,10 @@ gem 'rqrcode', '~> 2.2'
 gem 'ruby-progressbar', '~> 1.13'
 gem 'sanitize', '~> 6.0'
 gem 'scenic', '~> 1.7'
-gem 'sidekiq', '~> 6.5.5'
+gem 'sidekiq', '~> 7.3.2'
 gem 'sidekiq-bulk', '~> 0.2.0'
 gem 'sidekiq-scheduler', '~> 5.0'
-gem 'sidekiq-unique-jobs', '~> 7.1.24'
+gem 'sidekiq-unique-jobs', '~> 8.0.10'
 gem 'simple_form', '~> 5.2'
 gem 'simple-navigation', '~> 4.4'
 gem 'stoplight', '~> 4.1'
@@ -237,9 +237,9 @@ gem 'redis-rb', '~> 9001.0'
 
 gem 'ffi', '~> 1.17.0'
 
-gem 'ruby-lsp', '~> 0.18.3'
-
 group :sorbet_for_type_checking do
   gem 'sorbet'
   gem 'sorbet-runtime'
 end
+
+gem 'ruby-lsp', '~> 0.20.0'
