@@ -242,4 +242,4 @@ group :sorbet_for_type_checking do
   gem 'sorbet-runtime'
 end
 
-gem 'ruby-lsp', '~> 0.20.0'
+gem 'ruby-lsp', '~> 0.20.1'
