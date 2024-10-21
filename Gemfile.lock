@@ -226,7 +226,7 @@ GEM
       tzinfo
     excon (0.112.0)
     fabrication (2.31.0)
-    faker (3.4.2)
+    faker (3.5.1)
       i18n (>= 1.8.11, < 2)
     faraday (1.10.4)
       faraday-em_http (~> 1.0)
@@ -942,8 +942,6 @@ GEM
     sorbet (0.5.11602)
       sorbet-static (= 0.5.11602)
     sorbet-runtime (0.5.11602)
-    sorbet-static (0.5.11602-aarch64-linux)
-    sorbet-static (0.5.11602-universal-darwin)
     sorbet-static (0.5.11602-x86_64-linux)
     stackprof (0.2.26)
     stoplight (4.1.0)
@@ -1068,7 +1066,7 @@ DEPENDENCIES
   dotenv
   email_spec
   fabrication (~> 2.30)
-  faker (~> 3.2)
+  faker (~> 3.5)
   fast_blank (~> 1.0)
   fastimage
   ffi (~> 1.17.0)
