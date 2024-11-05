@@ -46,7 +46,7 @@ jobs:
     - shell: bash
       run: bundle exec assets:precompile  
 
-    - uses: LanceMcCarthy/Action-AzureBlobUpload@v3.2.0
+    - uses: LanceMcCarthy/Action-AzureBlobUpload@v3.2.1
       with:
         # Azure Storage ConnectionString for the container (Azure Portal - select Storage Account - Access Keys blade).
         connection_string: ${{ secrets.THEBACKROOMLIFE_BLOBS_CONNECTION_STRING }}
